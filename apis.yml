@@ -1,0 +1,49 @@
+aid: mediaruntime
+name: MediaRuntime
+description: >-
+  MediaRuntime is a media-processing API. The published contract is an OpenAPI 3.1 document of 17
+  paths, 20 operations and 72 schemas served from mediaruntime.com, with two credential types —
+  a production API key and a separate sandbox token, so callers can exercise the surface without
+  touching production.
+type: Index
+url: https://raw.githubusercontent.com/api-evangelist/mediaruntime/refs/heads/main/apis.yml
+created: '2026-08-26'
+modified: '2026-08-26'
+specificationVersion: '0.23'
+tags: [Media, Video, Audio, Processing, Runtime]
+tags_raw: [media processing, video, audio, runtime]
+apis:
+- aid: mediaruntime:mediaruntime-api
+  name: MediaRuntime API
+  description: >-
+    Media processing over 20 operations and 72 schemas, with separate production and sandbox
+    credentials.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags: [Media, Processing]
+  properties:
+  - {type: OpenAPI, url: openapi/mediaruntime-api-openapi.yml}
+  - {type: APIReference, url: 'https://mediaruntime.com/openapi.json'}
+  - {type: Documentation, url: 'https://mediaruntime.com/docs'}
+common:
+- {type: Website, url: 'https://mediaruntime.com'}
+- {type: DeveloperPortal, url: 'https://mediaruntime.com/docs'}
+maintainers:
+- {FN: MediaRuntime, email: support@mediaruntime.com, url: 'https://mediaruntime.com'}
+x-provenance:
+  added: '2026-08-26'
+  method: searched
+  source: https://mediaruntime.com/openapi.json
+  note: >-
+    Submitted via apis.io/add on 2026-08-26 and auto-published by the gate at rating 63 (strong).
+    THE GATE SCORED IT 63 ON A CATCH-ALL. The submitted APIs.json at
+    https://mediaruntime.com/apis.json returns HTTP 200, but it is byte-identical to an invented
+    control path — the host answers any unknown URL with the same page. /llms.txt is the same
+    page again. Neither document exists.
+    The listing stands because /openapi.json IS real: distinct from the catch-all, valid JSON,
+    OpenAPI 3.1 with 17 paths, 20 operations and 72 schemas, declaring both a ProductionApiKey and
+    a SandboxToken. Only the declared pointers were false, not the API. Same shape as SendHQ on
+    2026-08-24, and the same lesson: on a soft-200 host a 200 proves nothing, so every artifact
+    here was size- and content-checked against the control before being recorded.
+    Nothing is recorded for apis.json or llms.txt, because recording a placeholder page under
+    those types would credit machine-readable artifacts that do not exist.

@@ -1,0 +1,3028 @@
+components:
+  schemas:
+    AnimationConfig:
+      properties:
+        duration:
+          default: 6.0
+          exclusiveMinimum: 0.0
+          maximum: 30.0
+          title: Duration
+          type: number
+        fps:
+          default: 15.0
+          exclusiveMinimum: 0.0
+          maximum: 30.0
+          title: Fps
+          type: number
+        loop:
+          default: 0
+          description: 0 means infinite
+          maximum: 65535.0
+          minimum: 0.0
+          title: Loop
+          type: integer
+        quality:
+          anyOf:
+          - maximum: 100.0
+            minimum: 1.0
+            type: integer
+          - type: 'null'
+          description: Optional animated WebP quality. Do not send this field for lossless APNG.
+          title: Quality
+        start_time:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time
+          type: number
+        width:
+          default: 720
+          maximum: 1920.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      title: AnimationConfig
+      type: object
+    ArchivedRecipeResponse:
+      properties:
+        latest_version:
+          title: Latest Version
+          type: integer
+        name:
+          title: Name
+          type: string
+        status:
+          const: archived
+          title: Status
+          type: string
+      required:
+      - name
+      - status
+      - latest_version
+      title: ArchivedRecipeResponse
+      type: object
+    AudioOptions:
+      properties:
+        bitrate_bps:
+          default: 0
+          maximum: 10000000.0
+          minimum: 0.0
+          title: Bitrate Bps
+          type: integer
+        channels:
+          default: 0
+          maximum: 32.0
+          minimum: 0.0
+          title: Channels
+          type: integer
+        codec:
+          anyOf:
+          - maxLength: 32
+            type: string
+          - type: 'null'
+          description: aac, mp3, opus, ac3
+          title: Codec
+      title: AudioOptions
+      type: object
+    AudiogramArtworkFit:
+      enum:
+      - contain
+      - cover
+      - blurred_background
+      title: AudiogramArtworkFit
+      type: string
+    AudiogramCaptionPosition:
+      enum:
+      - top
+      - bottom
+      title: AudiogramCaptionPosition
+      type: string
+    AudiogramConfig:
+      additionalProperties: false
+      description: Bounded public controls for composing audio, artwork, and captions.
+      properties:
+        artwork_fit:
+          $ref: '#/components/schemas/AudiogramArtworkFit'
+          default: blurred_background
+        artwork_source:
+          maxLength: 2048
+          minLength: 1
+          title: Artwork Source
+          type: string
+        background_color:
+          default: '#101827'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Background Color
+          type: string
+        burn_captions:
+          default: false
+          title: Burn Captions
+          type: boolean
+        caption_font_scale:
+          default: 1.0
+          maximum: 1.5
+          minimum: 0.75
+          title: Caption Font Scale
+          type: number
+        caption_position:
+          $ref: '#/components/schemas/AudiogramCaptionPosition'
+          default: bottom
+        captions_source:
+          anyOf:
+          - maxLength: 2048
+            minLength: 1
+            type: string
+          - type: 'null'
+          title: Captions Source
+        duration_sec:
+          default: 60.0
+          exclusiveMinimum: 0.0
+          maximum: 300.0
+          title: Duration Sec
+          type: number
+        fps:
+          default: 30
+          maximum: 30.0
+          minimum: 15.0
+          title: Fps
+          type: integer
+        layout:
+          $ref: '#/components/schemas/AudiogramLayout'
+          default: square
+        loudness_target_lufs:
+          default: -16.0
+          maximum: -12.0
+          minimum: -24.0
+          title: Loudness Target Lufs
+          type: number
+        normalize_audio:
+          default: false
+          title: Normalize Audio
+          type: boolean
+        start_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time Sec
+          type: number
+        waveform_color:
+          default: '#5B5CFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Waveform Color
+          type: string
+        waveform_gain:
+          default: 2.0
+          maximum: 4.0
+          minimum: 0.5
+          title: Waveform Gain
+          type: number
+      required:
+      - artwork_source
+      title: AudiogramConfig
+      type: object
+    AudiogramLayout:
+      enum:
+      - square
+      - portrait
+      - landscape
+      title: AudiogramLayout
+      type: string
+    CapabilitiesResponse:
+      properties:
+        capabilities:
+          additionalProperties:
+            type: string
+          title: Capabilities
+          type: object
+        features:
+          additionalProperties:
+            additionalProperties: true
+            type: object
+          title: Features
+          type: object
+        notes:
+          items:
+            type: string
+          title: Notes
+          type: array
+        output_aliases:
+          additionalProperties:
+            $ref: '#/components/schemas/OutputAliasCapability'
+          title: Output Aliases
+          type: object
+        output_types:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Output Types
+          type: object
+        preset_overrides:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Preset Overrides
+          type: object
+        preset_requirement_replacements:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Preset Requirement Replacements
+          type: object
+        presets:
+          additionalProperties:
+            $ref: '#/components/schemas/PresetCapability'
+          title: Presets
+          type: object
+        public_presets:
+          items:
+            type: string
+          title: Public Presets
+          type: array
+      required:
+      - capabilities
+      - output_types
+      - preset_overrides
+      - preset_requirement_replacements
+      - presets
+      - public_presets
+      - features
+      - output_aliases
+      - notes
+      title: CapabilitiesResponse
+      type: object
+    CompletedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: COMPLETED
+            type: string
+        required:
+        - completedAt
+        type: object
+    ContactSheetConfig:
+      properties:
+        columns:
+          default: 4
+          maximum: 10.0
+          minimum: 1.0
+          title: Columns
+          type: integer
+        duration_sec:
+          default: 0.0
+          description: Selected source duration; zero means the remaining video.
+          maximum: 21600.0
+          minimum: 0.0
+          title: Duration Sec
+          type: number
+        format:
+          $ref: '#/components/schemas/ContactSheetFormat'
+          default: jpg
+        interval_sec:
+          default: 10.0
+          maximum: 3600.0
+          minimum: 0.5
+          title: Interval Sec
+          type: number
+        max_sheets:
+          default: 4
+          maximum: 20.0
+          minimum: 1.0
+          title: Max Sheets
+          type: integer
+        quality:
+          default: 80
+          maximum: 100.0
+          minimum: 1.0
+          title: Quality
+          type: integer
+        rows:
+          default: 4
+          maximum: 10.0
+          minimum: 1.0
+          title: Rows
+          type: integer
+        start_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time Sec
+          type: number
+        tile_height:
+          default: 180
+          maximum: 640.0
+          minimum: 36.0
+          title: Tile Height
+          type: integer
+        tile_width:
+          default: 320
+          maximum: 640.0
+          minimum: 64.0
+          title: Tile Width
+          type: integer
+      title: ContactSheetConfig
+      type: object
+    ContactSheetFormat:
+      enum:
+      - jpg
+      - png
+      - webp
+      title: ContactSheetFormat
+      type: string
+    CreateJobRequest:
+      description: 'Create one asynchronous media job. Choose exactly one input form: source, the legacy
+        file_url field, or inputs for a batch. Choose either a hosted recipe or explicit processing options.
+        Terminal events are sent to the account webhook destination configured in MediaRuntime.'
+      oneOf:
+      - not:
+          anyOf:
+          - required:
+            - file_url
+          - required:
+            - inputs
+        required:
+        - source
+      - not:
+          anyOf:
+          - required:
+            - source
+          - required:
+            - inputs
+        required:
+        - file_url
+      - not:
+          anyOf:
+          - required:
+            - source
+          - required:
+            - file_url
+        required:
+        - inputs
+      properties:
+        file_url:
+          anyOf:
+          - maxLength: 2048
+            minLength: 1
+            type: string
+          - type: 'null'
+          description: GCS URI (gs://) or Public HTTP URL
+          title: File Url
+        inputs:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JobInput'
+            maxItems: 25
+            minItems: 1
+            type: array
+          - type: 'null'
+          description: Optional multi-input batch request. Use this instead of source/file_url for additive
+            batch fan-out.
+          title: Inputs
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          description: Opaque caller metadata persisted with the job and echoed in completion webhooks.
+          title: Metadata
+        moderation:
+          anyOf:
+          - $ref: '#/components/schemas/ModerationConfig'
+          - type: 'null'
+          description: Optional premium moderation request for image or video inputs.
+        outputs:
+          description: Output recipes as explicit objects or frozen alias strings. May be empty ONLY for
+            an analysis-only job — currently a job with moderation enabled, which produces a verdict and
+            no media.
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/TranscodeOutput'
+            - type: string
+          maxItems: 10
+          title: Outputs
+          type: array
+        recipe:
+          anyOf:
+          - maxLength: 80
+            minLength: 3
+            pattern: ^[a-z][a-z0-9-]{2,63}(?:@[1-9][0-9]*)?$
+            type: string
+          - type: 'null'
+          description: Hosted recipe reference, optionally pinned as name@version.
+          title: Recipe
+        source:
+          anyOf:
+          - maxLength: 2048
+            minLength: 1
+            type: string
+          - $ref: '#/components/schemas/SourceUrl'
+          - type: 'null'
+          description: 'Canonical single input: an HTTP(S)/gs:// string or an object containing only a
+            url field. Mutually exclusive with file_url and inputs.'
+          title: Source
+        watermark:
+          anyOf:
+          - $ref: '#/components/schemas/WatermarkConfig'
+          - type: 'null'
+          description: Optional premium watermark request; overlays the account's logo onto every output.
+      title: CreateJobRequest
+      type: object
+    FailedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: FAILED
+            type: string
+        required:
+        - failedAt
+        type: object
+    GifPreviewConfig:
+      properties:
+        duration:
+          default: 5.0
+          exclusiveMinimum: 0.0
+          maximum: 600.0
+          title: Duration
+          type: number
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        fps:
+          default: 10.0
+          exclusiveMinimum: 0.0
+          maximum: 60.0
+          title: Fps
+          type: number
+        start_time:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time
+          type: number
+        width:
+          default: 320
+          maximum: 4096.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      title: GifPreviewConfig
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    HostedRecipeListResponse:
+      properties:
+        recipes:
+          items:
+            $ref: '#/components/schemas/HostedRecipeResponse'
+          title: Recipes
+          type: array
+      required:
+      - recipes
+      title: HostedRecipeListResponse
+      type: object
+    HostedRecipeResponse:
+      properties:
+        built_in:
+          title: Built In
+          type: boolean
+        description:
+          title: Description
+          type: string
+        name:
+          title: Name
+          type: string
+        reference:
+          title: Reference
+          type: string
+        sha256:
+          title: Sha256
+          type: string
+        status:
+          title: Status
+          type: string
+        template:
+          anyOf:
+          - $ref: '#/components/schemas/RecipeTemplate'
+          - type: 'null'
+        version:
+          title: Version
+          type: integer
+      required:
+      - name
+      - version
+      - reference
+      - description
+      - built_in
+      - status
+      - sha256
+      title: HostedRecipeResponse
+      type: object
+    ImageFormat:
+      enum:
+      - jpg
+      - png
+      - webp
+      - avif
+      title: ImageFormat
+      type: string
+    ImageRendition:
+      properties:
+        format:
+          $ref: '#/components/schemas/ImageFormat'
+        height:
+          maximum: 16384.0
+          minimum: 1.0
+          title: Height
+          type: integer
+        max_bytes:
+          anyOf:
+          - maximum: 100000000.0
+            minimum: 256.0
+            type: integer
+          - type: 'null'
+          description: Optional hard encoded-file ceiling for JPG/WebP. The job fails rather than returning
+            an oversized rendition.
+          title: Max Bytes
+        min_quality:
+          default: 1
+          description: Lowest quality the bounded search may use when max_bytes is set.
+          maximum: 100.0
+          minimum: 1.0
+          title: Min Quality
+          type: integer
+        mode:
+          default: cover
+          maxLength: 32
+          minLength: 1
+          title: Mode
+          type: string
+        quality:
+          default: 80
+          maximum: 100.0
+          minimum: 1.0
+          title: Quality
+          type: integer
+        width:
+          maximum: 16384.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      required:
+      - width
+      - height
+      - format
+      title: ImageRendition
+      type: object
+    JobBillingInfo:
+      properties:
+        currency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Currency
+        estimated_amount_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Estimated Amount Cents
+        estimated_units:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Estimated Units
+        final_amount_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Final Amount Cents
+        final_units:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Final Units
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        unit_price_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Unit Price Cents
+      title: JobBillingInfo
+      type: object
+    JobBundleInfo:
+      properties:
+        available:
+          default: false
+          title: Available
+          type: boolean
+        download_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Job-scoped, expiring download URL. Returned only to the authenticated owner of
+            the job.
+          title: Download Url
+        expires_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Expires At
+        retention_days:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Retention Days
+        sha256:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sha256
+        size_bytes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Size Bytes
+      title: JobBundleInfo
+      type: object
+    JobInput:
+      properties:
+        file_url:
+          anyOf:
+          - maxLength: 2048
+            minLength: 1
+            type: string
+          - type: 'null'
+          description: Permanent legacy spelling of source for one batch item.
+          title: File Url
+        input_id:
+          anyOf:
+          - maxLength: 128
+            type: string
+          - type: 'null'
+          description: Caller-supplied stable identifier for this input within a batch
+          title: Input Id
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          description: Opaque per-input metadata persisted with the child job and echoed in batch webhooks.
+          title: Metadata
+        source:
+          anyOf:
+          - maxLength: 2048
+            minLength: 1
+            type: string
+          - $ref: '#/components/schemas/SourceUrl'
+          - type: 'null'
+          description: 'Canonical batch input: an HTTP(S)/gs:// string or an object containing only a
+            url field. Mutually exclusive with file_url.'
+          title: Source
+      title: JobInput
+      type: object
+    JobListResponse:
+      properties:
+        jobs:
+          items:
+            $ref: '#/components/schemas/JobSummary'
+          title: Jobs
+          type: array
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Pass as ?cursor= to fetch the next page. Absent when there are no more.
+          title: Next Cursor
+      required:
+      - jobs
+      title: JobListResponse
+      type: object
+    JobMediaAudioInfo:
+      description: The primary audio stream.
+      properties:
+        bit_rate:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Bit Rate
+        channels:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Channels
+        codec:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Codec
+        layout:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Channel layout, e.g. stereo or 5.1
+          title: Layout
+        profile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile
+        sample_rate_hz:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sample Rate Hz
+      title: JobMediaAudioInfo
+      type: object
+    JobMediaInfo:
+      description: 'What the input actually was, as probed at submit.
+
+
+        This is the same probe the submit-time compatibility checks read, so it explains
+
+        rejections: an mp3 refused for an image output has no video stream here, and a still
+
+        refused for frames has no duration.
+
+
+        Every field is optional. The probe can be partial or absent — an unusual container, a
+
+        job submitted before this data was stored — and a missing field means "not reported",
+
+        never zero.'
+      properties:
+        audio:
+          anyOf:
+          - $ref: '#/components/schemas/JobMediaAudioInfo'
+          - type: 'null'
+        bit_rate:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Overall container bit rate, bits per second
+          title: Bit Rate
+        duration_sec:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: Absent for still images, which have no timeline.
+          title: Duration Sec
+        format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Container format reported by ffprobe
+          title: Format
+        streams:
+          $ref: '#/components/schemas/JobMediaStreamCounts'
+        video:
+          anyOf:
+          - $ref: '#/components/schemas/JobMediaVideoInfo'
+          - type: 'null'
+      title: JobMediaInfo
+      type: object
+    JobMediaStreamCounts:
+      properties:
+        audio:
+          default: 0
+          title: Audio
+          type: integer
+        other:
+          default: 0
+          description: Subtitle, data and attachment streams
+          title: Other
+          type: integer
+        video:
+          default: 0
+          title: Video
+          type: integer
+      title: JobMediaStreamCounts
+      type: object
+    JobMediaVideoInfo:
+      description: 'The primary video stream.
+
+
+        width/height are DISPLAY dimensions — rotation already applied. A phone clip shot
+
+        portrait is commonly encoded 1920x1080 with rotation_deg=90, and every consumer that
+
+        reads the encoded dimensions instead gets the orientation wrong. encoded_* is kept
+
+        alongside for the cases that genuinely need the pre-rotation values.'
+      properties:
+        bit_rate:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Bit Rate
+        codec:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Codec
+        display_aspect_ratio:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Aspect Ratio
+        encoded_height:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Height as stored, before rotation
+          title: Encoded Height
+        encoded_width:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Width as stored, before rotation
+          title: Encoded Width
+        fps:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Fps
+        height:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Display height, after rotation
+          title: Height
+        is_rotated:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Rotated
+        orientation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: landscape, portrait or square
+          title: Orientation
+        profile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Profile
+        rotation_deg:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rotation Deg
+        width:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Display width, after rotation
+          title: Width
+      title: JobMediaVideoInfo
+      type: object
+    JobModerationCheck:
+      description: One requested check and how it came out.
+      properties:
+        check:
+          description: sexual, violence or dangerous
+          title: Check
+          type: string
+        confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: Probability the check matched, 0-1. Absent when not reported.
+          title: Confidence
+        decision:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: allow, review or block
+          title: Decision
+        review_only:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: True when the check is advisory and cannot by itself block a job.
+          title: Review Only
+      required:
+      - check
+      title: JobModerationCheck
+      type: object
+    JobModerationInfo:
+      description: 'Moderation outcome for a job.
+
+
+        Deliberately excludes the thresholds that produced the decision, the model names and
+
+        the escalation vendor. Those are internal: published thresholds tell anyone trying to
+
+        evade moderation exactly what to aim below.'
+      properties:
+        checks:
+          items:
+            $ref: '#/components/schemas/JobModerationCheck'
+          title: Checks
+          type: array
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        flagged_checks:
+          items:
+            type: string
+          title: Flagged Checks
+          type: array
+        judge:
+          anyOf:
+          - $ref: '#/components/schemas/JobModerationJudge'
+          - type: 'null'
+        media_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: image or video
+          title: Media Type
+        mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: report or block, as requested
+          title: Mode
+        ok:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Ok
+        requested_checks:
+          items:
+            type: string
+          title: Requested Checks
+          type: array
+        review_only_checks:
+          items:
+            type: string
+          title: Review Only Checks
+          type: array
+        verdict:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: allow, review or block for the job overall
+          title: Verdict
+      title: JobModerationInfo
+      type: object
+    JobModerationJudge:
+      description: The escalation stage, present only when local scores crossed the escalation floor.
+      properties:
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        escalated:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Escalated
+        escalated_checks:
+          items:
+            type: string
+          title: Escalated Checks
+          type: array
+        likelihoods:
+          additionalProperties:
+            type: string
+          description: 'Coarse likelihood per category, e.g. {"adult": "VERY_LIKELY"}.'
+          title: Likelihoods
+          type: object
+        ok:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Ok
+      title: JobModerationJudge
+      type: object
+    JobReportResponse:
+      description: Small report envelope shared by the direct analysis-result endpoints.
+      properties:
+        download_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Url
+        job_id:
+          title: Job Id
+          type: string
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+        report:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Report
+      required:
+      - job_id
+      title: JobReportResponse
+      type: object
+    JobResponse:
+      properties:
+        job_id:
+          title: Job Id
+          type: string
+        msg:
+          title: Msg
+          type: string
+        outputs:
+          items:
+            additionalProperties: true
+            type: object
+          title: Outputs
+          type: array
+        recipe:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Recipe
+        required_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Required Tier
+        status:
+          title: Status
+          type: string
+        tier:
+          title: Tier
+          type: string
+      required:
+      - job_id
+      - status
+      - tier
+      - msg
+      title: JobResponse
+      type: object
+    JobStatusResponse:
+      properties:
+        billing:
+          $ref: '#/components/schemas/JobBillingInfo'
+        bundle:
+          $ref: '#/components/schemas/JobBundleInfo'
+        completed_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completed At
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        job_id:
+          title: Job Id
+          type: string
+        media:
+          anyOf:
+          - $ref: '#/components/schemas/JobMediaInfo'
+          - type: 'null'
+          description: What the input was, as probed at submit. Null when no probe was stored.
+        metadata:
+          additionalProperties: true
+          description: The metadata you submitted
+          title: Metadata
+          type: object
+        recipe:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          description: Exact hosted recipe version materialized for this job, when used.
+          title: Recipe
+        started_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Started At
+        status:
+          title: Status
+          type: string
+        tier:
+          $ref: '#/components/schemas/JobTierInfo'
+        updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated At
+        usage:
+          $ref: '#/components/schemas/JobUsageInfo'
+      required:
+      - job_id
+      - status
+      - tier
+      - usage
+      - billing
+      - bundle
+      title: JobStatusResponse
+      type: object
+    JobSummary:
+      description: 'One row of GET /v1/jobs.
+
+
+        Deliberately lighter than JobStatusResponse: no bundle download URL. Those embed a
+
+        job-scoped token, and handing out a page of them is both bulky and needlessly broad —
+
+        fetch GET /v1/jobs/{job_id} for the one you actually want to download.'
+      properties:
+        amount_cents:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Amount Cents
+        bundle_available:
+          default: false
+          title: Bundle Available
+          type: boolean
+        created_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created At
+        currency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Currency
+        job_id:
+          title: Job Id
+          type: string
+        status:
+          title: Status
+          type: string
+        tier_billed:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier Billed
+        units_total:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Units Total
+        updated_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Updated At
+      required:
+      - job_id
+      - status
+      title: JobSummary
+      type: object
+    JobTierInfo:
+      properties:
+        billed:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Tier actually charged
+          title: Billed
+        effective:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Tier the job executed on
+          title: Effective
+        reasons:
+          description: Why premium was required, if it was
+          items:
+            type: string
+          title: Reasons
+          type: array
+        requested:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Tier of the API key that submitted the job
+          title: Requested
+        required:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Tier the work actually needs
+          title: Required
+      title: JobTierInfo
+      type: object
+    JobUsageInfo:
+      properties:
+        units_total:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Units Total
+      title: JobUsageInfo
+      type: object
+    ModerationCheck:
+      enum:
+      - sexual
+      - violence
+      - dangerous
+      title: ModerationCheck
+      type: string
+    ModerationConfig:
+      properties:
+        checks:
+          items:
+            $ref: '#/components/schemas/ModerationCheck'
+          maxItems: 3
+          minItems: 1
+          title: Checks
+          type: array
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        mode:
+          $ref: '#/components/schemas/ModerationMode'
+          default: report
+      title: ModerationConfig
+      type: object
+    ModerationMode:
+      enum:
+      - report
+      - block
+      title: ModerationMode
+      type: string
+    OutputAliasCapability:
+      description: A stable alias and the complete output recipe it materializes.
+      properties:
+        artifacts:
+          items:
+            type: string
+          title: Artifacts
+          type: array
+        output:
+          additionalProperties: true
+          title: Output
+          type: object
+        preset:
+          title: Preset
+          type: string
+        tier:
+          title: Tier
+          type: string
+        type:
+          title: Type
+          type: string
+      required:
+      - type
+      - preset
+      - tier
+      - artifacts
+      - output
+      title: OutputAliasCapability
+      type: object
+    OutputType:
+      enum:
+      - mp4
+      - webm
+      - hls
+      - dash
+      - audio
+      - image
+      - social
+      - gif
+      - frames
+      title: OutputType
+      type: string
+    PartialWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: PARTIAL
+            type: string
+        required:
+        - finishedAt
+        - error
+        type: object
+    PlaceholderConfig:
+      properties:
+        lqip_max_bytes:
+          default: 4096
+          maximum: 16384.0
+          minimum: 256.0
+          title: Lqip Max Bytes
+          type: integer
+        lqip_quality:
+          default: 50
+          maximum: 100.0
+          minimum: 1.0
+          title: Lqip Quality
+          type: integer
+        max_dimension:
+          default: 32
+          maximum: 100.0
+          minimum: 8.0
+          title: Max Dimension
+          type: integer
+        source_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Source Time Sec
+          type: number
+      title: PlaceholderConfig
+      type: object
+    PresetCapability:
+      description: One preset entry returned by the public capability catalogue.
+      properties:
+        artifacts:
+          items:
+            type: string
+          title: Artifacts
+          type: array
+        base_tier:
+          title: Base Tier
+          type: string
+        codec:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Codec
+        container:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Container
+        description:
+          title: Description
+          type: string
+        example:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Example
+        output_type:
+          title: Output Type
+          type: string
+        parameterized:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Parameterized
+        source_kinds:
+          items:
+            type: string
+          title: Source Kinds
+          type: array
+      required:
+      - output_type
+      - source_kinds
+      - base_tier
+      - description
+      - artifacts
+      title: PresetCapability
+      type: object
+    PrivacyDetector:
+      enum:
+      - face
+      - license_plate
+      - text
+      title: PrivacyDetector
+      type: string
+    PrivacyFailureMode:
+      enum:
+      - fail_closed
+      - report_only
+      title: PrivacyFailureMode
+      type: string
+    PrivacyRedactionConfig:
+      additionalProperties: false
+      description: Explicit, bounded controls for automated visual privacy redaction.
+      properties:
+        box_padding_ratio:
+          default: 0.15
+          maximum: 0.5
+          minimum: 0.0
+          title: Box Padding Ratio
+          type: number
+        detectors:
+          items:
+            $ref: '#/components/schemas/PrivacyDetector'
+          maxItems: 3
+          minItems: 1
+          title: Detectors
+          type: array
+        failure_mode:
+          $ref: '#/components/schemas/PrivacyFailureMode'
+          default: fail_closed
+        include_debug_observations:
+          default: false
+          title: Include Debug Observations
+          type: boolean
+        max_frames:
+          default: 1800
+          maximum: 18000.0
+          minimum: 1.0
+          title: Max Frames
+          type: integer
+        min_confidence:
+          default: 0.6
+          maximum: 0.99
+          minimum: 0.3
+          title: Min Confidence
+          type: number
+        pixel_block_size:
+          default: 24
+          maximum: 128.0
+          minimum: 4.0
+          title: Pixel Block Size
+          type: integer
+        privacy_strength:
+          default: strong
+          enum:
+          - standard
+          - strong
+          title: Privacy Strength
+          type: string
+        sample_interval_sec:
+          default: 0.2
+          maximum: 30.0
+          minimum: 0.1
+          title: Sample Interval Sec
+          type: number
+        solid_color:
+          default: '#000000'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Solid Color
+          type: string
+        style:
+          $ref: '#/components/schemas/PrivacyRedactionStyle'
+          default: blur
+      required:
+      - detectors
+      title: PrivacyRedactionConfig
+      type: object
+    PrivacyRedactionStyle:
+      enum:
+      - blur
+      - pixelate
+      - solid
+      title: PrivacyRedactionStyle
+      type: string
+    RecipeCreateRequest:
+      properties:
+        description:
+          default: ''
+          maxLength: 500
+          title: Description
+          type: string
+        name:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+        template:
+          $ref: '#/components/schemas/RecipeTemplate'
+      required:
+      - name
+      - template
+      title: RecipeCreateRequest
+      type: object
+    RecipeTemplate:
+      description: Processing policy stored in one immutable hosted-recipe version.
+      properties:
+        moderation:
+          anyOf:
+          - $ref: '#/components/schemas/ModerationConfig'
+          - type: 'null'
+        outputs:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/TranscodeOutput'
+            - type: string
+          maxItems: 10
+          title: Outputs
+          type: array
+        watermark:
+          anyOf:
+          - $ref: '#/components/schemas/WatermarkConfig'
+          - type: 'null'
+      title: RecipeTemplate
+      type: object
+    RecipeVersionCreateRequest:
+      properties:
+        description:
+          anyOf:
+          - maxLength: 500
+            type: string
+          - type: 'null'
+          title: Description
+        expected_latest_version:
+          minimum: 1.0
+          title: Expected Latest Version
+          type: integer
+        template:
+          $ref: '#/components/schemas/RecipeTemplate'
+      required:
+      - expected_latest_version
+      - template
+      title: RecipeVersionCreateRequest
+      type: object
+    RejectedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: REJECTED
+            type: string
+        required:
+        - rejectedAt
+        type: object
+    SandboxSessionResponse:
+      properties:
+        account_id:
+          title: Account Id
+          type: string
+        account_status:
+          title: Account Status
+          type: string
+        can_run:
+          title: Can Run
+          type: boolean
+        expires_in:
+          title: Expires In
+          type: integer
+        sandbox_token:
+          title: Sandbox Token
+          type: string
+      required:
+      - sandbox_token
+      - expires_in
+      - account_status
+      - account_id
+      - can_run
+      title: SandboxSessionResponse
+      type: object
+    SourceUrl:
+      additionalProperties: false
+      description: The first extensible source object; other source kinds remain reserved.
+      properties:
+        url:
+          maxLength: 2048
+          minLength: 1
+          title: Url
+          type: string
+      required:
+      - url
+      title: SourceUrl
+      type: object
+    SubtitleConfig:
+      properties:
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        format:
+          $ref: '#/components/schemas/SubtitleFormat'
+          default: both
+        languages:
+          items:
+            type: string
+          maxItems: 10
+          minItems: 1
+          title: Languages
+          type: array
+        max_audio_minutes:
+          default: 0
+          maximum: 1440.0
+          minimum: 0.0
+          title: Max Audio Minutes
+          type: integer
+        model:
+          default: base
+          maxLength: 64
+          minLength: 1
+          title: Model
+          type: string
+        translate_to_english:
+          default: false
+          title: Translate To English
+          type: boolean
+      title: SubtitleConfig
+      type: object
+    SubtitleFormat:
+      enum:
+      - srt
+      - vtt
+      - both
+      title: SubtitleFormat
+      type: string
+    TerminalWebhook:
+      additionalProperties: true
+      properties:
+        account_id:
+          type: string
+        billing:
+          additionalProperties: true
+          type: object
+        completedAt:
+          format: date-time
+          type: string
+        delivery:
+          $ref: '#/components/schemas/WebhookDelivery'
+        error:
+          $ref: '#/components/schemas/WebhookError'
+        event_id:
+          type: string
+        failedAt:
+          format: date-time
+          type: string
+        finishedAt:
+          format: date-time
+          type: string
+        job_id:
+          type: string
+        meta:
+          additionalProperties: true
+          type: object
+        rejectedAt:
+          format: date-time
+          type: string
+        status:
+          enum:
+          - COMPLETED
+          - FAILED
+          - REJECTED
+          - PARTIAL
+          type: string
+        usage:
+          additionalProperties: true
+          type: object
+      required:
+      - event_id
+      - job_id
+      - account_id
+      - status
+      - billing
+      - meta
+      - delivery
+      type: object
+    ThumbnailConfig:
+      properties:
+        cols:
+          default: 5
+          maximum: 20.0
+          minimum: 1.0
+          title: Cols
+          type: integer
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        format:
+          $ref: '#/components/schemas/ImageFormat'
+          default: jpg
+        interval_sec:
+          default: 2.0
+          exclusiveMinimum: 0.0
+          maximum: 86400.0
+          title: Interval Sec
+          type: number
+        max_sheets:
+          default: 10
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Sheets
+          type: integer
+        rows:
+          default: 5
+          maximum: 20.0
+          minimum: 1.0
+          title: Rows
+          type: integer
+        tile_height:
+          default: 90
+          maximum: 4096.0
+          minimum: 1.0
+          title: Tile Height
+          type: integer
+        tile_width:
+          default: 160
+          maximum: 4096.0
+          minimum: 1.0
+          title: Tile Width
+          type: integer
+      title: ThumbnailConfig
+      type: object
+    TranscodeOutput:
+      properties:
+        animation:
+          anyOf:
+          - $ref: '#/components/schemas/AnimationConfig'
+          - type: 'null'
+        audio:
+          anyOf:
+          - $ref: '#/components/schemas/AudioOptions'
+          - type: 'null'
+        audiogram:
+          anyOf:
+          - $ref: '#/components/schemas/AudiogramConfig'
+          - type: 'null'
+        contact_sheet:
+          anyOf:
+          - $ref: '#/components/schemas/ContactSheetConfig'
+          - type: 'null'
+        gif_preview:
+          anyOf:
+          - $ref: '#/components/schemas/GifPreviewConfig'
+          - type: 'null'
+        images:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ImageRendition'
+            maxItems: 50
+            type: array
+          - type: 'null'
+          title: Images
+        path_suffix:
+          anyOf:
+          - maxLength: 128
+            type: string
+          - type: 'null'
+          title: Path Suffix
+        placeholders:
+          anyOf:
+          - $ref: '#/components/schemas/PlaceholderConfig'
+          - type: 'null'
+        poster_format:
+          $ref: '#/components/schemas/ImageFormat'
+          default: jpg
+        poster_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Poster Time Sec
+          type: number
+        preset:
+          anyOf:
+          - maxLength: 128
+            type: string
+          - type: 'null'
+          title: Preset
+        privacy_redaction:
+          anyOf:
+          - $ref: '#/components/schemas/PrivacyRedactionConfig'
+          - type: 'null'
+          description: 'Preview: automated privacy redaction for still-image inputs and image outputs
+            only. Video and animated-image redaction are not available.'
+        remove_bg:
+          default: false
+          title: Remove Bg
+          type: boolean
+        smart_crop:
+          default: false
+          title: Smart Crop
+          type: boolean
+        subtitles:
+          anyOf:
+          - $ref: '#/components/schemas/SubtitleConfig'
+          - type: 'null'
+        thumbnails:
+          anyOf:
+          - $ref: '#/components/schemas/ThumbnailConfig'
+          - type: 'null'
+        type:
+          $ref: '#/components/schemas/OutputType'
+        video:
+          anyOf:
+          - $ref: '#/components/schemas/VideoOptions'
+          - type: 'null'
+      required:
+      - type
+      title: TranscodeOutput
+      type: object
+    UploadUrlRequest:
+      properties:
+        content_type:
+          default: application/octet-stream
+          title: Content Type
+          type: string
+        filename:
+          title: Filename
+          type: string
+      required:
+      - filename
+      title: UploadUrlRequest
+      type: object
+    UploadUrlResponse:
+      properties:
+        file_uri:
+          title: File Uri
+          type: string
+        upload_headers:
+          additionalProperties:
+            type: string
+          title: Upload Headers
+          type: object
+        upload_url:
+          title: Upload Url
+          type: string
+      required:
+      - upload_url
+      - file_uri
+      title: UploadUrlResponse
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    VideoOptions:
+      properties:
+        bitrate_bps:
+          default: 0
+          maximum: 2000000000.0
+          minimum: 0.0
+          title: Bitrate Bps
+          type: integer
+        codec:
+          anyOf:
+          - maxLength: 32
+            type: string
+          - type: 'null'
+          description: h264, hevc, av1, vp9
+          title: Codec
+        fps:
+          default: 0.0
+          maximum: 240.0
+          minimum: 0.0
+          title: Fps
+          type: number
+        height:
+          default: 0
+          maximum: 16384.0
+          minimum: 0.0
+          title: Height
+          type: integer
+        preset:
+          anyOf:
+          - maxLength: 64
+            type: string
+          - type: 'null'
+          description: fast, slow, etc.
+          title: Preset
+        two_pass:
+          default: false
+          title: Two Pass
+          type: boolean
+      title: VideoOptions
+      type: object
+    WatermarkConfig:
+      properties:
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+      title: WatermarkConfig
+      type: object
+    WatermarkLogoConfirmRequest:
+      properties:
+        file_uri:
+          description: gs:// URI returned by /account/watermark-logo/upload-url after the client PUTs
+            the file
+          title: File Uri
+          type: string
+        opacity_pct:
+          default: 100
+          maximum: 100.0
+          minimum: 1.0
+          title: Opacity Pct
+          type: integer
+        position:
+          default: bottom_right
+          description: bottom_right|bottom_left|top_right|top_left|center
+          title: Position
+          type: string
+        scale_pct:
+          default: 12
+          description: Logo width as a percentage of each output's width
+          maximum: 100.0
+          minimum: 1.0
+          title: Scale Pct
+          type: integer
+      required:
+      - file_uri
+      title: WatermarkLogoConfirmRequest
+      type: object
+    WatermarkLogoResponse:
+      properties:
+        logo_url:
+          title: Logo Url
+          type: string
+        opacity_pct:
+          title: Opacity Pct
+          type: integer
+        position:
+          title: Position
+          type: string
+        scale_pct:
+          title: Scale Pct
+          type: integer
+      required:
+      - logo_url
+      - position
+      - opacity_pct
+      - scale_pct
+      title: WatermarkLogoResponse
+      type: object
+    WatermarkLogoUploadUrlRequest:
+      properties:
+        content_type:
+          default: image/png
+          title: Content Type
+          type: string
+      title: WatermarkLogoUploadUrlRequest
+      type: object
+    WebhookBundle:
+      properties:
+        download:
+          $ref: '#/components/schemas/WebhookBundleDownload'
+        filename:
+          type: string
+        size_bytes:
+          minimum: 0
+          type: integer
+        type:
+          const: zip
+          type: string
+      required:
+      - type
+      - filename
+      - size_bytes
+      - download
+      type: object
+    WebhookBundleDownload:
+      properties:
+        expiresAt:
+          format: date-time
+          type: string
+        url:
+          format: uri
+          type: string
+      required:
+      - url
+      - expiresAt
+      type: object
+    WebhookDelivery:
+      additionalProperties: true
+      properties:
+        bundle:
+          $ref: '#/components/schemas/WebhookBundle'
+        deliverables:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        expiresAt:
+          format: date-time
+          type: string
+        items:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        layout:
+          type: string
+        manifests:
+          additionalProperties: true
+          type: object
+        mode:
+          enum:
+          - PULL
+          - NONE
+          - BATCH
+          type: string
+        retentionDays:
+          minimum: 1
+          type: integer
+      required:
+      - mode
+      type: object
+    WebhookError:
+      additionalProperties: true
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    WebhookRetryResponse:
+      properties:
+        attempts:
+          title: Attempts
+          type: integer
+        http_status:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Http Status
+        msg:
+          title: Msg
+          type: string
+        status:
+          const: success
+          title: Status
+          type: string
+      required:
+      - status
+      - msg
+      - attempts
+      title: WebhookRetryResponse
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in
+        browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs
+        only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime API
+  version: 1.0.0
+openapi: 3.1.0
+paths:
+  /v1/account/watermark-logo/confirm:
+    post:
+      description: Confirms the uploaded PNG and saves the account's default placement, opacity, and scale
+        settings.
+      operationId: confirmWatermarkLogo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatermarkLogoConfirmRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatermarkLogoResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Confirm a watermark logo
+      tags:
+      - Watermarks
+  /v1/account/watermark-logo/upload-url:
+    post:
+      description: Creates a short-lived PNG upload target for the caller's account watermark logo.
+      operationId: createWatermarkLogoUploadUrl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatermarkLogoUploadUrlRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create a watermark-logo upload target
+      tags:
+      - Watermarks
+  /v1/capabilities:
+    get:
+      description: Returns the same output types, presets, aliases, optional features, tiers, and input
+        requirements enforced when a job is submitted. No authentication is required.
+      operationId: getCapabilities
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapabilitiesResponse'
+          description: Successful Response
+      security: []
+      summary: Get supported capabilities
+      tags:
+      - Discovery
+  /v1/jobs:
+    get:
+      description: Lists the caller's jobs newest first, with optional status filtering and cursor pagination.
+        Fetch a single job to obtain its current bundle link.
+      operationId: listJobs
+      parameters:
+      - description: Filter by status, e.g. COMPLETED, FAILED, PROCESSING
+        in: query
+        name: status
+        required: false
+        schema:
+          default: ''
+          description: Filter by status, e.g. COMPLETED, FAILED, PROCESSING
+          title: Status
+          type: string
+      - description: Rows per page (max 100)
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          description: Rows per page (max 100)
+          maximum: 100
+          minimum: 1
+          title: Limit
+          type: integer
+      - description: job_id from a previous page's next_cursor
+        in: query
+        name: cursor
+        required: false
+        schema:
+          default: ''
+          description: job_id from a previous page's next_cursor
+          title: Cursor
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: List jobs
+      tags:
+      - Jobs
+    post:
+      description: Creates an asynchronous media-processing job. Authenticate with a production API key
+        or an ephemeral sandbox token. Sandbox jobs support only capabilities marked for the sandbox environment.
+        Use Idempotency-Key when safely retrying the same logical request.
+      operationId: createJob
+      parameters:
+      - description: Optional. Retrying with the same key returns the original job instead of queueing
+          (and charging for) a second one. Scoped to your account, honoured for 24 hours.
+        in: header
+        name: Idempotency-Key
+        required: false
+        schema:
+          default: ''
+          description: Optional. Retrying with the same key returns the original job instead of queueing
+            (and charging for) a second one. Scoped to your account, honoured for 24 hours.
+          title: Idempotency-Key
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              batch:
+                summary: Apply one output recipe to two inputs
+                value:
+                  inputs:
+                  - input_id: asset-a
+                    source: https://cdn.example.com/media/a.mp4
+                  - input_id: asset-b
+                    source: https://cdn.example.com/media/b.mp4
+                  outputs:
+                  - video.web
+              multipleOutputs:
+                summary: Create streaming video, a transcript, and a media report
+                value:
+                  outputs:
+                  - video.streaming
+                  - audio.transcription
+                  - preset: media_report_v1
+                    type: image
+                  source: https://cdn.example.com/media/launch.mp4
+              webVideo:
+                summary: Create one web-ready video
+                value:
+                  outputs:
+                  - video.web
+                  source: https://cdn.example.com/media/launch.mp4
+            schema:
+              $ref: '#/components/schemas/CreateJobRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      - SandboxToken: []
+      summary: Create a media job
+      tags:
+      - Jobs
+  /v1/jobs/{job_id}:
+    get:
+      description: Returns the current status, tier decision, usage, billing, probed input media, caller
+        metadata, and expiring bundle access for one owned job.
+      operationId: getJob
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a job
+      tags:
+      - Jobs
+  /v1/jobs/{job_id}/bundle:
+    get:
+      description: Validates the job-scoped delivery token and redirects to a short-lived signed URL for
+        the canonical ZIP output bundle.
+      operationId: downloadJobBundle
+      parameters:
+      - description: The ID of the job to download
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to download
+          title: Job Id
+          type: string
+      - description: Delivery token for browser download
+        in: query
+        name: token
+        required: false
+        schema:
+          default: ''
+          description: Delivery token for browser download
+          title: Token
+          type: string
+      responses:
+        '307':
+          description: Redirect to a short-lived signed URL for the ZIP output bundle.
+          headers:
+            Location:
+              description: Short-lived signed storage URL for the ZIP bundle.
+              schema:
+                format: uri
+                type: string
+        '401':
+          description: The delivery token is missing or invalid.
+        '403':
+          description: The delivery token does not authorize this job.
+        '404':
+          description: The job or its bundle was not found.
+        '410':
+          description: The delivery token has expired.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security: []
+      summary: Download a job output bundle
+      tags:
+      - Job Results
+  /v1/jobs/{job_id}/codes:
+    get:
+      description: Returns the bounded code-detection report inline when available, or a short-lived download
+        URL for a larger report. Decoded values are untrusted data and must not be followed automatically.
+      operationId: getCodeDetections
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobReportResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get QR and barcode detections
+      tags:
+      - Media Analysis
+  /v1/jobs/{job_id}/compatibility-report:
+    get:
+      description: Returns the versioned browser, device, social-upload, and editing compatibility verdict
+        produced for the job.
+      operationId: getCompatibilityReport
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobReportResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a compatibility report
+      tags:
+      - Media Analysis
+  /v1/jobs/{job_id}/media-report:
+    get:
+      description: Returns the forensic media report inline when available, or a short-lived download
+        URL when the report is too large to store with the job.
+      operationId: getMediaReport
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobReportResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a media report
+      tags:
+      - Media Analysis
+  /v1/jobs/{job_id}/moderation:
+    get:
+      description: Returns the requested moderation verdict and category results for one job. A 404 means
+        moderation was not requested or the job is not visible to the caller.
+      operationId: getModerationResult
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobModerationInfo'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a moderation result
+      tags:
+      - Moderation
+  /v1/jobs/{job_id}/retry-webhook:
+    post:
+      description: Retries the signed terminal webhook for an owned job that has already reached a terminal
+        state.
+      operationId: retryJobWebhook
+      parameters:
+      - description: The ID of the job to retry webhook for
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to retry webhook for
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRetryResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Retry a terminal webhook
+      tags:
+      - Webhooks
+  /v1/recipes:
+    get:
+      description: Lists built-in recipes and active immutable recipe versions available to the caller's
+        account.
+      operationId: listRecipes
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeListResponse'
+          description: Successful Response
+      security:
+      - ProductionApiKey: []
+      summary: List hosted recipes
+      tags:
+      - Recipes
+    post:
+      description: Creates version 1 of a new account-scoped recipe. Recipe names use lowercase letters,
+        numbers, and hyphens.
+      operationId: createRecipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCreateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create a hosted recipe
+      tags:
+      - Recipes
+  /v1/recipes/{name}:
+    delete:
+      description: Archives an account-scoped recipe so it cannot be used for new jobs. Existing jobs
+        retain their materialized recipe acknowledgement.
+      operationId: archiveRecipe
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchivedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Archive a hosted recipe
+      tags:
+      - Recipes
+    get:
+      description: Returns the latest immutable version of a built-in or account-scoped recipe.
+      operationId: getRecipe
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a hosted recipe
+      tags:
+      - Recipes
+  /v1/recipes/{name}/versions:
+    post:
+      description: Adds a new immutable version when expected_latest_version still matches the account's
+        latest version.
+      operationId: createRecipeVersion
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeVersionCreateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create a recipe version
+      tags:
+      - Recipes
+  /v1/recipes/{name}/versions/{version}:
+    get:
+      description: Returns one exact immutable recipe version.
+      operationId: getRecipeVersion
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      - in: path
+        name: version
+        required: true
+        schema:
+          minimum: 1
+          title: Version
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a recipe version
+      tags:
+      - Recipes
+  /v1/sandbox/session:
+    post:
+      description: Creates a short-lived, rate-limited sandbox credential. It is not a production API
+        key and cannot access customer accounts.
+      operationId: createSandboxSession
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SandboxSessionResponse'
+          description: Successful Response
+      security: []
+      summary: Create a sandbox session
+      tags:
+      - Sandbox
+  /v1/upload-url:
+    post:
+      description: Creates a short-lived upload target for local media bytes. Use an existing public or
+        time-limited source URL instead when one is already available.
+      operationId: createUploadUrl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadUrlRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create an input upload target
+      tags:
+      - Uploads
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Public capability and contract discovery.
+  name: Discovery
+- description: Optional upload targets for local media bytes.
+  name: Uploads
+- description: Create, list, and inspect asynchronous media jobs.
+  name: Jobs
+- description: Redeem completed job output bundles.
+  name: Job Results
+- description: Read analysis reports produced by requested presets.
+  name: Media Analysis
+- description: Read a job's requested moderation verdict.
+  name: Moderation
+- description: Retry delivery of signed terminal events.
+  name: Webhooks
+- description: Manage immutable, account-scoped processing recipes.
+  name: Recipes
+- description: Configure the account watermark logo.
+  name: Watermarks
+- description: Create a bounded public-sandbox session.
+  name: Sandbox
+webhooks:
+  job.completed:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on
+        this terminal event.
+      operationId: receiveJobCompleted
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              completed:
+                summary: COMPLETED terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: PAID
+                  completedAt: '2026-08-26T12:00:00Z'
+                  delivery:
+                    bundle:
+                      download:
+                        expiresAt: '2026-09-02T12:00:00Z'
+                        url: https://mediaruntime.com/v1/jobs/job_example/bundle?token=example
+                      filename: job_example_outputs.zip
+                      size_bytes: 1048576
+                      type: zip
+                    deliverables: []
+                    expiresAt: '2026-09-02T12:00:00Z'
+                    layout: bundle_relative_v1
+                    manifests: {}
+                    mode: PULL
+                    retentionDays: 7
+                  event_id: evt_job_example_completed
+                  job_id: job_example
+                  meta:
+                    request_metadata:
+                      asset_id: asset_0426
+                  status: COMPLETED
+            schema:
+              $ref: '#/components/schemas/CompletedWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.completed event
+  job.failed:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on
+        this terminal event.
+      operationId: receiveJobFailed
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              failed:
+                summary: FAILED terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: RELEASED
+                  delivery:
+                    mode: NONE
+                  error:
+                    code: JOB_FAILED
+                    message: The job could not be completed.
+                  event_id: evt_job_example_failed
+                  failedAt: '2026-08-26T12:00:00Z'
+                  job_id: job_example
+                  meta:
+                    request_metadata:
+                      asset_id: asset_0426
+                  status: FAILED
+            schema:
+              $ref: '#/components/schemas/FailedWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.failed event
+  job.partial:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on
+        this terminal event.
+      operationId: receiveJobPartial
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              partial:
+                summary: PARTIAL terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: BATCH
+                  delivery:
+                    items: []
+                    mode: BATCH
+                  error:
+                    code: BATCH_PARTIAL
+                    message: 1 of 2 batch items failed or were rejected.
+                  event_id: evt_job_example_partial
+                  finishedAt: '2026-08-26T12:00:00Z'
+                  job_id: job_example
+                  meta:
+                    batch:
+                      completed_count: 1
+                      failed_count: 1
+                      rejected_count: 0
+                      terminal_count: 2
+                      total_inputs: 2
+                    request_metadata:
+                      asset_id: asset_0426
+                  status: PARTIAL
+            schema:
+              $ref: '#/components/schemas/PartialWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.partial event
+  job.rejected:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on
+        this terminal event.
+      operationId: receiveJobRejected
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              rejected:
+                summary: REJECTED terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: RELEASED
+                  delivery:
+                    mode: NONE
+                  error:
+                    code: JOB_REJECTED
+                    message: The job could not be completed.
+                  event_id: evt_job_example_rejected
+                  job_id: job_example
+                  meta:
+                    request_metadata:
+                      asset_id: asset_0426
+                  rejectedAt: '2026-08-26T12:00:00Z'
+                  status: REJECTED
+            schema:
+              $ref: '#/components/schemas/RejectedWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.rejected event
