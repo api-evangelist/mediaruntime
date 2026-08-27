@@ -13,18 +13,160 @@ specificationVersion: '0.23'
 tags: [Media, Video, Audio, Processing, Runtime]
 tags_raw: [media processing, video, audio, runtime]
 apis:
-- aid: mediaruntime:mediaruntime-api
-  name: MediaRuntime API
-  description: >-
-    Media processing over 20 operations and 72 schemas, with separate production and sandbox
-    credentials.
+- aid: mediaruntime:mediaruntime-discovery-api
+  name: MediaRuntime Discovery API
+  description: Public capability and contract discovery.
   humanURL: https://mediaruntime.com/docs
   baseURL: https://mediaruntime.com
-  tags: [Media, Processing]
+  tags:
+  - Discovery
   properties:
-  - {type: OpenAPI, url: openapi/mediaruntime-api-openapi.yml}
-  - {type: APIReference, url: 'https://mediaruntime.com/openapi.json'}
-  - {type: Documentation, url: 'https://mediaruntime.com/docs'}
+  - type: OpenAPI
+    url: openapi/mediaruntime-discovery-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-job-results-api
+  name: MediaRuntime Job Results API
+  description: Redeem completed job output bundles.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Job Results
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-job-results-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-jobs-api
+  name: MediaRuntime Jobs API
+  description: Create, list, and inspect asynchronous media jobs.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-jobs-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-media-analysis-api
+  name: MediaRuntime Media Analysis API
+  description: Read analysis reports produced by requested presets.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Media Analysis
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-media-analysis-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-mediaruntime-api-api
+  name: MediaRuntime MediaRuntime API
+  description: The MediaRuntime API API from MediaRuntime — 0 operation(s) for mediaruntime api.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - MediaRuntime API
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-mediaruntime-api-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-moderation-api
+  name: MediaRuntime Moderation API
+  description: Read a job's requested moderation verdict.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Moderation
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-moderation-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-recipes-api
+  name: MediaRuntime Recipes API
+  description: Manage immutable, account-scoped processing recipes.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Recipes
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-recipes-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-sandbox-api
+  name: MediaRuntime Sandbox API
+  description: Create a bounded public-sandbox session.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Sandbox
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-sandbox-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-uploads-api
+  name: MediaRuntime Uploads API
+  description: Optional upload targets for local media bytes.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Uploads
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-uploads-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-watermarks-api
+  name: MediaRuntime Watermarks API
+  description: Configure the account watermark logo.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Watermarks
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-watermarks-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+- aid: mediaruntime:mediaruntime-webhooks-api
+  name: MediaRuntime Webhooks API
+  description: Retry delivery of signed terminal events.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-webhooks-api-openapi.yml
+  - type: APIReference
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
 common:
 - {type: Website, url: 'https://mediaruntime.com'}
 - {type: DeveloperPortal, url: 'https://mediaruntime.com/docs'}
