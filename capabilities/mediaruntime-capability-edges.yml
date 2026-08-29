@@ -1,0 +1,47 @@
+slug: mediaruntime
+provider: MediaRuntime
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Jobs
+  spec_file: mediaruntime-jobs-api-openapi.yml
+  capability_id: BC-3710.40
+  capability_id_l1: BC-3710
+  capability_name: Transcoding & Format Conversion
+  confidence: 0.8
+  evidence: 'POST /v1/jobs  createJob  Create a media job ... schemas: VideoOptions, AudioOptions, ImageRendition,
+    WatermarkConfig, ThumbnailConfig'
+  reason: Creating and tracking asynchronous media-processing jobs with video/audio options, renditions,
+    thumbnails and watermarks is transcoding and format conversion of media assets. Slight ambiguity only
+    over which media-asset sub-capability (renditions vs ingest), hence 0.8.
+- tag: Moderation
+  spec_file: mediaruntime-moderation-api-openapi.yml
+  capability_id: BC-3780.40
+  capability_id_l1: BC-3780
+  capability_name: User-Generated Content Moderation
+  confidence: 0.7
+  evidence: 'GET /v1/jobs/{job_id}/moderation  Get a moderation result ... schemas: JobModerationCheck,
+    JobModerationJudge'
+  reason: Automated moderation checks and judgements over submitted media are the automated-triage element
+    of content moderation. Confidence moderated because the API only returns machine results and does
+    not itself implement human review or flagger workflows.
+- tag: Webhooks
+  spec_file: mediaruntime-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.7
+  evidence: POST /v1/jobs/{job_id}/retry-webhook  retryJobWebhook  Retry a terminal webhook
+  reason: The operation re-delivers an outbound job-completion webhook, i.e. delivery reliability for
+    event subscriptions on a developer-facing API. Maps to Webhook & Event Subscription Management; confidence
+    limited because the surface is a single retry endpoint rather than full subscription lifecycle.
