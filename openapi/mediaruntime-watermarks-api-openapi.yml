@@ -1,0 +1,194 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Watermarks API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Configure the account watermark logo.
+  name: Watermarks
+paths:
+  /v1/account/watermark-logo/confirm:
+    post:
+      description: Confirms the uploaded PNG and saves the account's default placement, opacity, and scale settings.
+      operationId: confirmWatermarkLogo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatermarkLogoConfirmRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatermarkLogoResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Confirm a watermark logo
+      tags:
+      - Watermarks
+  /v1/account/watermark-logo/upload-url:
+    post:
+      description: Creates a short-lived PNG upload target for the caller's account watermark logo.
+      operationId: createWatermarkLogoUploadUrl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatermarkLogoUploadUrlRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create a watermark-logo upload target
+      tags:
+      - Watermarks
+components:
+  schemas:
+    WatermarkLogoConfirmRequest:
+      properties:
+        file_uri:
+          description: gs:// URI returned by /account/watermark-logo/upload-url after the client PUTs the file
+          title: File Uri
+          type: string
+        opacity_pct:
+          default: 100
+          maximum: 100.0
+          minimum: 1.0
+          title: Opacity Pct
+          type: integer
+        position:
+          default: bottom_right
+          description: bottom_right|bottom_left|top_right|top_left|center
+          title: Position
+          type: string
+        scale_pct:
+          default: 12
+          description: Logo width as a percentage of each output's width
+          maximum: 100.0
+          minimum: 1.0
+          title: Scale Pct
+          type: integer
+      required:
+      - file_uri
+      title: WatermarkLogoConfirmRequest
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    UploadUrlResponse:
+      properties:
+        file_uri:
+          title: File Uri
+          type: string
+        upload_headers:
+          additionalProperties:
+            type: string
+          title: Upload Headers
+          type: object
+        upload_url:
+          title: Upload Url
+          type: string
+      required:
+      - upload_url
+      - file_uri
+      title: UploadUrlResponse
+      type: object
+    WatermarkLogoResponse:
+      properties:
+        logo_url:
+          title: Logo Url
+          type: string
+        opacity_pct:
+          title: Opacity Pct
+          type: integer
+        position:
+          title: Position
+          type: string
+        scale_pct:
+          title: Scale Pct
+          type: integer
+      required:
+      - logo_url
+      - position
+      - opacity_pct
+      - scale_pct
+      title: WatermarkLogoResponse
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    WatermarkLogoUploadUrlRequest:
+      properties:
+        content_type:
+          default: image/png
+          title: Content Type
+          type: string
+      title: WatermarkLogoUploadUrlRequest
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

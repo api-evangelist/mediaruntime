@@ -1,0 +1,117 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Webhooks API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Retry delivery of signed terminal events.
+  name: Webhooks
+paths:
+  /v1/jobs/{job_id}/retry-webhook:
+    post:
+      description: Retries the signed terminal webhook for an owned job that has already reached a terminal state.
+      operationId: retryJobWebhook
+      parameters:
+      - description: The ID of the job to retry webhook for
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to retry webhook for
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRetryResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Retry a terminal webhook
+      tags:
+      - Webhooks
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    WebhookRetryResponse:
+      properties:
+        attempts:
+          title: Attempts
+          type: integer
+        http_status:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Http Status
+        msg:
+          title: Msg
+          type: string
+        status:
+          const: success
+          title: Status
+          type: string
+      required:
+      - status
+      - msg
+      - attempts
+      title: WebhookRetryResponse
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

@@ -1,0 +1,1068 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Recipes API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Manage immutable, account-scoped processing recipes.
+  name: Recipes
+paths:
+  /v1/recipes:
+    get:
+      description: Lists built-in recipes and active immutable recipe versions available to the caller's account.
+      operationId: listRecipes
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeListResponse'
+          description: Successful Response
+      security:
+      - ProductionApiKey: []
+      summary: List hosted recipes
+      tags:
+      - Recipes
+    post:
+      description: Creates version 1 of a new account-scoped recipe. Recipe names use lowercase letters, numbers, and hyphens.
+      operationId: createRecipe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeCreateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create a hosted recipe
+      tags:
+      - Recipes
+  /v1/recipes/{name}:
+    delete:
+      description: Archives an account-scoped recipe so it cannot be used for new jobs. Existing jobs retain their materialized recipe acknowledgement.
+      operationId: archiveRecipe
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchivedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Archive a hosted recipe
+      tags:
+      - Recipes
+    get:
+      description: Returns the latest immutable version of a built-in or account-scoped recipe.
+      operationId: getRecipe
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a hosted recipe
+      tags:
+      - Recipes
+  /v1/recipes/{name}/versions:
+    post:
+      description: Adds a new immutable version when expected_latest_version still matches the account's latest version.
+      operationId: createRecipeVersion
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeVersionCreateRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create a recipe version
+      tags:
+      - Recipes
+  /v1/recipes/{name}/versions/{version}:
+    get:
+      description: Returns one exact immutable recipe version.
+      operationId: getRecipeVersion
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+      - in: path
+        name: version
+        required: true
+        schema:
+          minimum: 1
+          title: Version
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostedRecipeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a recipe version
+      tags:
+      - Recipes
+components:
+  schemas:
+    VideoOptions:
+      properties:
+        bitrate_bps:
+          default: 0
+          maximum: 2000000000.0
+          minimum: 0.0
+          title: Bitrate Bps
+          type: integer
+        codec:
+          anyOf:
+          - maxLength: 32
+            type: string
+          - type: 'null'
+          description: h264, hevc, av1, vp9
+          title: Codec
+        fps:
+          default: 0.0
+          maximum: 240.0
+          minimum: 0.0
+          title: Fps
+          type: number
+        height:
+          default: 0
+          maximum: 16384.0
+          minimum: 0.0
+          title: Height
+          type: integer
+        preset:
+          anyOf:
+          - maxLength: 64
+            type: string
+          - type: 'null'
+          description: fast, slow, etc.
+          title: Preset
+        two_pass:
+          default: false
+          title: Two Pass
+          type: boolean
+      title: VideoOptions
+      type: object
+    ContactSheetFormat:
+      enum:
+      - jpg
+      - png
+      - webp
+      title: ContactSheetFormat
+      type: string
+    GifPreviewConfig:
+      properties:
+        duration:
+          default: 5.0
+          exclusiveMinimum: 0.0
+          maximum: 600.0
+          title: Duration
+          type: number
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        fps:
+          default: 10.0
+          exclusiveMinimum: 0.0
+          maximum: 60.0
+          title: Fps
+          type: number
+        start_time:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time
+          type: number
+        width:
+          default: 320
+          maximum: 4096.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      title: GifPreviewConfig
+      type: object
+    ThumbnailConfig:
+      properties:
+        cols:
+          default: 5
+          maximum: 20.0
+          minimum: 1.0
+          title: Cols
+          type: integer
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        format:
+          $ref: '#/components/schemas/ImageFormat'
+          default: jpg
+        interval_sec:
+          default: 2.0
+          exclusiveMinimum: 0.0
+          maximum: 86400.0
+          title: Interval Sec
+          type: number
+        max_sheets:
+          default: 10
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Sheets
+          type: integer
+        rows:
+          default: 5
+          maximum: 20.0
+          minimum: 1.0
+          title: Rows
+          type: integer
+        tile_height:
+          default: 90
+          maximum: 4096.0
+          minimum: 1.0
+          title: Tile Height
+          type: integer
+        tile_width:
+          default: 160
+          maximum: 4096.0
+          minimum: 1.0
+          title: Tile Width
+          type: integer
+      title: ThumbnailConfig
+      type: object
+    ContactSheetConfig:
+      properties:
+        columns:
+          default: 4
+          maximum: 10.0
+          minimum: 1.0
+          title: Columns
+          type: integer
+        duration_sec:
+          default: 0.0
+          description: Selected source duration; zero means the remaining video.
+          maximum: 21600.0
+          minimum: 0.0
+          title: Duration Sec
+          type: number
+        format:
+          $ref: '#/components/schemas/ContactSheetFormat'
+          default: jpg
+        interval_sec:
+          default: 10.0
+          maximum: 3600.0
+          minimum: 0.5
+          title: Interval Sec
+          type: number
+        max_sheets:
+          default: 4
+          maximum: 20.0
+          minimum: 1.0
+          title: Max Sheets
+          type: integer
+        quality:
+          default: 80
+          maximum: 100.0
+          minimum: 1.0
+          title: Quality
+          type: integer
+        rows:
+          default: 4
+          maximum: 10.0
+          minimum: 1.0
+          title: Rows
+          type: integer
+        start_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time Sec
+          type: number
+        tile_height:
+          default: 180
+          maximum: 640.0
+          minimum: 36.0
+          title: Tile Height
+          type: integer
+        tile_width:
+          default: 320
+          maximum: 640.0
+          minimum: 64.0
+          title: Tile Width
+          type: integer
+      title: ContactSheetConfig
+      type: object
+    HostedRecipeResponse:
+      properties:
+        built_in:
+          title: Built In
+          type: boolean
+        description:
+          title: Description
+          type: string
+        name:
+          title: Name
+          type: string
+        reference:
+          title: Reference
+          type: string
+        sha256:
+          title: Sha256
+          type: string
+        status:
+          title: Status
+          type: string
+        template:
+          anyOf:
+          - $ref: '#/components/schemas/RecipeTemplate'
+          - type: 'null'
+        version:
+          title: Version
+          type: integer
+      required:
+      - name
+      - version
+      - reference
+      - description
+      - built_in
+      - status
+      - sha256
+      title: HostedRecipeResponse
+      type: object
+    ModerationConfig:
+      properties:
+        checks:
+          items:
+            $ref: '#/components/schemas/ModerationCheck'
+          maxItems: 3
+          minItems: 1
+          title: Checks
+          type: array
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        mode:
+          $ref: '#/components/schemas/ModerationMode'
+          default: report
+      title: ModerationConfig
+      type: object
+    ModerationMode:
+      enum:
+      - report
+      - block
+      title: ModerationMode
+      type: string
+    RecipeVersionCreateRequest:
+      properties:
+        description:
+          anyOf:
+          - maxLength: 500
+            type: string
+          - type: 'null'
+          title: Description
+        expected_latest_version:
+          minimum: 1.0
+          title: Expected Latest Version
+          type: integer
+        template:
+          $ref: '#/components/schemas/RecipeTemplate'
+      required:
+      - expected_latest_version
+      - template
+      title: RecipeVersionCreateRequest
+      type: object
+    PrivacyFailureMode:
+      enum:
+      - fail_closed
+      - report_only
+      title: PrivacyFailureMode
+      type: string
+    ArchivedRecipeResponse:
+      properties:
+        latest_version:
+          title: Latest Version
+          type: integer
+        name:
+          title: Name
+          type: string
+        status:
+          const: archived
+          title: Status
+          type: string
+      required:
+      - name
+      - status
+      - latest_version
+      title: ArchivedRecipeResponse
+      type: object
+    PrivacyDetector:
+      enum:
+      - face
+      - license_plate
+      - text
+      title: PrivacyDetector
+      type: string
+    RecipeTemplate:
+      description: Processing policy stored in one immutable hosted-recipe version.
+      properties:
+        moderation:
+          anyOf:
+          - $ref: '#/components/schemas/ModerationConfig'
+          - type: 'null'
+        outputs:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/TranscodeOutput'
+            - type: string
+          maxItems: 10
+          title: Outputs
+          type: array
+        watermark:
+          anyOf:
+          - $ref: '#/components/schemas/WatermarkConfig'
+          - type: 'null'
+      title: RecipeTemplate
+      type: object
+    AudiogramArtworkFit:
+      enum:
+      - contain
+      - cover
+      - blurred_background
+      title: AudiogramArtworkFit
+      type: string
+    WatermarkConfig:
+      properties:
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+      title: WatermarkConfig
+      type: object
+    AudioOptions:
+      properties:
+        bitrate_bps:
+          default: 0
+          maximum: 10000000.0
+          minimum: 0.0
+          title: Bitrate Bps
+          type: integer
+        channels:
+          default: 0
+          maximum: 32.0
+          minimum: 0.0
+          title: Channels
+          type: integer
+        codec:
+          anyOf:
+          - maxLength: 32
+            type: string
+          - type: 'null'
+          description: aac, mp3, opus, ac3
+          title: Codec
+      title: AudioOptions
+      type: object
+    ImageRendition:
+      properties:
+        format:
+          $ref: '#/components/schemas/ImageFormat'
+        height:
+          maximum: 16384.0
+          minimum: 1.0
+          title: Height
+          type: integer
+        max_bytes:
+          anyOf:
+          - maximum: 100000000.0
+            minimum: 256.0
+            type: integer
+          - type: 'null'
+          description: Optional hard encoded-file ceiling for JPG/WebP. The job fails rather than returning an oversized rendition.
+          title: Max Bytes
+        min_quality:
+          default: 1
+          description: Lowest quality the bounded search may use when max_bytes is set.
+          maximum: 100.0
+          minimum: 1.0
+          title: Min Quality
+          type: integer
+        mode:
+          default: cover
+          maxLength: 32
+          minLength: 1
+          title: Mode
+          type: string
+        quality:
+          default: 80
+          maximum: 100.0
+          minimum: 1.0
+          title: Quality
+          type: integer
+        width:
+          maximum: 16384.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      required:
+      - width
+      - height
+      - format
+      title: ImageRendition
+      type: object
+    AudiogramCaptionPosition:
+      enum:
+      - top
+      - bottom
+      title: AudiogramCaptionPosition
+      type: string
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    OutputType:
+      enum:
+      - mp4
+      - webm
+      - hls
+      - dash
+      - audio
+      - image
+      - social
+      - gif
+      - frames
+      title: OutputType
+      type: string
+    SubtitleConfig:
+      properties:
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        format:
+          $ref: '#/components/schemas/SubtitleFormat'
+          default: both
+        languages:
+          items:
+            type: string
+          maxItems: 10
+          minItems: 1
+          title: Languages
+          type: array
+        max_audio_minutes:
+          default: 0
+          maximum: 1440.0
+          minimum: 0.0
+          title: Max Audio Minutes
+          type: integer
+        model:
+          default: base
+          maxLength: 64
+          minLength: 1
+          title: Model
+          type: string
+        translate_to_english:
+          default: false
+          title: Translate To English
+          type: boolean
+      title: SubtitleConfig
+      type: object
+    PrivacyRedactionConfig:
+      additionalProperties: false
+      description: Explicit, bounded controls for automated visual privacy redaction.
+      properties:
+        box_padding_ratio:
+          default: 0.15
+          maximum: 0.5
+          minimum: 0.0
+          title: Box Padding Ratio
+          type: number
+        detectors:
+          items:
+            $ref: '#/components/schemas/PrivacyDetector'
+          maxItems: 3
+          minItems: 1
+          title: Detectors
+          type: array
+        failure_mode:
+          $ref: '#/components/schemas/PrivacyFailureMode'
+          default: fail_closed
+        include_debug_observations:
+          default: false
+          title: Include Debug Observations
+          type: boolean
+        max_frames:
+          default: 1800
+          maximum: 18000.0
+          minimum: 1.0
+          title: Max Frames
+          type: integer
+        min_confidence:
+          default: 0.6
+          maximum: 0.99
+          minimum: 0.3
+          title: Min Confidence
+          type: number
+        pixel_block_size:
+          default: 24
+          maximum: 128.0
+          minimum: 4.0
+          title: Pixel Block Size
+          type: integer
+        privacy_strength:
+          default: strong
+          enum:
+          - standard
+          - strong
+          title: Privacy Strength
+          type: string
+        sample_interval_sec:
+          default: 0.2
+          maximum: 30.0
+          minimum: 0.1
+          title: Sample Interval Sec
+          type: number
+        solid_color:
+          default: '#000000'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Solid Color
+          type: string
+        style:
+          $ref: '#/components/schemas/PrivacyRedactionStyle'
+          default: blur
+      required:
+      - detectors
+      title: PrivacyRedactionConfig
+      type: object
+    SubtitleFormat:
+      enum:
+      - srt
+      - vtt
+      - both
+      title: SubtitleFormat
+      type: string
+    AudiogramConfig:
+      additionalProperties: false
+      description: Bounded public controls for composing audio, artwork, and captions.
+      properties:
+        artwork_fit:
+          $ref: '#/components/schemas/AudiogramArtworkFit'
+          default: blurred_background
+        artwork_source:
+          maxLength: 2048
+          minLength: 1
+          title: Artwork Source
+          type: string
+        background_color:
+          default: '#101827'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Background Color
+          type: string
+        burn_captions:
+          default: false
+          title: Burn Captions
+          type: boolean
+        caption_font_scale:
+          default: 1.0
+          maximum: 1.5
+          minimum: 0.75
+          title: Caption Font Scale
+          type: number
+        caption_position:
+          $ref: '#/components/schemas/AudiogramCaptionPosition'
+          default: bottom
+        captions_source:
+          anyOf:
+          - maxLength: 2048
+            minLength: 1
+            type: string
+          - type: 'null'
+          title: Captions Source
+        duration_sec:
+          default: 60.0
+          exclusiveMinimum: 0.0
+          maximum: 300.0
+          title: Duration Sec
+          type: number
+        fps:
+          default: 30
+          maximum: 30.0
+          minimum: 15.0
+          title: Fps
+          type: integer
+        layout:
+          $ref: '#/components/schemas/AudiogramLayout'
+          default: square
+        loudness_target_lufs:
+          default: -16.0
+          maximum: -12.0
+          minimum: -24.0
+          title: Loudness Target Lufs
+          type: number
+        normalize_audio:
+          default: false
+          title: Normalize Audio
+          type: boolean
+        start_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time Sec
+          type: number
+        waveform_color:
+          default: '#5B5CFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Waveform Color
+          type: string
+        waveform_gain:
+          default: 2.0
+          maximum: 4.0
+          minimum: 0.5
+          title: Waveform Gain
+          type: number
+      required:
+      - artwork_source
+      title: AudiogramConfig
+      type: object
+    AnimationConfig:
+      properties:
+        duration:
+          default: 6.0
+          exclusiveMinimum: 0.0
+          maximum: 30.0
+          title: Duration
+          type: number
+        fps:
+          default: 15.0
+          exclusiveMinimum: 0.0
+          maximum: 30.0
+          title: Fps
+          type: number
+        loop:
+          default: 0
+          description: 0 means infinite
+          maximum: 65535.0
+          minimum: 0.0
+          title: Loop
+          type: integer
+        quality:
+          anyOf:
+          - maximum: 100.0
+            minimum: 1.0
+            type: integer
+          - type: 'null'
+          description: Optional animated WebP quality. Do not send this field for lossless APNG.
+          title: Quality
+        start_time:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time
+          type: number
+        width:
+          default: 720
+          maximum: 1920.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      title: AnimationConfig
+      type: object
+    ImageFormat:
+      enum:
+      - jpg
+      - png
+      - webp
+      - avif
+      title: ImageFormat
+      type: string
+    HostedRecipeListResponse:
+      properties:
+        recipes:
+          items:
+            $ref: '#/components/schemas/HostedRecipeResponse'
+          title: Recipes
+          type: array
+      required:
+      - recipes
+      title: HostedRecipeListResponse
+      type: object
+    AudiogramLayout:
+      enum:
+      - square
+      - portrait
+      - landscape
+      title: AudiogramLayout
+      type: string
+    RecipeCreateRequest:
+      properties:
+        description:
+          default: ''
+          maxLength: 500
+          title: Description
+          type: string
+        name:
+          pattern: ^[a-z][a-z0-9-]{2,63}$
+          title: Name
+          type: string
+        template:
+          $ref: '#/components/schemas/RecipeTemplate'
+      required:
+      - name
+      - template
+      title: RecipeCreateRequest
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    ModerationCheck:
+      enum:
+      - sexual
+      - violence
+      - dangerous
+      title: ModerationCheck
+      type: string
+    PrivacyRedactionStyle:
+      enum:
+      - blur
+      - pixelate
+      - solid
+      title: PrivacyRedactionStyle
+      type: string
+    PlaceholderConfig:
+      properties:
+        lqip_max_bytes:
+          default: 4096
+          maximum: 16384.0
+          minimum: 256.0
+          title: Lqip Max Bytes
+          type: integer
+        lqip_quality:
+          default: 50
+          maximum: 100.0
+          minimum: 1.0
+          title: Lqip Quality
+          type: integer
+        max_dimension:
+          default: 32
+          maximum: 100.0
+          minimum: 8.0
+          title: Max Dimension
+          type: integer
+        source_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Source Time Sec
+          type: number
+      title: PlaceholderConfig
+      type: object
+    TranscodeOutput:
+      properties:
+        animation:
+          anyOf:
+          - $ref: '#/components/schemas/AnimationConfig'
+          - type: 'null'
+        audio:
+          anyOf:
+          - $ref: '#/components/schemas/AudioOptions'
+          - type: 'null'
+        audiogram:
+          anyOf:
+          - $ref: '#/components/schemas/AudiogramConfig'
+          - type: 'null'
+        contact_sheet:
+          anyOf:
+          - $ref: '#/components/schemas/ContactSheetConfig'
+          - type: 'null'
+        gif_preview:
+          anyOf:
+          - $ref: '#/components/schemas/GifPreviewConfig'
+          - type: 'null'
+        images:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ImageRendition'
+            maxItems: 50
+            type: array
+          - type: 'null'
+          title: Images
+        path_suffix:
+          anyOf:
+          - maxLength: 128
+            type: string
+          - type: 'null'
+          title: Path Suffix
+        placeholders:
+          anyOf:
+          - $ref: '#/components/schemas/PlaceholderConfig'
+          - type: 'null'
+        poster_format:
+          $ref: '#/components/schemas/ImageFormat'
+          default: jpg
+        poster_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Poster Time Sec
+          type: number
+        preset:
+          anyOf:
+          - maxLength: 128
+            type: string
+          - type: 'null'
+          title: Preset
+        privacy_redaction:
+          anyOf:
+          - $ref: '#/components/schemas/PrivacyRedactionConfig'
+          - type: 'null'
+          description: 'Preview: automated privacy redaction for still-image inputs and image outputs only. Video and animated-image redaction are not available.'
+        remove_bg:
+          default: false
+          title: Remove Bg
+          type: boolean
+        smart_crop:
+          default: false
+          title: Smart Crop
+          type: boolean
+        subtitles:
+          anyOf:
+          - $ref: '#/components/schemas/SubtitleConfig'
+          - type: 'null'
+        thumbnails:
+          anyOf:
+          - $ref: '#/components/schemas/ThumbnailConfig'
+          - type: 'null'
+        type:
+          $ref: '#/components/schemas/OutputType'
+        video:
+          anyOf:
+          - $ref: '#/components/schemas/VideoOptions'
+          - type: 'null'
+      required:
+      - type
+      title: TranscodeOutput
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

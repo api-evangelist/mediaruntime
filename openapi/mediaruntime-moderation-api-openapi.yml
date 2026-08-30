@@ -1,0 +1,218 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Moderation API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Read a job's requested moderation verdict.
+  name: Moderation
+paths:
+  /v1/jobs/{job_id}/moderation:
+    get:
+      description: Returns the requested moderation verdict and category results for one job. A 404 means moderation was not requested or the job is not visible to the caller.
+      operationId: getModerationResult
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobModerationInfo'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a moderation result
+      tags:
+      - Moderation
+components:
+  schemas:
+    JobModerationCheck:
+      description: One requested check and how it came out.
+      properties:
+        check:
+          description: sexual, violence or dangerous
+          title: Check
+          type: string
+        confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: Probability the check matched, 0-1. Absent when not reported.
+          title: Confidence
+        decision:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: allow, review or block
+          title: Decision
+        review_only:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: True when the check is advisory and cannot by itself block a job.
+          title: Review Only
+      required:
+      - check
+      title: JobModerationCheck
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    JobModerationJudge:
+      description: The escalation stage, present only when local scores crossed the escalation floor.
+      properties:
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        escalated:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Escalated
+        escalated_checks:
+          items:
+            type: string
+          title: Escalated Checks
+          type: array
+        likelihoods:
+          additionalProperties:
+            type: string
+          description: 'Coarse likelihood per category, e.g. {"adult": "VERY_LIKELY"}.'
+          title: Likelihoods
+          type: object
+        ok:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Ok
+      title: JobModerationJudge
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    JobModerationInfo:
+      description: 'Moderation outcome for a job.
+
+
+        Deliberately excludes the thresholds that produced the decision, the model names and
+
+        the escalation vendor. Those are internal: published thresholds tell anyone trying to
+
+        evade moderation exactly what to aim below.'
+      properties:
+        checks:
+          items:
+            $ref: '#/components/schemas/JobModerationCheck'
+          title: Checks
+          type: array
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        flagged_checks:
+          items:
+            type: string
+          title: Flagged Checks
+          type: array
+        judge:
+          anyOf:
+          - $ref: '#/components/schemas/JobModerationJudge'
+          - type: 'null'
+        media_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: image or video
+          title: Media Type
+        mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: report or block, as requested
+          title: Mode
+        ok:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Ok
+        requested_checks:
+          items:
+            type: string
+          title: Requested Checks
+          type: array
+        review_only_checks:
+          items:
+            type: string
+          title: Review Only Checks
+          type: array
+        verdict:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: allow, review or block for the job overall
+          title: Verdict
+      title: JobModerationInfo
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

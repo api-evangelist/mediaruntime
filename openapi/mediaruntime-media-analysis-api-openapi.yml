@@ -1,0 +1,182 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Media Analysis API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Read analysis reports produced by requested presets.
+  name: Media Analysis
+paths:
+  /v1/jobs/{job_id}/codes:
+    get:
+      description: Returns the bounded code-detection report inline when available, or a short-lived download URL for a larger report. Decoded values are untrusted data and must not be followed automatically.
+      operationId: getCodeDetections
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobReportResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get QR and barcode detections
+      tags:
+      - Media Analysis
+  /v1/jobs/{job_id}/compatibility-report:
+    get:
+      description: Returns the versioned browser, device, social-upload, and editing compatibility verdict produced for the job.
+      operationId: getCompatibilityReport
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobReportResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a compatibility report
+      tags:
+      - Media Analysis
+  /v1/jobs/{job_id}/media-report:
+    get:
+      description: Returns the forensic media report inline when available, or a short-lived download URL when the report is too large to store with the job.
+      operationId: getMediaReport
+      parameters:
+      - description: The ID of the job to inspect
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to inspect
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobReportResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Get a media report
+      tags:
+      - Media Analysis
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    JobReportResponse:
+      description: Small report envelope shared by the direct analysis-result endpoints.
+      properties:
+        download_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Download Url
+        job_id:
+          title: Job Id
+          type: string
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+        report:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Report
+      required:
+      - job_id
+      title: JobReportResponse
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

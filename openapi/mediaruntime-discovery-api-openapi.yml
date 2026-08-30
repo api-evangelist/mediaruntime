@@ -1,0 +1,188 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Discovery API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Public capability and contract discovery.
+  name: Discovery
+paths:
+  /v1/capabilities:
+    get:
+      description: Returns the same output types, presets, aliases, optional features, tiers, and input requirements enforced when a job is submitted. No authentication is required.
+      operationId: getCapabilities
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapabilitiesResponse'
+          description: Successful Response
+      security: []
+      summary: Get supported capabilities
+      tags:
+      - Discovery
+components:
+  schemas:
+    PresetCapability:
+      description: One preset entry returned by the public capability catalogue.
+      properties:
+        artifacts:
+          items:
+            type: string
+          title: Artifacts
+          type: array
+        base_tier:
+          title: Base Tier
+          type: string
+        codec:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Codec
+        container:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Container
+        description:
+          title: Description
+          type: string
+        example:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Example
+        output_type:
+          title: Output Type
+          type: string
+        parameterized:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Parameterized
+        source_kinds:
+          items:
+            type: string
+          title: Source Kinds
+          type: array
+      required:
+      - output_type
+      - source_kinds
+      - base_tier
+      - description
+      - artifacts
+      title: PresetCapability
+      type: object
+    OutputAliasCapability:
+      description: A stable alias and the complete output recipe it materializes.
+      properties:
+        artifacts:
+          items:
+            type: string
+          title: Artifacts
+          type: array
+        output:
+          additionalProperties: true
+          title: Output
+          type: object
+        preset:
+          title: Preset
+          type: string
+        tier:
+          title: Tier
+          type: string
+        type:
+          title: Type
+          type: string
+      required:
+      - type
+      - preset
+      - tier
+      - artifacts
+      - output
+      title: OutputAliasCapability
+      type: object
+    CapabilitiesResponse:
+      properties:
+        capabilities:
+          additionalProperties:
+            type: string
+          title: Capabilities
+          type: object
+        features:
+          additionalProperties:
+            additionalProperties: true
+            type: object
+          title: Features
+          type: object
+        notes:
+          items:
+            type: string
+          title: Notes
+          type: array
+        output_aliases:
+          additionalProperties:
+            $ref: '#/components/schemas/OutputAliasCapability'
+          title: Output Aliases
+          type: object
+        output_types:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Output Types
+          type: object
+        preset_overrides:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Preset Overrides
+          type: object
+        preset_requirement_replacements:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Preset Requirement Replacements
+          type: object
+        presets:
+          additionalProperties:
+            $ref: '#/components/schemas/PresetCapability'
+          title: Presets
+          type: object
+        public_presets:
+          items:
+            type: string
+          title: Public Presets
+          type: array
+      required:
+      - capabilities
+      - output_types
+      - preset_overrides
+      - preset_requirement_replacements
+      - presets
+      - public_presets
+      - features
+      - output_aliases
+      - notes
+      title: CapabilitiesResponse
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

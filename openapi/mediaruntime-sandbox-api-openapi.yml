@@ -1,0 +1,68 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Sandbox API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Create a bounded public-sandbox session.
+  name: Sandbox
+paths:
+  /v1/sandbox/session:
+    post:
+      description: Creates a short-lived, rate-limited sandbox credential. It is not a production API key and cannot access customer accounts.
+      operationId: createSandboxSession
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SandboxSessionResponse'
+          description: Successful Response
+      security: []
+      summary: Create a sandbox session
+      tags:
+      - Sandbox
+components:
+  schemas:
+    SandboxSessionResponse:
+      properties:
+        account_id:
+          title: Account Id
+          type: string
+        account_status:
+          title: Account Status
+          type: string
+        can_run:
+          title: Can Run
+          type: boolean
+        expires_in:
+          title: Expires In
+          type: integer
+        sandbox_token:
+          title: Sandbox Token
+          type: string
+      required:
+      - sandbox_token
+      - expires_in
+      - account_status
+      - account_id
+      - can_run
+      title: SandboxSessionResponse
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

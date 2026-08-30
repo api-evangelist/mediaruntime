@@ -1,0 +1,432 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- name: MediaRuntime API
+paths: {}
+webhooks:
+  job.completed:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on this terminal event.
+      operationId: receiveJobCompleted
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              completed:
+                summary: COMPLETED terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: PAID
+                  completedAt: '2026-08-26T12:00:00Z'
+                  delivery:
+                    bundle:
+                      download:
+                        expiresAt: '2026-09-02T12:00:00Z'
+                        url: https://mediaruntime.com/v1/jobs/job_example/bundle?token=example
+                      filename: job_example_outputs.zip
+                      size_bytes: 1048576
+                      type: zip
+                    deliverables: []
+                    expiresAt: '2026-09-02T12:00:00Z'
+                    layout: bundle_relative_v1
+                    manifests: {}
+                    mode: PULL
+                    retentionDays: 7
+                  event_id: evt_job_example_completed
+                  job_id: job_example
+                  meta:
+                    request_metadata:
+                      asset_id: asset_0426
+                  status: COMPLETED
+            schema:
+              $ref: '#/components/schemas/CompletedWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.completed event
+      tags:
+      - MediaRuntime API
+  job.failed:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on this terminal event.
+      operationId: receiveJobFailed
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              failed:
+                summary: FAILED terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: RELEASED
+                  delivery:
+                    mode: NONE
+                  error:
+                    code: JOB_FAILED
+                    message: The job could not be completed.
+                  event_id: evt_job_example_failed
+                  failedAt: '2026-08-26T12:00:00Z'
+                  job_id: job_example
+                  meta:
+                    request_metadata:
+                      asset_id: asset_0426
+                  status: FAILED
+            schema:
+              $ref: '#/components/schemas/FailedWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.failed event
+      tags:
+      - MediaRuntime API
+  job.partial:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on this terminal event.
+      operationId: receiveJobPartial
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              partial:
+                summary: PARTIAL terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: BATCH
+                  delivery:
+                    items: []
+                    mode: BATCH
+                  error:
+                    code: BATCH_PARTIAL
+                    message: 1 of 2 batch items failed or were rejected.
+                  event_id: evt_job_example_partial
+                  finishedAt: '2026-08-26T12:00:00Z'
+                  job_id: job_example
+                  meta:
+                    batch:
+                      completed_count: 1
+                      failed_count: 1
+                      rejected_count: 0
+                      terminal_count: 2
+                      total_inputs: 2
+                    request_metadata:
+                      asset_id: asset_0426
+                  status: PARTIAL
+            schema:
+              $ref: '#/components/schemas/PartialWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.partial event
+      tags:
+      - MediaRuntime API
+  job.rejected:
+    post:
+      description: Verify the signature against the exact raw request bytes before parsing or acting on this terminal event.
+      operationId: receiveJobRejected
+      parameters:
+      - description: Unique event identifier included in the signature input.
+        in: header
+        name: X-Transcoder-Id
+        required: true
+        schema:
+          type: string
+      - description: Unix timestamp included in the signature input. Reject stale events.
+        in: header
+        name: X-Transcoder-Timestamp
+        required: true
+        schema:
+          pattern: ^[0-9]+$
+          type: string
+      - description: HMAC-SHA256 signature in the form t=<timestamp>,v1=<hex digest>.
+        in: header
+        name: X-Transcoder-Signature
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              rejected:
+                summary: REJECTED terminal event
+                value:
+                  account_id: acc_example
+                  billing:
+                    status: RELEASED
+                  delivery:
+                    mode: NONE
+                  error:
+                    code: JOB_REJECTED
+                    message: The job could not be completed.
+                  event_id: evt_job_example_rejected
+                  job_id: job_example
+                  meta:
+                    request_metadata:
+                      asset_id: asset_0426
+                  rejectedAt: '2026-08-26T12:00:00Z'
+                  status: REJECTED
+            schema:
+              $ref: '#/components/schemas/RejectedWebhook'
+        required: true
+      responses:
+        '200':
+          description: The receiver accepted the event.
+      summary: Receive a job.rejected event
+      tags:
+      - MediaRuntime API
+components:
+  schemas:
+    RejectedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: REJECTED
+            type: string
+        required:
+        - rejectedAt
+        type: object
+    WebhookBundleDownload:
+      properties:
+        expiresAt:
+          format: date-time
+          type: string
+        url:
+          format: uri
+          type: string
+      required:
+      - url
+      - expiresAt
+      type: object
+    PartialWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: PARTIAL
+            type: string
+        required:
+        - finishedAt
+        - error
+        type: object
+    WebhookError:
+      additionalProperties: true
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    FailedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: FAILED
+            type: string
+        required:
+        - failedAt
+        type: object
+    TerminalWebhook:
+      additionalProperties: true
+      properties:
+        account_id:
+          type: string
+        billing:
+          additionalProperties: true
+          type: object
+        completedAt:
+          format: date-time
+          type: string
+        delivery:
+          $ref: '#/components/schemas/WebhookDelivery'
+        error:
+          $ref: '#/components/schemas/WebhookError'
+        event_id:
+          type: string
+        failedAt:
+          format: date-time
+          type: string
+        finishedAt:
+          format: date-time
+          type: string
+        job_id:
+          type: string
+        meta:
+          additionalProperties: true
+          type: object
+        rejectedAt:
+          format: date-time
+          type: string
+        status:
+          enum:
+          - COMPLETED
+          - FAILED
+          - REJECTED
+          - PARTIAL
+          type: string
+        usage:
+          additionalProperties: true
+          type: object
+      required:
+      - event_id
+      - job_id
+      - account_id
+      - status
+      - billing
+      - meta
+      - delivery
+      type: object
+    CompletedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: COMPLETED
+            type: string
+        required:
+        - completedAt
+        type: object
+    WebhookBundle:
+      properties:
+        download:
+          $ref: '#/components/schemas/WebhookBundleDownload'
+        filename:
+          type: string
+        size_bytes:
+          minimum: 0
+          type: integer
+        type:
+          const: zip
+          type: string
+      required:
+      - type
+      - filename
+      - size_bytes
+      - download
+      type: object
+    WebhookDelivery:
+      additionalProperties: true
+      properties:
+        bundle:
+          $ref: '#/components/schemas/WebhookBundle'
+        deliverables:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        expiresAt:
+          format: date-time
+          type: string
+        items:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        layout:
+          type: string
+        manifests:
+          additionalProperties: true
+          type: object
+        mode:
+          enum:
+          - PULL
+          - NONE
+          - BATCH
+          type: string
+        retentionDays:
+          minimum: 1
+          type: integer
+      required:
+      - mode
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

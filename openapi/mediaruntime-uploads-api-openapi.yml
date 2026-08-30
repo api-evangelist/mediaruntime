@@ -1,0 +1,122 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Uploads API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Optional upload targets for local media bytes.
+  name: Uploads
+paths:
+  /v1/upload-url:
+    post:
+      description: Creates a short-lived upload target for local media bytes. Use an existing public or time-limited source URL instead when one is already available.
+      operationId: createUploadUrl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadUrlRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security:
+      - ProductionApiKey: []
+      summary: Create an input upload target
+      tags:
+      - Uploads
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    UploadUrlResponse:
+      properties:
+        file_uri:
+          title: File Uri
+          type: string
+        upload_headers:
+          additionalProperties:
+            type: string
+          title: Upload Headers
+          type: object
+        upload_url:
+          title: Upload Url
+          type: string
+      required:
+      - upload_url
+      - file_uri
+      title: UploadUrlResponse
+      type: object
+    UploadUrlRequest:
+      properties:
+        content_type:
+          default: application/octet-stream
+          title: Content Type
+          type: string
+        filename:
+          title: Filename
+          type: string
+      required:
+      - filename
+      title: UploadUrlRequest
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

@@ -1,0 +1,112 @@
+openapi: 3.2.0
+info:
+  description: Asynchronous media processing for video, audio, and images.
+  title: MediaRuntime Job Results API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Redeem completed job output bundles.
+  name: Job Results
+paths:
+  /v1/jobs/{job_id}/bundle:
+    get:
+      description: Validates the job-scoped delivery token and redirects to a short-lived signed URL for the canonical ZIP output bundle.
+      operationId: downloadJobBundle
+      parameters:
+      - description: The ID of the job to download
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The ID of the job to download
+          title: Job Id
+          type: string
+      - description: Delivery token for browser download
+        in: query
+        name: token
+        required: false
+        schema:
+          default: ''
+          description: Delivery token for browser download
+          title: Token
+          type: string
+      responses:
+        '307':
+          description: Redirect to a short-lived signed URL for the ZIP output bundle.
+          headers:
+            Location:
+              description: Short-lived signed storage URL for the ZIP bundle.
+              schema:
+                format: uri
+                type: string
+        '401':
+          description: The delivery token is missing or invalid.
+        '403':
+          description: The delivery token does not authorize this job.
+        '404':
+          description: The job or its bundle was not found.
+        '410':
+          description: The delivery token has expired.
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      security: []
+      summary: Download a job output bundle
+      tags:
+      - Job Results
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs
