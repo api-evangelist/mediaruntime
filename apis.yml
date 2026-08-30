@@ -21,8 +21,16 @@ deliveryModel:
 created: '2026-08-26'
 modified: '2026-08-26'
 specificationVersion: '0.23'
-tags: [Media, Video, Audio, Processing, Runtime]
-tags_raw: [media processing, video, audio, runtime]
+tags:
+- Media Processing
+- Video
+- Audio
+- runtime
+tags_raw:
+- media processing
+- video
+- audio
+- runtime
 apis:
 - aid: mediaruntime:mediaruntime-discovery-api
   name: MediaRuntime Discovery API
@@ -58,6 +66,8 @@ apis:
   humanURL: https://mediaruntime.com/docs
   baseURL: https://mediaruntime.com
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -170,6 +180,8 @@ apis:
   humanURL: https://mediaruntime.com/docs
   baseURL: https://mediaruntime.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
