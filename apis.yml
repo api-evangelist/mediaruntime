@@ -1,246 +1,173 @@
-aid: mediaruntime
 name: MediaRuntime
-description: MediaRuntime is a media-processing API. The published contract is an OpenAPI 3.1 document of 17 paths, 20 operations and 72 schemas served from mediaruntime.com, with two credential types — a production API key and a separate sandbox token, so callers can exercise the surface without touching production.
+description: MediaRuntime provides asynchronous video, audio, and image processing, including transcoding, clipping,
+  transcripts, moderation, and watermarking, plus collection-scoped hosted sticker discovery and delivery. Its two
+  product surfaces share a provider-published OpenAPI 3.1 contract. Production media jobs use an API key; bounded
+  sandbox jobs use a separate ephemeral token.
+url: https://mediaruntime.com/apis.json
 type: Index
-url: https://raw.githubusercontent.com/api-evangelist/mediaruntime/refs/heads/main/apis.yml
-deliveryModel:
-  model: unknown
-  open_source: false
-  commercial: false
-  callable_host: true
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
-  source:
-  - openapi
-  generated: '2026-08-28'
-  method: derived
+kind: company
+aid: mediaruntime
+image: https://mediaruntime.com/og-image.png
 created: '2026-08-26'
-modified: '2026-08-26'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 tags:
-- Media Processing
-- Video
-- Audio
-- Runtime
-tags_raw:
-- media processing
-- video
-- audio
-- runtime
-apis:
-- aid: mediaruntime:mediaruntime-discovery-api
-  name: MediaRuntime Discovery API
-  description: Public capability and contract discovery.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Discovery
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-discovery-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-job-results-api
-  name: MediaRuntime Job Results API
-  description: Redeem completed job output bundles.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Job Results
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-job-results-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-jobs-api
-  name: MediaRuntime Jobs API
-  description: Create, list, and inspect asynchronous media jobs.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Job
-  tags_raw:
-  - Jobs
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-jobs-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-media-analysis-api
-  name: MediaRuntime Media Analysis API
-  description: Read analysis reports produced by requested presets.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Media Analysis
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-media-analysis-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-mediaruntime-api-api
-  name: MediaRuntime MediaRuntime API
-  description: The MediaRuntime API API from MediaRuntime — 0 operation(s) for mediaruntime api.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - MediaRuntime API
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-mediaruntime-api-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-moderation-api
-  name: MediaRuntime Moderation API
-  description: Read a job's requested moderation verdict.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Moderation
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-moderation-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-recipes-api
-  name: MediaRuntime Recipes API
-  description: Manage immutable, account-scoped processing recipes.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Recipes
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-recipes-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-sandbox-api
-  name: MediaRuntime Sandbox API
-  description: Create a bounded public-sandbox session.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Sandbox
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-sandbox-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-uploads-api
-  name: MediaRuntime Uploads API
-  description: Optional upload targets for local media bytes.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Uploads
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-uploads-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-watermarks-api
-  name: MediaRuntime Watermarks API
-  description: Configure the account watermark logo.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Watermarks
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-watermarks-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- aid: mediaruntime:mediaruntime-webhooks-api
-  name: MediaRuntime Webhooks API
-  description: Retry delivery of signed terminal events.
-  humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
-  tags:
-  - Webhook
-  tags_raw:
-  - Webhooks
-  properties:
-  - type: OpenAPI
-    url: openapi/mediaruntime-webhooks-api-openapi.yml
-  - type: APIReference
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/docs
-- name: MediaRuntime API
-  description: Versioned REST API (under /v1) for media-processing jobs, reports/analysis, reusable recipes, uploads/watermarking, and runtime capability discovery. Auth via X-API-Key (production) or X-Sandbox-Token (sandbox). Webhooks defined for the async job/callback model.
-  humanURL: https://mediaruntime.com/en/docs
-  baseURL: https://mediaruntime.com/v1
-  tags:
-  - Media Processing
-  - Video Transcoding
-  - Audio Processing
-  - Image Processing
-  - HLS Streaming
-  - Transcription
-  - Content Moderation
-  - Watermarking
-  - asynchronous / job-based API
-  - Webhook
-  - REST API
-  - OpenAPI
-  - Cloud API
-  - Developer Tools
-  - media infrastructure
-  tags_raw:
-  - media processing
-  - video transcoding
-  - audio processing
-  - image processing
-  - HLS/streaming
-  - transcription
-  - content moderation
-  - watermarking
-  - asynchronous / job-based API
-  - webhooks
-  - REST API
-  - OpenAPI
-  - cloud API
-  - developer tools
-  - media infrastructure
-  properties:
-  - type: OpenAPI
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/en/docs
+- media
+- transcoding
+- stickers
+- developer-tools
+maintainers:
+- FN: MediaRuntime Engineering
+  email: support@mediaruntime.com
+  url: https://mediaruntime.com/contact
 common:
 - type: CapabilityMap
   url: capabilities/mediaruntime-capability-edges.yml
   name: MediaRuntime Business Capability Map
-- type: Website
-  url: https://mediaruntime.com
 - type: DeveloperPortal
+  name: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
-maintainers:
-- FN: MediaRuntime
-  email: support@mediaruntime.com
+  mediaType: text/html
+- type: Authentication
+  name: Authentication guide
+  url: https://mediaruntime.com/docs#authentication
+  mediaType: text/html
+- type: Pricing
+  name: MediaRuntime pricing
+  url: https://mediaruntime.com/pricing
+  mediaType: text/html
+- type: TermsOfService
+  name: Terms of Service
+  url: https://mediaruntime.com/legal#terms
+  mediaType: text/html
+- type: PrivacyPolicy
+  name: Privacy Policy
+  url: https://mediaruntime.com/legal#privacy
+  mediaType: text/html
+- type: Support
+  name: MediaRuntime support
+  url: https://mediaruntime.com/contact
+  mediaType: text/html
+- type: LLMsTxt
+  name: LLM-oriented documentation map
+  url: https://mediaruntime.com/llms.txt
+  mediaType: text/plain
+- type: SDKs
+  name: Official Node.js SDK
+  url: https://www.npmjs.com/package/@mediaruntime/node
+  mediaType: text/html
+- type: SDKs
+  name: Official Python SDK
+  url: https://pypi.org/project/mediaruntime/
+  mediaType: text/html
+- type: CLI
+  name: Official MediaRuntime CLI
+  url: https://www.npmjs.com/package/@mediaruntime/cli
+  mediaType: text/html
+- type: CodeExamples
+  name: Runnable quickstarts
+  url: https://github.com/ericel/mediaruntime-quickstarts
+  mediaType: text/html
+- type: Website
+  name: MediaRuntime
   url: https://mediaruntime.com
+- type: Documentation
+  name: Media API guide
+  url: https://mediaruntime.com/docs
+- type: APIReference
+  name: Endpoint reference
+  url: https://mediaruntime.com/docs#reference
+- type: GettingStarted
+  name: First media job
+  url: https://mediaruntime.com/docs#quickstart
+- type: SignUp
+  name: Create an account
+  url: https://mediaruntime.com/account?signup=1
+- type: Sandbox
+  name: Try supported sample workflows
+  url: https://mediaruntime.com/sandbox
+- type: Webhooks
+  name: Signed terminal webhooks
+  url: https://mediaruntime.com/docs#webhooks
+- type: Blog
+  name: MediaRuntime blog
+  url: https://mediaruntime.com/blog
+- type: APIsJSON
+  name: Provider-maintained discovery index
+  url: https://mediaruntime.com/apis.json
+apis:
+- aid: mediaruntime.com:media-api
+  name: MediaRuntime Media API
+  description: Submit asynchronous video, audio, and image jobs and receive canonical ZIP bundles through polling
+    or signed terminal webhooks.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com/v1
+  image: https://mediaruntime.com/og-image.png
+  version: v1
+  tags:
+  - video
+  - audio
+  - images
+  - transcoding
+  - moderation
+  - webhooks
+  properties:
+  - type: Documentation
+    name: Media API documentation
+    url: https://mediaruntime.com/docs
+    mediaType: text/html
+  - type: OpenAPI
+    name: MediaRuntime OpenAPI 3.1 contract
+    url: openapi/mediaruntime-api-openapi.yml
+    mediaType: application/yaml
+  - type: GettingStarted
+    name: Media API quickstart
+    url: https://mediaruntime.com/docs#quickstart
+    mediaType: text/html
+- aid: mediaruntime.com:stickers-api
+  name: MediaRuntime Stickers API
+  description: Configure sticker collections, discover enabled Hosted Packs, search stable sticker metadata, and
+    resolve approved short-lived asset delivery URLs.
+  humanURL: https://mediaruntime.com/docs/stickers
+  baseURL: https://mediaruntime.com/v1
+  image: https://mediaruntime.com/og-image.png
+  version: v1
+  tags:
+  - stickers
+  - collections
+  - typeahead
+  - search
+  - asset-delivery
+  properties:
+  - type: Documentation
+    name: Stickers API documentation
+    url: https://mediaruntime.com/docs/stickers
+    mediaType: text/html
+  - type: OpenAPI
+    name: MediaRuntime OpenAPI 3.1 contract
+    url: openapi/mediaruntime-api-openapi.yml
+    mediaType: application/yaml
+  - type: GettingStarted
+    name: Sticker collection setup
+    url: https://mediaruntime.com/docs/stickers#setup
+    mediaType: text/html
 x-provenance:
   added: '2026-08-26'
   method: searched
   source: https://mediaruntime.com/openapi.json
-  note: 'Submitted via apis.io/add on 2026-08-26 and auto-published by the gate at rating 63 (strong). THE GATE SCORED IT 63 ON A CATCH-ALL. The submitted APIs.json at https://mediaruntime.com/apis.json returns HTTP 200, but it is byte-identical to an invented control path — the host answers any unknown URL with the same page. /llms.txt is the same page again. Neither document exists. The listing stands because /openapi.json IS real: distinct from the catch-all, valid JSON, OpenAPI 3.1 with 17 paths, 20 operations and 72 schemas, declaring both a ProductionApiKey and a SandboxToken. Only the declared pointers were false, not the API. Same shape as SendHQ on 2026-08-24, and the same lesson: on a soft-200 host a 200 proves nothing, so every artifact here was size- and content-checked against the control before being recorded. Nothing is recorded for apis.json or llms.txt, because recording a placeholder page under those types would credit machine-readable artifacts that do not exist.'
+  note: 'Submitted via apis.io/add on 2026-08-26 and auto-published by the gate at rating 63 (strong). THE GATE
+    SCORED IT 63 ON A CATCH-ALL. The submitted APIs.json at https://mediaruntime.com/apis.json returns HTTP 200,
+    but it is byte-identical to an invented control path — the host answers any unknown URL with the same page.
+    /llms.txt is the same page again. Neither document exists. The listing stands because /openapi.json IS real:
+    distinct from the catch-all, valid JSON, OpenAPI 3.1 with 17 paths, 20 operations and 72 schemas, declaring
+    both a ProductionApiKey and a SandboxToken. Only the declared pointers were false, not the API. Same shape as
+    SendHQ on 2026-08-24, and the same lesson: on a soft-200 host a 200 proves nothing, so every artifact here was
+    size- and content-checked against the control before being recorded. Nothing is recorded for apis.json or llms.txt,
+    because recording a placeholder page under those types would credit machine-readable artifacts that do not exist.'
+  verified: '2026-09-16'
+  verificationNote: Rechecked the public production endpoints on 2026-09-16. /apis.json now returns application/json
+    with two API products and SDK/CLI/pricing/legal links; /llms.txt returns text/plain rather than HTML. An unknown
+    control URL returns HTTP 404. /openapi.json is OpenAPI 3.1 with 33 paths, 41 operations and 108 schemas. The
+    August catch-all finding above describes the earlier state. The active local contract is a semantically identical
+    YAML serialization of the provider response, without generated version changes or per-tag splits. Please refresh
+    derived capability mappings and independently rerun scoring.
