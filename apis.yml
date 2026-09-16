@@ -189,49 +189,6 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
-- name: MediaRuntime API
-  description: Versioned REST API (under /v1) for media-processing jobs, reports/analysis, reusable recipes,
-    uploads/watermarking, and runtime capability discovery. Auth via X-API-Key (production) or X-Sandbox-Token
-    (sandbox). Webhooks defined for the async job/callback model.
-  humanURL: https://mediaruntime.com/en/docs
-  baseURL: https://mediaruntime.com/v1
-  tags:
-  - Media Processing
-  - Video Transcoding
-  - Audio Processing
-  - Image Processing
-  - HLS Streaming
-  - Transcription
-  - Content Moderation
-  - Watermarking
-  - asynchronous / job-based API
-  - Webhook
-  - REST API
-  - OpenAPI
-  - Cloud API
-  - Developer Tools
-  - media infrastructure
-  tags_raw:
-  - media processing
-  - video transcoding
-  - audio processing
-  - image processing
-  - HLS/streaming
-  - transcription
-  - content moderation
-  - watermarking
-  - asynchronous / job-based API
-  - webhooks
-  - REST API
-  - OpenAPI
-  - cloud API
-  - developer tools
-  - media infrastructure
-  properties:
-  - type: OpenAPI
-    url: https://mediaruntime.com/openapi.json
-  - type: Documentation
-    url: https://mediaruntime.com/en/docs
 common:
 - type: CapabilityMap
   url: capabilities/mediaruntime-capability-edges.yml
