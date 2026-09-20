@@ -190,6 +190,10 @@ apis:
   - type: Documentation
     url: https://mediaruntime.com/docs
 common:
+- type: Pricing
+  url: https://mediaruntime.com/en/pricing/
+- type: Plans
+  url: plans/mediaruntime-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/mediaruntime-capability-edges.yml
   name: MediaRuntime Business Capability Map

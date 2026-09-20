@@ -1,0 +1,38 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://mediaruntime.com/en/pricing/
+sources:
+- https://mediaruntime.com/en/pricing/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T124425
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: per-call
+published: true
+note: Two-tier metered pricing with wallet top-ups; timed media billed by duration/outputs, images by
+  processing units with a minimum billable unit per job. Custom volume licensing is contact-sales.
+plan_count: 3
+currency: USD
+plans:
+- name: Standard
+  price_text: From $ 0.02
+  price: 0.02
+  currency: USD
+  period: per-use
+  unit: standard processing job/unit
+  included_quota: 'H.264 Video / AAC Audio, Single Output per Job, Max 1080p Resolution, Standard Speed
+    Presets, Image Resize & WebP; Wallet minimum top-up: $ 5.00'
+- name: Premium
+  price_text: From $ 0.05
+  price: 0.05
+  currency: USD
+  period: per-use
+  unit: premium processing job/unit
+  included_quota: 'HEVC & AV1 Codecs, Unlimited Parallel Outputs, 4K & 8K Resolution, Audio Trim & Loudness
+    Norm, Smart Crop & BG Removal, Automated Content Moderation, NSFW & Violence Detection, Custom Safety
+    Policies; Wallet minimum top-up: $ 20.00'
+- name: Custom volume license
+  price_text: Contact Sales
+  period: none
