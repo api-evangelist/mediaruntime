@@ -43,34 +43,69 @@ paths:
       - Moderation
 components:
   schemas:
-    JobModerationCheck:
-      description: One requested check and how it came out.
+    JobModerationInfo:
+      description: 'Moderation outcome for a job.
+
+
+        Deliberately excludes the thresholds that produced the decision, the model names and
+
+        the escalation vendor. Those are internal: published thresholds tell anyone trying to
+
+        evade moderation exactly what to aim below.'
       properties:
-        check:
-          description: sexual, violence or dangerous
-          title: Check
-          type: string
-        confidence:
-          anyOf:
-          - type: number
-          - type: 'null'
-          description: Probability the check matched, 0-1. Absent when not reported.
-          title: Confidence
-        decision:
+        checks:
+          items:
+            $ref: '#/components/schemas/JobModerationCheck'
+          title: Checks
+          type: array
+        error:
           anyOf:
           - type: string
           - type: 'null'
-          description: allow, review or block
-          title: Decision
-        review_only:
+          title: Error
+        flagged_checks:
+          items:
+            type: string
+          title: Flagged Checks
+          type: array
+        judge:
+          anyOf:
+          - $ref: '#/components/schemas/JobModerationJudge'
+          - type: 'null'
+        media_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: image or video
+          title: Media Type
+        mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: report or block, as requested
+          title: Mode
+        ok:
           anyOf:
           - type: boolean
           - type: 'null'
-          description: True when the check is advisory and cannot by itself block a job.
-          title: Review Only
-      required:
-      - check
-      title: JobModerationCheck
+          title: Ok
+        requested_checks:
+          items:
+            type: string
+          title: Requested Checks
+          type: array
+        review_only_checks:
+          items:
+            type: string
+          title: Review Only Checks
+          type: array
+        verdict:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: allow, review or block for the job overall
+          title: Verdict
+      title: JobModerationInfo
       type: object
     HTTPValidationError:
       properties:
@@ -138,69 +173,34 @@ components:
       - type
       title: ValidationError
       type: object
-    JobModerationInfo:
-      description: 'Moderation outcome for a job.
-
-
-        Deliberately excludes the thresholds that produced the decision, the model names and
-
-        the escalation vendor. Those are internal: published thresholds tell anyone trying to
-
-        evade moderation exactly what to aim below.'
+    JobModerationCheck:
+      description: One requested check and how it came out.
       properties:
-        checks:
-          items:
-            $ref: '#/components/schemas/JobModerationCheck'
-          title: Checks
-          type: array
-        error:
+        check:
+          description: sexual, violence or dangerous
+          title: Check
+          type: string
+        confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: Probability the check matched, 0-1. Absent when not reported.
+          title: Confidence
+        decision:
           anyOf:
           - type: string
           - type: 'null'
-          title: Error
-        flagged_checks:
-          items:
-            type: string
-          title: Flagged Checks
-          type: array
-        judge:
-          anyOf:
-          - $ref: '#/components/schemas/JobModerationJudge'
-          - type: 'null'
-        media_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          description: image or video
-          title: Media Type
-        mode:
-          anyOf:
-          - type: string
-          - type: 'null'
-          description: report or block, as requested
-          title: Mode
-        ok:
+          description: allow, review or block
+          title: Decision
+        review_only:
           anyOf:
           - type: boolean
           - type: 'null'
-          title: Ok
-        requested_checks:
-          items:
-            type: string
-          title: Requested Checks
-          type: array
-        review_only_checks:
-          items:
-            type: string
-          title: Review Only Checks
-          type: array
-        verdict:
-          anyOf:
-          - type: string
-          - type: 'null'
-          description: allow, review or block for the job overall
-          title: Verdict
-      title: JobModerationInfo
+          description: True when the check is advisory and cannot by itself block a job.
+          title: Review Only
+      required:
+      - check
+      title: JobModerationCheck
       type: object
   securitySchemes:
     ProductionApiKey:

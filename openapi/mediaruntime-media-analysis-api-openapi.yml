@@ -105,15 +105,6 @@ paths:
       - Media Analysis
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
-      type: object
     ValidationError:
       properties:
         ctx:
@@ -139,6 +130,15 @@ components:
       - msg
       - type
       title: ValidationError
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
       type: object
     JobReportResponse:
       description: Small report envelope shared by the direct analysis-result endpoints.

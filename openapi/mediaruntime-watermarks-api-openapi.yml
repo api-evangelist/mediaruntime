@@ -68,6 +68,41 @@ paths:
       - Watermarks
 components:
   schemas:
+    WatermarkLogoUploadUrlRequest:
+      properties:
+        content_type:
+          default: image/png
+          title: Content Type
+          type: string
+      title: WatermarkLogoUploadUrlRequest
+      type: object
+    UploadUrlResponse:
+      properties:
+        file_uri:
+          title: File Uri
+          type: string
+        upload_headers:
+          additionalProperties:
+            type: string
+          title: Upload Headers
+          type: object
+        upload_url:
+          title: Upload Url
+          type: string
+      required:
+      - upload_url
+      - file_uri
+      title: UploadUrlResponse
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
     WatermarkLogoConfirmRequest:
       properties:
         file_uri:
@@ -95,33 +130,6 @@ components:
       required:
       - file_uri
       title: WatermarkLogoConfirmRequest
-      type: object
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
-      type: object
-    UploadUrlResponse:
-      properties:
-        file_uri:
-          title: File Uri
-          type: string
-        upload_headers:
-          additionalProperties:
-            type: string
-          title: Upload Headers
-          type: object
-        upload_url:
-          title: Upload Url
-          type: string
-      required:
-      - upload_url
-      - file_uri
-      title: UploadUrlResponse
       type: object
     WatermarkLogoResponse:
       properties:
@@ -169,14 +177,6 @@ components:
       - msg
       - type
       title: ValidationError
-      type: object
-    WatermarkLogoUploadUrlRequest:
-      properties:
-        content_type:
-          default: image/png
-          title: Content Type
-          type: string
-      title: WatermarkLogoUploadUrlRequest
       type: object
   securitySchemes:
     ProductionApiKey:

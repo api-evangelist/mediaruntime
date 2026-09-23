@@ -187,131 +187,23 @@ paths:
       - Recipes
 components:
   schemas:
-    VideoOptions:
+    ArchivedRecipeResponse:
       properties:
-        bitrate_bps:
-          default: 0
-          maximum: 2000000000.0
-          minimum: 0.0
-          title: Bitrate Bps
+        latest_version:
+          title: Latest Version
           type: integer
-        codec:
-          anyOf:
-          - maxLength: 32
-            type: string
-          - type: 'null'
-          description: h264, hevc, av1, vp9
-          title: Codec
-        fps:
-          default: 0.0
-          maximum: 240.0
-          minimum: 0.0
-          title: Fps
-          type: number
-        height:
-          default: 0
-          maximum: 16384.0
-          minimum: 0.0
-          title: Height
-          type: integer
-        preset:
-          anyOf:
-          - maxLength: 64
-            type: string
-          - type: 'null'
-          description: fast, slow, etc.
-          title: Preset
-        two_pass:
-          default: false
-          title: Two Pass
-          type: boolean
-      title: VideoOptions
-      type: object
-    ContactSheetFormat:
-      enum:
-      - jpg
-      - png
-      - webp
-      title: ContactSheetFormat
-      type: string
-    GifPreviewConfig:
-      properties:
-        duration:
-          default: 5.0
-          exclusiveMinimum: 0.0
-          maximum: 600.0
-          title: Duration
-          type: number
-        enabled:
-          default: false
-          title: Enabled
-          type: boolean
-        fps:
-          default: 10.0
-          exclusiveMinimum: 0.0
-          maximum: 60.0
-          title: Fps
-          type: number
-        start_time:
-          default: 0.0
-          maximum: 604800.0
-          minimum: 0.0
-          title: Start Time
-          type: number
-        width:
-          default: 320
-          maximum: 4096.0
-          minimum: 1.0
-          title: Width
-          type: integer
-      title: GifPreviewConfig
-      type: object
-    ThumbnailConfig:
-      properties:
-        cols:
-          default: 5
-          maximum: 20.0
-          minimum: 1.0
-          title: Cols
-          type: integer
-        enabled:
-          default: false
-          title: Enabled
-          type: boolean
-        format:
-          $ref: '#/components/schemas/ImageFormat'
-          default: jpg
-        interval_sec:
-          default: 2.0
-          exclusiveMinimum: 0.0
-          maximum: 86400.0
-          title: Interval Sec
-          type: number
-        max_sheets:
-          default: 10
-          maximum: 100.0
-          minimum: 1.0
-          title: Max Sheets
-          type: integer
-        rows:
-          default: 5
-          maximum: 20.0
-          minimum: 1.0
-          title: Rows
-          type: integer
-        tile_height:
-          default: 90
-          maximum: 4096.0
-          minimum: 1.0
-          title: Tile Height
-          type: integer
-        tile_width:
-          default: 160
-          maximum: 4096.0
-          minimum: 1.0
-          title: Tile Width
-          type: integer
-      title: ThumbnailConfig
+        name:
+          title: Name
+          type: string
+        status:
+          const: archived
+          title: Status
+          type: string
+      required:
+      - name
+      - status
+      - latest_version
+      title: ArchivedRecipeResponse
       type: object
     ContactSheetConfig:
       properties:
@@ -375,66 +267,38 @@ components:
           type: integer
       title: ContactSheetConfig
       type: object
-    HostedRecipeResponse:
-      properties:
-        built_in:
-          title: Built In
-          type: boolean
-        description:
-          title: Description
-          type: string
-        name:
-          title: Name
-          type: string
-        reference:
-          title: Reference
-          type: string
-        sha256:
-          title: Sha256
-          type: string
-        status:
-          title: Status
-          type: string
-        template:
-          anyOf:
-          - $ref: '#/components/schemas/RecipeTemplate'
-          - type: 'null'
-        version:
-          title: Version
-          type: integer
-      required:
-      - name
-      - version
-      - reference
-      - description
-      - built_in
-      - status
-      - sha256
-      title: HostedRecipeResponse
-      type: object
-    ModerationConfig:
-      properties:
-        checks:
-          items:
-            $ref: '#/components/schemas/ModerationCheck'
-          maxItems: 3
-          minItems: 1
-          title: Checks
-          type: array
-        enabled:
-          default: false
-          title: Enabled
-          type: boolean
-        mode:
-          $ref: '#/components/schemas/ModerationMode'
-          default: report
-      title: ModerationConfig
-      type: object
-    ModerationMode:
+    OutputType:
       enum:
-      - report
-      - block
-      title: ModerationMode
+      - mp4
+      - webm
+      - hls
+      - dash
+      - audio
+      - image
+      - social
+      - gif
+      - frames
+      title: OutputType
+      type: string
+    PrivacyFailureMode:
+      enum:
+      - fail_closed
+      - report_only
+      title: PrivacyFailureMode
+      type: string
+    ContactSheetFormat:
+      enum:
+      - jpg
+      - png
+      - webp
+      title: ContactSheetFormat
+      type: string
+    ModerationCheck:
+      enum:
+      - sexual
+      - violence
+      - dangerous
+      title: ModerationCheck
       type: string
     RecipeVersionCreateRequest:
       properties:
@@ -455,205 +319,13 @@ components:
       - template
       title: RecipeVersionCreateRequest
       type: object
-    PrivacyFailureMode:
+    AudiogramLayout:
       enum:
-      - fail_closed
-      - report_only
-      title: PrivacyFailureMode
+      - square
+      - portrait
+      - landscape
+      title: AudiogramLayout
       type: string
-    ArchivedRecipeResponse:
-      properties:
-        latest_version:
-          title: Latest Version
-          type: integer
-        name:
-          title: Name
-          type: string
-        status:
-          const: archived
-          title: Status
-          type: string
-      required:
-      - name
-      - status
-      - latest_version
-      title: ArchivedRecipeResponse
-      type: object
-    PrivacyDetector:
-      enum:
-      - face
-      - license_plate
-      - text
-      title: PrivacyDetector
-      type: string
-    RecipeTemplate:
-      description: Processing policy stored in one immutable hosted-recipe version.
-      properties:
-        moderation:
-          anyOf:
-          - $ref: '#/components/schemas/ModerationConfig'
-          - type: 'null'
-        outputs:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/TranscodeOutput'
-            - type: string
-          maxItems: 10
-          title: Outputs
-          type: array
-        watermark:
-          anyOf:
-          - $ref: '#/components/schemas/WatermarkConfig'
-          - type: 'null'
-      title: RecipeTemplate
-      type: object
-    AudiogramArtworkFit:
-      enum:
-      - contain
-      - cover
-      - blurred_background
-      title: AudiogramArtworkFit
-      type: string
-    WatermarkConfig:
-      properties:
-        enabled:
-          default: false
-          title: Enabled
-          type: boolean
-      title: WatermarkConfig
-      type: object
-    AudioOptions:
-      properties:
-        bitrate_bps:
-          default: 0
-          maximum: 10000000.0
-          minimum: 0.0
-          title: Bitrate Bps
-          type: integer
-        channels:
-          default: 0
-          maximum: 32.0
-          minimum: 0.0
-          title: Channels
-          type: integer
-        codec:
-          anyOf:
-          - maxLength: 32
-            type: string
-          - type: 'null'
-          description: aac, mp3, opus, ac3
-          title: Codec
-      title: AudioOptions
-      type: object
-    ImageRendition:
-      properties:
-        format:
-          $ref: '#/components/schemas/ImageFormat'
-        height:
-          maximum: 16384.0
-          minimum: 1.0
-          title: Height
-          type: integer
-        max_bytes:
-          anyOf:
-          - maximum: 100000000.0
-            minimum: 256.0
-            type: integer
-          - type: 'null'
-          description: Optional hard encoded-file ceiling for JPG/WebP. The job fails rather than returning an oversized rendition.
-          title: Max Bytes
-        min_quality:
-          default: 1
-          description: Lowest quality the bounded search may use when max_bytes is set.
-          maximum: 100.0
-          minimum: 1.0
-          title: Min Quality
-          type: integer
-        mode:
-          default: cover
-          maxLength: 32
-          minLength: 1
-          title: Mode
-          type: string
-        quality:
-          default: 80
-          maximum: 100.0
-          minimum: 1.0
-          title: Quality
-          type: integer
-        width:
-          maximum: 16384.0
-          minimum: 1.0
-          title: Width
-          type: integer
-      required:
-      - width
-      - height
-      - format
-      title: ImageRendition
-      type: object
-    AudiogramCaptionPosition:
-      enum:
-      - top
-      - bottom
-      title: AudiogramCaptionPosition
-      type: string
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
-      type: object
-    OutputType:
-      enum:
-      - mp4
-      - webm
-      - hls
-      - dash
-      - audio
-      - image
-      - social
-      - gif
-      - frames
-      title: OutputType
-      type: string
-    SubtitleConfig:
-      properties:
-        enabled:
-          default: false
-          title: Enabled
-          type: boolean
-        format:
-          $ref: '#/components/schemas/SubtitleFormat'
-          default: both
-        languages:
-          items:
-            type: string
-          maxItems: 10
-          minItems: 1
-          title: Languages
-          type: array
-        max_audio_minutes:
-          default: 0
-          maximum: 1440.0
-          minimum: 0.0
-          title: Max Audio Minutes
-          type: integer
-        model:
-          default: base
-          maxLength: 64
-          minLength: 1
-          title: Model
-          type: string
-        translate_to_english:
-          default: false
-          title: Translate To English
-          type: boolean
-      title: SubtitleConfig
-      type: object
     PrivacyRedactionConfig:
       additionalProperties: false
       description: Explicit, bounded controls for automated visual privacy redaction.
@@ -721,6 +393,72 @@ components:
       - detectors
       title: PrivacyRedactionConfig
       type: object
+    VideoOptions:
+      properties:
+        bitrate_bps:
+          default: 0
+          maximum: 2000000000.0
+          minimum: 0.0
+          title: Bitrate Bps
+          type: integer
+        codec:
+          anyOf:
+          - maxLength: 32
+            type: string
+          - type: 'null'
+          description: h264, hevc, av1, vp9
+          title: Codec
+        fps:
+          default: 0.0
+          maximum: 240.0
+          minimum: 0.0
+          title: Fps
+          type: number
+        height:
+          default: 0
+          maximum: 16384.0
+          minimum: 0.0
+          title: Height
+          type: integer
+        preset:
+          anyOf:
+          - maxLength: 64
+            type: string
+          - type: 'null'
+          description: fast, slow, etc.
+          title: Preset
+        two_pass:
+          default: false
+          title: Two Pass
+          type: boolean
+      title: VideoOptions
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
     SubtitleFormat:
       enum:
       - srt
@@ -728,88 +466,111 @@ components:
       - both
       title: SubtitleFormat
       type: string
-    AudiogramConfig:
-      additionalProperties: false
-      description: Bounded public controls for composing audio, artwork, and captions.
+    PrivacyRedactionStyle:
+      enum:
+      - blur
+      - pixelate
+      - solid
+      title: PrivacyRedactionStyle
+      type: string
+    PrivacyDetector:
+      enum:
+      - face
+      - license_plate
+      - text
+      title: PrivacyDetector
+      type: string
+    SubtitleConfig:
       properties:
-        artwork_fit:
-          $ref: '#/components/schemas/AudiogramArtworkFit'
-          default: blurred_background
-        artwork_source:
-          maxLength: 2048
-          minLength: 1
-          title: Artwork Source
-          type: string
-        background_color:
-          default: '#101827'
-          pattern: ^#[0-9A-Fa-f]{6}$
-          title: Background Color
-          type: string
-        burn_captions:
+        enabled:
           default: false
-          title: Burn Captions
+          title: Enabled
           type: boolean
-        caption_font_scale:
-          default: 1.0
-          maximum: 1.5
-          minimum: 0.75
-          title: Caption Font Scale
-          type: number
-        caption_position:
-          $ref: '#/components/schemas/AudiogramCaptionPosition'
-          default: bottom
-        captions_source:
-          anyOf:
-          - maxLength: 2048
-            minLength: 1
+        format:
+          $ref: '#/components/schemas/SubtitleFormat'
+          default: both
+        languages:
+          items:
             type: string
-          - type: 'null'
-          title: Captions Source
-        duration_sec:
-          default: 60.0
-          exclusiveMinimum: 0.0
-          maximum: 300.0
-          title: Duration Sec
-          type: number
-        fps:
-          default: 30
-          maximum: 30.0
-          minimum: 15.0
-          title: Fps
+          maxItems: 10
+          minItems: 1
+          title: Languages
+          type: array
+        max_audio_minutes:
+          default: 0
+          maximum: 1440.0
+          minimum: 0.0
+          title: Max Audio Minutes
           type: integer
-        layout:
-          $ref: '#/components/schemas/AudiogramLayout'
-          default: square
-        loudness_target_lufs:
-          default: -16.0
-          maximum: -12.0
-          minimum: -24.0
-          title: Loudness Target Lufs
-          type: number
-        normalize_audio:
+        model:
+          default: base
+          maxLength: 64
+          minLength: 1
+          title: Model
+          type: string
+        translate_to_english:
           default: false
-          title: Normalize Audio
+          title: Translate To English
           type: boolean
-        start_time_sec:
+      title: SubtitleConfig
+      type: object
+    ModerationMode:
+      enum:
+      - report
+      - block
+      title: ModerationMode
+      type: string
+    AudiogramCaptionPosition:
+      enum:
+      - top
+      - bottom
+      title: AudiogramCaptionPosition
+      type: string
+    ModerationConfig:
+      properties:
+        checks:
+          items:
+            $ref: '#/components/schemas/ModerationCheck'
+          maxItems: 3
+          minItems: 1
+          title: Checks
+          type: array
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        mode:
+          $ref: '#/components/schemas/ModerationMode'
+          default: report
+      title: ModerationConfig
+      type: object
+    PlaceholderConfig:
+      properties:
+        lqip_max_bytes:
+          default: 4096
+          maximum: 16384.0
+          minimum: 256.0
+          title: Lqip Max Bytes
+          type: integer
+        lqip_quality:
+          default: 50
+          maximum: 100.0
+          minimum: 1.0
+          title: Lqip Quality
+          type: integer
+        max_dimension:
+          default: 32
+          maximum: 100.0
+          minimum: 8.0
+          title: Max Dimension
+          type: integer
+        source_time_sec:
           default: 0.0
           maximum: 604800.0
           minimum: 0.0
-          title: Start Time Sec
+          title: Source Time Sec
           type: number
-        waveform_color:
-          default: '#5B5CFF'
-          pattern: ^#[0-9A-Fa-f]{6}$
-          title: Waveform Color
-          type: string
-        waveform_gain:
-          default: 2.0
-          maximum: 4.0
-          minimum: 0.5
-          title: Waveform Gain
-          type: number
-      required:
-      - artwork_source
-      title: AudiogramConfig
+      title: PlaceholderConfig
       type: object
     AnimationConfig:
       properties:
@@ -854,32 +615,108 @@ components:
           type: integer
       title: AnimationConfig
       type: object
-    ImageFormat:
-      enum:
-      - jpg
-      - png
-      - webp
-      - avif
-      title: ImageFormat
-      type: string
-    HostedRecipeListResponse:
+    AudioOptions:
       properties:
-        recipes:
-          items:
-            $ref: '#/components/schemas/HostedRecipeResponse'
-          title: Recipes
-          type: array
-      required:
-      - recipes
-      title: HostedRecipeListResponse
+        bitrate_bps:
+          default: 0
+          maximum: 10000000.0
+          minimum: 0.0
+          title: Bitrate Bps
+          type: integer
+        channels:
+          default: 0
+          maximum: 32.0
+          minimum: 0.0
+          title: Channels
+          type: integer
+        codec:
+          anyOf:
+          - maxLength: 32
+            type: string
+          - type: 'null'
+          description: aac, mp3, opus, ac3
+          title: Codec
+      title: AudioOptions
       type: object
-    AudiogramLayout:
-      enum:
-      - square
-      - portrait
-      - landscape
-      title: AudiogramLayout
-      type: string
+    ThumbnailConfig:
+      properties:
+        cols:
+          default: 5
+          maximum: 20.0
+          minimum: 1.0
+          title: Cols
+          type: integer
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        format:
+          $ref: '#/components/schemas/ImageFormat'
+          default: jpg
+        interval_sec:
+          default: 2.0
+          exclusiveMinimum: 0.0
+          maximum: 86400.0
+          title: Interval Sec
+          type: number
+        max_sheets:
+          default: 10
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Sheets
+          type: integer
+        rows:
+          default: 5
+          maximum: 20.0
+          minimum: 1.0
+          title: Rows
+          type: integer
+        tile_height:
+          default: 90
+          maximum: 4096.0
+          minimum: 1.0
+          title: Tile Height
+          type: integer
+        tile_width:
+          default: 160
+          maximum: 4096.0
+          minimum: 1.0
+          title: Tile Width
+          type: integer
+      title: ThumbnailConfig
+      type: object
+    GifPreviewConfig:
+      properties:
+        duration:
+          default: 5.0
+          exclusiveMinimum: 0.0
+          maximum: 600.0
+          title: Duration
+          type: number
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+        fps:
+          default: 10.0
+          exclusiveMinimum: 0.0
+          maximum: 60.0
+          title: Fps
+          type: number
+        start_time:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time
+          type: number
+        width:
+          default: 320
+          maximum: 4096.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      title: GifPreviewConfig
+      type: object
     RecipeCreateRequest:
       properties:
         description:
@@ -898,73 +735,24 @@ components:
       - template
       title: RecipeCreateRequest
       type: object
-    ValidationError:
+    WatermarkConfig:
       properties:
-        ctx:
-          title: Context
-          type: object
-        input:
-          title: Input
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          title: Location
-          type: array
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+        enabled:
+          default: false
+          title: Enabled
+          type: boolean
+      title: WatermarkConfig
       type: object
-    ModerationCheck:
-      enum:
-      - sexual
-      - violence
-      - dangerous
-      title: ModerationCheck
-      type: string
-    PrivacyRedactionStyle:
-      enum:
-      - blur
-      - pixelate
-      - solid
-      title: PrivacyRedactionStyle
-      type: string
-    PlaceholderConfig:
+    HostedRecipeListResponse:
       properties:
-        lqip_max_bytes:
-          default: 4096
-          maximum: 16384.0
-          minimum: 256.0
-          title: Lqip Max Bytes
-          type: integer
-        lqip_quality:
-          default: 50
-          maximum: 100.0
-          minimum: 1.0
-          title: Lqip Quality
-          type: integer
-        max_dimension:
-          default: 32
-          maximum: 100.0
-          minimum: 8.0
-          title: Max Dimension
-          type: integer
-        source_time_sec:
-          default: 0.0
-          maximum: 604800.0
-          minimum: 0.0
-          title: Source Time Sec
-          type: number
-      title: PlaceholderConfig
+        recipes:
+          items:
+            $ref: '#/components/schemas/HostedRecipeResponse'
+          title: Recipes
+          type: array
+      required:
+      - recipes
+      title: HostedRecipeListResponse
       type: object
     TranscodeOutput:
       properties:
@@ -1052,6 +840,218 @@ components:
       - type
       title: TranscodeOutput
       type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    HostedRecipeResponse:
+      properties:
+        built_in:
+          title: Built In
+          type: boolean
+        description:
+          title: Description
+          type: string
+        name:
+          title: Name
+          type: string
+        reference:
+          title: Reference
+          type: string
+        sha256:
+          title: Sha256
+          type: string
+        status:
+          title: Status
+          type: string
+        template:
+          anyOf:
+          - $ref: '#/components/schemas/RecipeTemplate'
+          - type: 'null'
+        version:
+          title: Version
+          type: integer
+      required:
+      - name
+      - version
+      - reference
+      - description
+      - built_in
+      - status
+      - sha256
+      title: HostedRecipeResponse
+      type: object
+    AudiogramArtworkFit:
+      enum:
+      - contain
+      - cover
+      - blurred_background
+      title: AudiogramArtworkFit
+      type: string
+    RecipeTemplate:
+      description: Processing policy stored in one immutable hosted-recipe version.
+      properties:
+        moderation:
+          anyOf:
+          - $ref: '#/components/schemas/ModerationConfig'
+          - type: 'null'
+        outputs:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/TranscodeOutput'
+            - type: string
+          maxItems: 10
+          title: Outputs
+          type: array
+        watermark:
+          anyOf:
+          - $ref: '#/components/schemas/WatermarkConfig'
+          - type: 'null'
+      title: RecipeTemplate
+      type: object
+    AudiogramConfig:
+      additionalProperties: false
+      description: Bounded public controls for composing audio, artwork, and captions.
+      properties:
+        artwork_fit:
+          $ref: '#/components/schemas/AudiogramArtworkFit'
+          default: blurred_background
+        artwork_source:
+          maxLength: 2048
+          minLength: 1
+          title: Artwork Source
+          type: string
+        background_color:
+          default: '#101827'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Background Color
+          type: string
+        burn_captions:
+          default: false
+          title: Burn Captions
+          type: boolean
+        caption_font_scale:
+          default: 1.0
+          maximum: 1.5
+          minimum: 0.75
+          title: Caption Font Scale
+          type: number
+        caption_position:
+          $ref: '#/components/schemas/AudiogramCaptionPosition'
+          default: bottom
+        captions_source:
+          anyOf:
+          - maxLength: 2048
+            minLength: 1
+            type: string
+          - type: 'null'
+          title: Captions Source
+        duration_sec:
+          default: 60.0
+          exclusiveMinimum: 0.0
+          maximum: 300.0
+          title: Duration Sec
+          type: number
+        fps:
+          default: 30
+          maximum: 30.0
+          minimum: 15.0
+          title: Fps
+          type: integer
+        layout:
+          $ref: '#/components/schemas/AudiogramLayout'
+          default: square
+        loudness_target_lufs:
+          default: -16.0
+          maximum: -12.0
+          minimum: -24.0
+          title: Loudness Target Lufs
+          type: number
+        normalize_audio:
+          default: false
+          title: Normalize Audio
+          type: boolean
+        start_time_sec:
+          default: 0.0
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time Sec
+          type: number
+        waveform_color:
+          default: '#5B5CFF'
+          pattern: ^#[0-9A-Fa-f]{6}$
+          title: Waveform Color
+          type: string
+        waveform_gain:
+          default: 2.0
+          maximum: 4.0
+          minimum: 0.5
+          title: Waveform Gain
+          type: number
+      required:
+      - artwork_source
+      title: AudiogramConfig
+      type: object
+    ImageRendition:
+      properties:
+        format:
+          $ref: '#/components/schemas/ImageFormat'
+        height:
+          maximum: 16384.0
+          minimum: 1.0
+          title: Height
+          type: integer
+        max_bytes:
+          anyOf:
+          - maximum: 100000000.0
+            minimum: 256.0
+            type: integer
+          - type: 'null'
+          description: Optional hard encoded-file ceiling for JPG/WebP. The job fails rather than returning an oversized rendition.
+          title: Max Bytes
+        min_quality:
+          default: 1
+          description: Lowest quality the bounded search may use when max_bytes is set.
+          maximum: 100.0
+          minimum: 1.0
+          title: Min Quality
+          type: integer
+        mode:
+          default: cover
+          maxLength: 32
+          minLength: 1
+          title: Mode
+          type: string
+        quality:
+          default: 80
+          maximum: 100.0
+          minimum: 1.0
+          title: Quality
+          type: integer
+        width:
+          maximum: 16384.0
+          minimum: 1.0
+          title: Width
+          type: integer
+      required:
+      - width
+      - height
+      - format
+      title: ImageRendition
+      type: object
+    ImageFormat:
+      enum:
+      - jpg
+      - png
+      - webp
+      - avif
+      title: ImageFormat
+      type: string
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.

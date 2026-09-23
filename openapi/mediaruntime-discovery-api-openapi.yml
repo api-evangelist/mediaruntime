@@ -77,35 +77,6 @@ components:
       - artifacts
       title: PresetCapability
       type: object
-    OutputAliasCapability:
-      description: A stable alias and the complete output recipe it materializes.
-      properties:
-        artifacts:
-          items:
-            type: string
-          title: Artifacts
-          type: array
-        output:
-          additionalProperties: true
-          title: Output
-          type: object
-        preset:
-          title: Preset
-          type: string
-        tier:
-          title: Tier
-          type: string
-        type:
-          title: Type
-          type: string
-      required:
-      - type
-      - preset
-      - tier
-      - artifacts
-      - output
-      title: OutputAliasCapability
-      type: object
     CapabilitiesResponse:
       properties:
         capabilities:
@@ -171,6 +142,35 @@ components:
       - output_aliases
       - notes
       title: CapabilitiesResponse
+      type: object
+    OutputAliasCapability:
+      description: A stable alias and the complete output recipe it materializes.
+      properties:
+        artifacts:
+          items:
+            type: string
+          title: Artifacts
+          type: array
+        output:
+          additionalProperties: true
+          title: Output
+          type: object
+        preset:
+          title: Preset
+          type: string
+        tier:
+          title: Tier
+          type: string
+        type:
+          title: Type
+          type: string
+      required:
+      - type
+      - preset
+      - tier
+      - artifacts
+      - output
+      title: OutputAliasCapability
       type: object
   securitySchemes:
     ProductionApiKey:

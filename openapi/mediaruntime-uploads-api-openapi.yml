@@ -40,6 +40,45 @@ paths:
       - Uploads
 components:
   schemas:
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    UploadUrlRequest:
+      properties:
+        content_type:
+          default: application/octet-stream
+          title: Content Type
+          type: string
+        filename:
+          title: Filename
+          type: string
+      required:
+      - filename
+      title: UploadUrlRequest
+      type: object
     HTTPValidationError:
       properties:
         detail:
@@ -66,45 +105,6 @@ components:
       - upload_url
       - file_uri
       title: UploadUrlResponse
-      type: object
-    UploadUrlRequest:
-      properties:
-        content_type:
-          default: application/octet-stream
-          title: Content Type
-          type: string
-        filename:
-          title: Filename
-          type: string
-      required:
-      - filename
-      title: UploadUrlRequest
-      type: object
-    ValidationError:
-      properties:
-        ctx:
-          title: Context
-          type: object
-        input:
-          title: Input
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          title: Location
-          type: array
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
       type: object
   securitySchemes:
     ProductionApiKey:

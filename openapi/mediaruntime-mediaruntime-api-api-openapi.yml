@@ -248,6 +248,51 @@ webhooks:
       - MediaRuntime API
 components:
   schemas:
+    CompletedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: COMPLETED
+            type: string
+        required:
+        - completedAt
+        type: object
+    WebhookDelivery:
+      additionalProperties: true
+      properties:
+        bundle:
+          $ref: '#/components/schemas/WebhookBundle'
+        deliverables:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        expiresAt:
+          format: date-time
+          type: string
+        items:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        layout:
+          type: string
+        manifests:
+          additionalProperties: true
+          type: object
+        mode:
+          enum:
+          - PULL
+          - NONE
+          - BATCH
+          type: string
+        retentionDays:
+          minimum: 1
+          type: integer
+      required:
+      - mode
+      type: object
     RejectedWebhook:
       allOf:
       - $ref: '#/components/schemas/TerminalWebhook'
@@ -257,51 +302,6 @@ components:
             type: string
         required:
         - rejectedAt
-        type: object
-    WebhookBundleDownload:
-      properties:
-        expiresAt:
-          format: date-time
-          type: string
-        url:
-          format: uri
-          type: string
-      required:
-      - url
-      - expiresAt
-      type: object
-    PartialWebhook:
-      allOf:
-      - $ref: '#/components/schemas/TerminalWebhook'
-      - properties:
-          status:
-            const: PARTIAL
-            type: string
-        required:
-        - finishedAt
-        - error
-        type: object
-    WebhookError:
-      additionalProperties: true
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
-      required:
-      - message
-      type: object
-    FailedWebhook:
-      allOf:
-      - $ref: '#/components/schemas/TerminalWebhook'
-      - properties:
-          status:
-            const: FAILED
-            type: string
-        required:
-        - failedAt
         type: object
     TerminalWebhook:
       additionalProperties: true
@@ -353,16 +353,40 @@ components:
       - meta
       - delivery
       type: object
-    CompletedWebhook:
+    FailedWebhook:
       allOf:
       - $ref: '#/components/schemas/TerminalWebhook'
       - properties:
           status:
-            const: COMPLETED
+            const: FAILED
             type: string
         required:
-        - completedAt
+        - failedAt
         type: object
+    WebhookError:
+      additionalProperties: true
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    WebhookBundleDownload:
+      properties:
+        expiresAt:
+          format: date-time
+          type: string
+        url:
+          format: uri
+          type: string
+      required:
+      - url
+      - expiresAt
+      type: object
     WebhookBundle:
       properties:
         download:
@@ -381,41 +405,17 @@ components:
       - size_bytes
       - download
       type: object
-    WebhookDelivery:
-      additionalProperties: true
-      properties:
-        bundle:
-          $ref: '#/components/schemas/WebhookBundle'
-        deliverables:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-        expiresAt:
-          format: date-time
-          type: string
-        items:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-        layout:
-          type: string
-        manifests:
-          additionalProperties: true
-          type: object
-        mode:
-          enum:
-          - PULL
-          - NONE
-          - BATCH
-          type: string
-        retentionDays:
-          minimum: 1
-          type: integer
-      required:
-      - mode
-      type: object
+    PartialWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: PARTIAL
+            type: string
+        required:
+        - finishedAt
+        - error
+        type: object
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.

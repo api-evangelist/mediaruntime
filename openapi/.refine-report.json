@@ -1,0 +1,47 @@
+{
+  "provider": "mediaruntime",
+  "sources": [
+    "_original/mediaruntime-api-openapi.yml"
+  ],
+  "outputs": [
+    "mediaruntime-discovery-api-openapi.yml",
+    "mediaruntime-job-results-api-openapi.yml",
+    "mediaruntime-jobs-api-openapi.yml",
+    "mediaruntime-media-analysis-api-openapi.yml",
+    "mediaruntime-mediaruntime-api-api-openapi.yml",
+    "mediaruntime-moderation-api-openapi.yml",
+    "mediaruntime-recipes-api-openapi.yml",
+    "mediaruntime-sandbox-api-openapi.yml",
+    "mediaruntime-uploads-api-openapi.yml",
+    "mediaruntime-watermarks-api-openapi.yml",
+    "mediaruntime-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "mediaruntime-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "mediaruntime-api-openapi.yml: tagged webhooks POST job.completed -> MediaRuntime API",
+    "mediaruntime-api-openapi.yml: tagged webhooks POST job.failed -> MediaRuntime API",
+    "mediaruntime-api-openapi.yml: tagged webhooks POST job.partial -> MediaRuntime API",
+    "mediaruntime-api-openapi.yml: tagged webhooks POST job.rejected -> MediaRuntime API",
+    "mediaruntime-api-openapi.yml: declared missing tag: MediaRuntime API",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/mediaruntime-openapi.json: archived document superseded by a larger archived document",
+    "mediaruntime-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-job-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-media-analysis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-mediaruntime-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-moderation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-recipes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-sandbox-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-uploads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-watermarks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mediaruntime-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
