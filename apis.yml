@@ -35,7 +35,6 @@ apis:
   name: MediaRuntime Discovery API
   description: Public capability and contract discovery.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Discovery
   properties:
@@ -49,7 +48,6 @@ apis:
   name: MediaRuntime Job Results API
   description: Redeem completed job output bundles.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Job Results
   properties:
@@ -63,7 +61,6 @@ apis:
   name: MediaRuntime Jobs API
   description: Create, list, and inspect asynchronous media jobs.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Job
   tags_raw:
@@ -79,7 +76,6 @@ apis:
   name: MediaRuntime Media Analysis API
   description: Read analysis reports produced by requested presets.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Media Analysis
   properties:
@@ -93,7 +89,6 @@ apis:
   name: MediaRuntime API
   description: The MediaRuntime API API from MediaRuntime — 0 operation(s) for mediaruntime api.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - MediaRuntime API
   properties:
@@ -107,7 +102,6 @@ apis:
   name: MediaRuntime Moderation API
   description: Read a job's requested moderation verdict.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Moderation
   properties:
@@ -121,7 +115,6 @@ apis:
   name: MediaRuntime Recipes API
   description: Manage immutable, account-scoped processing recipes.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Recipes
   properties:
@@ -135,7 +128,6 @@ apis:
   name: MediaRuntime Sandbox API
   description: Create a bounded public-sandbox session.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Sandbox
   properties:
@@ -149,7 +141,6 @@ apis:
   name: MediaRuntime Uploads API
   description: Optional upload targets for local media bytes.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Uploads
   properties:
@@ -163,7 +154,6 @@ apis:
   name: MediaRuntime Watermarks API
   description: Configure the account watermark logo.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Watermarks
   properties:
@@ -177,7 +167,6 @@ apis:
   name: MediaRuntime Webhooks API
   description: Retry delivery of signed terminal events.
   humanURL: https://mediaruntime.com/docs
-  baseURL: https://mediaruntime.com
   tags:
   - Webhook
   tags_raw:

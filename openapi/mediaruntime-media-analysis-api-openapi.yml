@@ -131,15 +131,6 @@ components:
       - type
       title: ValidationError
       type: object
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
-      type: object
     JobReportResponse:
       description: Small report envelope shared by the direct analysis-result endpoints.
       properties:
@@ -165,6 +156,15 @@ components:
       required:
       - job_id
       title: JobReportResponse
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
       type: object
   securitySchemes:
     ProductionApiKey:

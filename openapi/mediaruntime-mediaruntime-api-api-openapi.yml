@@ -248,16 +248,6 @@ webhooks:
       - MediaRuntime API
 components:
   schemas:
-    CompletedWebhook:
-      allOf:
-      - $ref: '#/components/schemas/TerminalWebhook'
-      - properties:
-          status:
-            const: COMPLETED
-            type: string
-        required:
-        - completedAt
-        type: object
     WebhookDelivery:
       additionalProperties: true
       properties:
@@ -293,15 +283,15 @@ components:
       required:
       - mode
       type: object
-    RejectedWebhook:
+    FailedWebhook:
       allOf:
       - $ref: '#/components/schemas/TerminalWebhook'
       - properties:
           status:
-            const: REJECTED
+            const: FAILED
             type: string
         required:
-        - rejectedAt
+        - failedAt
         type: object
     TerminalWebhook:
       additionalProperties: true
@@ -353,16 +343,6 @@ components:
       - meta
       - delivery
       type: object
-    FailedWebhook:
-      allOf:
-      - $ref: '#/components/schemas/TerminalWebhook'
-      - properties:
-          status:
-            const: FAILED
-            type: string
-        required:
-        - failedAt
-        type: object
     WebhookError:
       additionalProperties: true
       properties:
@@ -387,6 +367,16 @@ components:
       - url
       - expiresAt
       type: object
+    RejectedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: REJECTED
+            type: string
+        required:
+        - rejectedAt
+        type: object
     WebhookBundle:
       properties:
         download:
@@ -415,6 +405,16 @@ components:
         required:
         - finishedAt
         - error
+        type: object
+    CompletedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: COMPLETED
+            type: string
+        required:
+        - completedAt
         type: object
   securitySchemes:
     ProductionApiKey:

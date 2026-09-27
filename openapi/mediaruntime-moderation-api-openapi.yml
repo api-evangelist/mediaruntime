@@ -43,6 +43,92 @@ paths:
       - Moderation
 components:
   schemas:
+    JobModerationCheck:
+      description: One requested check and how it came out.
+      properties:
+        check:
+          description: sexual, violence or dangerous
+          title: Check
+          type: string
+        confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: Probability the check matched, 0-1. Absent when not reported.
+          title: Confidence
+        decision:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: allow, review or block
+          title: Decision
+        review_only:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: True when the check is advisory and cannot by itself block a job.
+          title: Review Only
+      required:
+      - check
+      title: JobModerationCheck
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    JobModerationJudge:
+      description: The escalation stage, present only when local scores crossed the escalation floor.
+      properties:
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        escalated:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Escalated
+        escalated_checks:
+          items:
+            type: string
+          title: Escalated Checks
+          type: array
+        likelihoods:
+          additionalProperties:
+            type: string
+          description: 'Coarse likelihood per category, e.g. {"adult": "VERY_LIKELY"}.'
+          title: Likelihoods
+          type: object
+        ok:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Ok
+      title: JobModerationJudge
+      type: object
     JobModerationInfo:
       description: 'Moderation outcome for a job.
 
@@ -115,92 +201,6 @@ components:
           title: Detail
           type: array
       title: HTTPValidationError
-      type: object
-    JobModerationJudge:
-      description: The escalation stage, present only when local scores crossed the escalation floor.
-      properties:
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        escalated:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Escalated
-        escalated_checks:
-          items:
-            type: string
-          title: Escalated Checks
-          type: array
-        likelihoods:
-          additionalProperties:
-            type: string
-          description: 'Coarse likelihood per category, e.g. {"adult": "VERY_LIKELY"}.'
-          title: Likelihoods
-          type: object
-        ok:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Ok
-      title: JobModerationJudge
-      type: object
-    ValidationError:
-      properties:
-        ctx:
-          title: Context
-          type: object
-        input:
-          title: Input
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          title: Location
-          type: array
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-      type: object
-    JobModerationCheck:
-      description: One requested check and how it came out.
-      properties:
-        check:
-          description: sexual, violence or dangerous
-          title: Check
-          type: string
-        confidence:
-          anyOf:
-          - type: number
-          - type: 'null'
-          description: Probability the check matched, 0-1. Absent when not reported.
-          title: Confidence
-        decision:
-          anyOf:
-          - type: string
-          - type: 'null'
-          description: allow, review or block
-          title: Decision
-        review_only:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          description: True when the check is advisory and cannot by itself block a job.
-          title: Review Only
-      required:
-      - check
-      title: JobModerationCheck
       type: object
   securitySchemes:
     ProductionApiKey:

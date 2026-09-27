@@ -66,6 +66,15 @@ components:
       - type
       title: ValidationError
       type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
     UploadUrlRequest:
       properties:
         content_type:
@@ -78,15 +87,6 @@ components:
       required:
       - filename
       title: UploadUrlRequest
-      type: object
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
       type: object
     UploadUrlResponse:
       properties:

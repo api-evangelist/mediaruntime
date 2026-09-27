@@ -43,6 +43,29 @@ paths:
       - Webhooks
 components:
   schemas:
+    WebhookRetryResponse:
+      properties:
+        attempts:
+          title: Attempts
+          type: integer
+        http_status:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Http Status
+        msg:
+          title: Msg
+          type: string
+        status:
+          const: success
+          title: Status
+          type: string
+      required:
+      - status
+      - msg
+      - attempts
+      title: WebhookRetryResponse
+      type: object
     ValidationError:
       properties:
         ctx:
@@ -77,29 +100,6 @@ components:
           title: Detail
           type: array
       title: HTTPValidationError
-      type: object
-    WebhookRetryResponse:
-      properties:
-        attempts:
-          title: Attempts
-          type: integer
-        http_status:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Http Status
-        msg:
-          title: Msg
-          type: string
-        status:
-          const: success
-          title: Status
-          type: string
-      required:
-      - status
-      - msg
-      - attempts
-      title: WebhookRetryResponse
       type: object
   securitySchemes:
     ProductionApiKey:
