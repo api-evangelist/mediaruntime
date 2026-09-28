@@ -208,3 +208,14 @@ x-provenance:
     host a 200 proves nothing, so every artifact here was size- and content-checked against the control
     before being recorded. Nothing is recorded for apis.json or llms.txt, because recording a placeholder
     page under those types would credit machine-readable artifacts that do not exist.'
+x-correction-request:
+  requested: '2026-09-28'
+  source:
+  - https://github.com/api-evangelist/mediaruntime/pull/1
+  request: 'Provider PR #1 (ericel, 2026-09-16), verified live 2026-09-28; not merged (it rewrote url, aids and
+    deleted fields). Re-pull the live contract https://mediaruntime.com/openapi.json (33 paths, 41 operations) --
+    the 11 split files on main hold only 17 paths, one empty -- and re-split it. The provider''s https://mediaruntime.com/apis.json
+    lists two products, MediaRuntime Media and MediaRuntime Stickers, both on https://mediaruntime.com/v1: model
+    both, keeping the mediaruntime: aid prefix. Add llms.txt, docs, pricing, sandbox, signup, blog, contact and
+    legal links, and SDKs: npm @mediaruntime/cli and @mediaruntime/node, PyPI mediaruntime, the GitHub quickstarts
+    repo (links in the PR).'
