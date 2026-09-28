@@ -1,0 +1,877 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@mediaruntime.com
+    name: MediaRuntime support
+    url: https://mediaruntime.com/contact
+  description: Production API for asynchronous video, audio, and image processing, plus collection-scoped sticker discovery and approved asset delivery. See https://mediaruntime.com/docs for media workflows and https://mediaruntime.com/docs/stickers for the Stickers API.
+  termsOfService: https://mediaruntime.com/legal#terms
+  title: MediaRuntime Sticker Runtime API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Search, inspect, and resolve collection-scoped hosted stickers.
+  name: Sticker Runtime
+paths:
+  /v1/sticker-runtime/client-tokens:
+    post:
+      description: Exchanges a server-side workspace API key for a short-lived bearer token restricted to one active collection and an explicit runtime-operation allowlist.
+      operationId: createStickerRuntimeClientToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StickerClientTokenRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerClientTokenResponse'
+          description: Successful Response
+          headers:
+            Cache-Control:
+              description: Runtime JSON is private and must not be stored in HTTP caches. Internal caches never bypass authorization or metering.
+              schema:
+                const: private, no-store
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Create a scoped Sticker Runtime client token
+      tags:
+      - Sticker Runtime
+  /v1/sticker-runtime/usage/current:
+    get:
+      description: Returns current-month operations and bytes authorized for signed delivery for the authenticated workspace.
+      operationId: getCurrentStickerRuntimeUsage
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeUsageCurrent'
+          description: Successful Response
+          headers:
+            Cache-Control:
+              description: Runtime JSON is private and must not be stored in HTTP caches. Internal caches never bypass authorization or metering.
+              schema:
+                const: private, no-store
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Get current sticker runtime usage
+      tags:
+      - Sticker Runtime
+  /v1/stickers/packs:
+    get:
+      description: Lists published packs enabled for new use in the requested active collection.
+      operationId: listRuntimeStickerPacks
+      parameters:
+      - in: query
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeStickerPackListResponse'
+          description: Successful Response
+          headers:
+            Cache-Control:
+              description: Runtime JSON is private and must not be stored in HTTP caches. Internal caches never bypass authorization or metering.
+              schema:
+                const: private, no-store
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      - StickerClientToken: []
+      summary: List enabled runtime packs
+      tags:
+      - Sticker Runtime
+  /v1/stickers/search:
+    get:
+      description: Searches enabled pack metadata with bounded deterministic ranking for one collection.
+      operationId: searchRuntimeStickers
+      parameters:
+      - in: query
+        name: q
+        required: true
+        schema:
+          maxLength: 100
+          minLength: 1
+          title: Q
+          type: string
+      - in: query
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      - in: query
+        name: pack_id
+        required: false
+        schema:
+          anyOf:
+          - maxLength: 160
+            type: string
+          - type: 'null'
+          title: Pack Id
+      - in: query
+        name: category
+        required: false
+        schema:
+          anyOf:
+          - maxLength: 80
+            type: string
+          - type: 'null'
+          title: Category
+      - in: query
+        name: animated
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Animated
+      - in: query
+        name: limit
+        required: false
+        schema:
+          default: 24
+          maximum: 50
+          minimum: 1
+          title: Limit
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeStickerSearchResponse'
+          description: Successful Response
+          headers:
+            Cache-Control:
+              description: Runtime JSON is private and must not be stored in HTTP caches. Internal caches never bypass authorization or metering.
+              schema:
+                const: private, no-store
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      - StickerClientToken: []
+      summary: Search hosted stickers
+      tags:
+      - Sticker Runtime
+  /v1/stickers/typeahead:
+    get:
+      description: Returns bounded locale-aware prefix suggestions derived from packs enabled in one collection.
+      operationId: typeaheadRuntimeStickers
+      parameters:
+      - in: query
+        name: q
+        required: true
+        schema:
+          maxLength: 100
+          minLength: 1
+          title: Q
+          type: string
+      - in: query
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      - in: query
+        name: pack_id
+        required: false
+        schema:
+          anyOf:
+          - maxLength: 160
+            type: string
+          - type: 'null'
+          title: Pack Id
+      - in: query
+        name: locale
+        required: false
+        schema:
+          default: en
+          maxLength: 16
+          minLength: 2
+          title: Locale
+          type: string
+      - in: query
+        name: limit
+        required: false
+        schema:
+          default: 8
+          maximum: 20
+          minimum: 1
+          title: Limit
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeTypeaheadResponse'
+          description: Successful Response
+          headers:
+            Cache-Control:
+              description: Runtime JSON is private and must not be stored in HTTP caches. Internal caches never bypass authorization or metering.
+              schema:
+                const: private, no-store
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      - StickerClientToken: []
+      summary: Suggest hosted sticker terms
+      tags:
+      - Sticker Runtime
+  /v1/stickers/{sticker_id}:
+    get:
+      description: Returns stable sticker metadata while its source pack remains enabled for new collection use.
+      operationId: getRuntimeSticker
+      parameters:
+      - in: path
+        name: sticker_id
+        required: true
+        schema:
+          pattern: ^[a-z0-9][a-z0-9.-]{1,159}$
+          title: Sticker Id
+          type: string
+      - in: query
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeSticker'
+          description: Successful Response
+          headers:
+            Cache-Control:
+              description: Runtime JSON is private and must not be stored in HTTP caches. Internal caches never bypass authorization or metering.
+              schema:
+                const: private, no-store
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      - StickerClientToken: []
+      summary: Get hosted sticker metadata
+      tags:
+      - Sticker Runtime
+  /v1/stickers/{sticker_id}/assets/{variant}:
+    get:
+      description: Authorizes historical-safe delivery and returns a short-lived generation-pinned URL for an approved WebP or PNG variant. Treat the storage or CDN URL as opaque. Repeated requests may reuse a verified URL without extending its original expiry; expires_in_seconds reports its remaining lifetime. Every request still enforces access and usage policy.
+      operationId: resolveRuntimeStickerVariant
+      parameters:
+      - in: path
+        name: sticker_id
+        required: true
+        schema:
+          pattern: ^[a-z0-9][a-z0-9.-]{1,159}$
+          title: Sticker Id
+          type: string
+      - in: path
+        name: variant
+        required: true
+        schema:
+          pattern: ^[a-z][a-z0-9_]{1,31}$
+          title: Variant
+          type: string
+      - in: query
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuntimeStickerResolution'
+          description: Successful Response
+          headers:
+            Cache-Control:
+              description: Runtime JSON is private and must not be stored in HTTP caches. Internal caches never bypass authorization or metering.
+              schema:
+                const: private, no-store
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      - StickerClientToken: []
+      summary: Resolve a hosted sticker asset
+      tags:
+      - Sticker Runtime
+components:
+  schemas:
+    RuntimeUsageCurrent:
+      description: Expose pooled usage, included capacity, and settled overage for one month.
+      properties:
+        authorized_delivery_bytes:
+          minimum: 0.0
+          title: Authorized Delivery Bytes
+          type: integer
+        currency:
+          const: USD
+          title: Currency
+          type: string
+        delivery_utilization_percent:
+          minimum: 0.0
+          title: Delivery Utilization Percent
+          type: number
+        included_delivery_bytes:
+          minimum: 0.0
+          title: Included Delivery Bytes
+          type: integer
+        included_operations:
+          minimum: 0.0
+          title: Included Operations
+          type: integer
+        month:
+          pattern: ^[0-9]{4}-[0-9]{2}$
+          title: Month
+          type: string
+        operations:
+          minimum: 0.0
+          title: Operations
+          type: integer
+        operations_utilization_percent:
+          minimum: 0.0
+          title: Operations Utilization Percent
+          type: number
+        overage_charged_cents:
+          minimum: 0.0
+          title: Overage Charged Cents
+          type: integer
+        remaining_delivery_bytes:
+          minimum: 0.0
+          title: Remaining Delivery Bytes
+          type: integer
+        remaining_operations:
+          minimum: 0.0
+          title: Remaining Operations
+          type: integer
+        status:
+          enum:
+          - healthy
+          - approaching_limit
+          - overage
+          title: Status
+          type: string
+      required:
+      - month
+      - operations
+      - included_operations
+      - remaining_operations
+      - operations_utilization_percent
+      - authorized_delivery_bytes
+      - included_delivery_bytes
+      - remaining_delivery_bytes
+      - delivery_utilization_percent
+      - overage_charged_cents
+      - currency
+      - status
+      title: RuntimeUsageCurrent
+      type: object
+    RuntimeStickerPack:
+      description: Expose a published pack enabled for new use in one collection.
+      properties:
+        activation_id:
+          title: Activation Id
+          type: string
+        animated:
+          title: Animated
+          type: boolean
+        asset_count:
+          minimum: 0.0
+          title: Asset Count
+          type: integer
+        categories:
+          items:
+            type: string
+          title: Categories
+          type: array
+        characters:
+          items:
+            $ref: '#/components/schemas/RuntimeCharacter'
+          title: Characters
+          type: array
+        name:
+          title: Name
+          type: string
+        pack_id:
+          title: Pack Id
+          type: string
+        slug:
+          title: Slug
+          type: string
+        version:
+          title: Version
+          type: string
+      required:
+      - pack_id
+      - slug
+      - name
+      - version
+      - asset_count
+      - animated
+      - categories
+      - characters
+      - activation_id
+      title: RuntimeStickerPack
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    RuntimeStickerPackListResponse:
+      description: Return only collection-enabled packs for the authenticated workspace.
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/RuntimeStickerPack'
+          title: Items
+          type: array
+        total:
+          minimum: 0.0
+          title: Total
+          type: integer
+      required:
+      - items
+      - total
+      title: RuntimeStickerPackListResponse
+      type: object
+    RuntimeSticker:
+      description: Carry stable sticker metadata suitable for persisted chat references.
+      properties:
+        animated:
+          title: Animated
+          type: boolean
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        emoji:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Emoji
+        keywords:
+          items:
+            type: string
+          title: Keywords
+          type: array
+        label:
+          title: Label
+          type: string
+        pack_id:
+          title: Pack Id
+          type: string
+        pack_slug:
+          title: Pack Slug
+          type: string
+        pack_version:
+          title: Pack Version
+          type: string
+        score:
+          anyOf:
+          - minimum: 0.0
+            type: integer
+          - type: 'null'
+          title: Score
+        semantic_id:
+          title: Semantic Id
+          type: string
+        sticker_id:
+          title: Sticker Id
+          type: string
+        variants:
+          items:
+            $ref: '#/components/schemas/RuntimeStickerVariant'
+          title: Variants
+          type: array
+      required:
+      - sticker_id
+      - semantic_id
+      - pack_id
+      - pack_slug
+      - pack_version
+      - label
+      - keywords
+      - animated
+      - variants
+      title: RuntimeSticker
+      type: object
+    RuntimeTypeaheadResponse:
+      description: Return bounded prefix suggestions for one locale and collection.
+      properties:
+        locale:
+          title: Locale
+          type: string
+        query:
+          title: Query
+          type: string
+        suggestions:
+          items:
+            $ref: '#/components/schemas/RuntimeTypeaheadSuggestion'
+          title: Suggestions
+          type: array
+      required:
+      - query
+      - locale
+      - suggestions
+      title: RuntimeTypeaheadResponse
+      type: object
+    RuntimeStickerSearchResponse:
+      description: Return deterministic metadata-ranked matches from enabled packs.
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/RuntimeSticker'
+          title: Items
+          type: array
+        query:
+          title: Query
+          type: string
+        total:
+          minimum: 0.0
+          title: Total
+          type: integer
+      required:
+      - query
+      - items
+      - total
+      title: RuntimeStickerSearchResponse
+      type: object
+    RuntimeCharacter:
+      description: Identify one character family without marketplace merchandising fields.
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - id
+      - name
+      title: RuntimeCharacter
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    StickerClientTokenResponse:
+      description: Return a short-lived bearer credential without exposing its signing claims.
+      properties:
+        access_token:
+          title: Access Token
+          type: string
+        collection_id:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+        expires_at:
+          format: date-time
+          title: Expires At
+          type: string
+        expires_in:
+          maximum: 3600.0
+          minimum: 60.0
+          title: Expires In
+          type: integer
+        scopes:
+          items:
+            enum:
+            - packs:read
+            - stickers:search
+            - stickers:read
+            - assets:resolve
+            type: string
+          title: Scopes
+          type: array
+        token_type:
+          const: Bearer
+          title: Token Type
+          type: string
+      required:
+      - access_token
+      - token_type
+      - expires_in
+      - expires_at
+      - collection_id
+      - scopes
+      title: StickerClientTokenResponse
+      type: object
+    RuntimeTypeaheadSuggestion:
+      description: Represent one catalog-derived prefix and its matching asset count.
+      properties:
+        asset_count:
+          minimum: 1.0
+          title: Asset Count
+          type: integer
+        text:
+          title: Text
+          type: string
+      required:
+      - text
+      - asset_count
+      title: RuntimeTypeaheadSuggestion
+      type: object
+    RuntimeStickerVariant:
+      description: Describe an approved representation without leaking its private object key.
+      properties:
+        bytes:
+          exclusiveMinimum: 0.0
+          title: Bytes
+          type: integer
+        media_type:
+          enum:
+          - image/webp
+          - image/png
+          title: Media Type
+          type: string
+        name:
+          enum:
+          - animated
+          - reduced_motion
+          - small_80
+          - small_100
+          - small_160
+          - thumbnail
+          title: Name
+          type: string
+        state:
+          title: State
+          type: string
+      required:
+      - name
+      - state
+      - media_type
+      - bytes
+      title: RuntimeStickerVariant
+      type: object
+    RuntimeStickerResolution:
+      description: Return a short-lived generation-pinned URL for an approved private asset.
+      properties:
+        bytes:
+          exclusiveMinimum: 0.0
+          title: Bytes
+          type: integer
+        expires_at:
+          format: date-time
+          title: Expires At
+          type: string
+        expires_in_seconds:
+          exclusiveMinimum: 0.0
+          title: Expires In Seconds
+          type: integer
+        media_type:
+          enum:
+          - image/webp
+          - image/png
+          title: Media Type
+          type: string
+        pack_id:
+          title: Pack Id
+          type: string
+        pack_version:
+          title: Pack Version
+          type: string
+        sha256:
+          pattern: ^[0-9a-f]{64}$
+          title: Sha256
+          type: string
+        sticker_id:
+          title: Sticker Id
+          type: string
+        url:
+          title: Url
+          type: string
+        variant:
+          title: Variant
+          type: string
+      required:
+      - sticker_id
+      - pack_id
+      - pack_version
+      - variant
+      - media_type
+      - bytes
+      - sha256
+      - url
+      - expires_in_seconds
+      - expires_at
+      title: RuntimeStickerResolution
+      type: object
+    StickerClientTokenRequest:
+      description: Request a bounded credential for exactly one active application collection.
+      properties:
+        collection_id:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+        expires_in_seconds:
+          default: 900
+          maximum: 3600.0
+          minimum: 60.0
+          title: Expires In Seconds
+          type: integer
+        scopes:
+          anyOf:
+          - items:
+              enum:
+              - packs:read
+              - stickers:search
+              - stickers:read
+              - assets:resolve
+              type: string
+            type: array
+          - type: 'null'
+          title: Scopes
+      required:
+      - collection_id
+      title: StickerClientTokenRequest
+      type: object
+  headers:
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

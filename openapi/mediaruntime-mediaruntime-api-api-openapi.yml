@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  description: Asynchronous media processing for video, audio, and images.
   title: MediaRuntime API
   version: 1.0.0
+  description: 'Operations tagged MediaRuntime API across 2 of this provider''s published API definitions: mediaruntime-api-openapi.yml, mediaruntime-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - description: Production
   url: https://mediaruntime.com
@@ -74,6 +74,9 @@ webhooks:
       summary: Receive a job.completed event
       tags:
       - MediaRuntime API
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
   job.failed:
     post:
       description: Verify the signature against the exact raw request bytes before parsing or acting on this terminal event.
@@ -129,6 +132,9 @@ webhooks:
       summary: Receive a job.failed event
       tags:
       - MediaRuntime API
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
   job.partial:
     post:
       description: Verify the signature against the exact raw request bytes before parsing or acting on this terminal event.
@@ -191,6 +197,9 @@ webhooks:
       summary: Receive a job.partial event
       tags:
       - MediaRuntime API
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
   job.rejected:
     post:
       description: Verify the signature against the exact raw request bytes before parsing or acting on this terminal event.
@@ -246,52 +255,20 @@ webhooks:
       summary: Receive a job.rejected event
       tags:
       - MediaRuntime API
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
 components:
   schemas:
-    WebhookDelivery:
-      additionalProperties: true
-      properties:
-        bundle:
-          $ref: '#/components/schemas/WebhookBundle'
-        deliverables:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-        expiresAt:
-          format: date-time
-          type: string
-        items:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-        layout:
-          type: string
-        manifests:
-          additionalProperties: true
-          type: object
-        mode:
-          enum:
-          - PULL
-          - NONE
-          - BATCH
-          type: string
-        retentionDays:
-          minimum: 1
-          type: integer
-      required:
-      - mode
-      type: object
-    FailedWebhook:
+    CompletedWebhook:
       allOf:
       - $ref: '#/components/schemas/TerminalWebhook'
       - properties:
           status:
-            const: FAILED
+            const: COMPLETED
             type: string
         required:
-        - failedAt
+        - completedAt
         type: object
     TerminalWebhook:
       additionalProperties: true
@@ -343,18 +320,6 @@ components:
       - meta
       - delivery
       type: object
-    WebhookError:
-      additionalProperties: true
-      properties:
-        code:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
-      required:
-      - message
-      type: object
     WebhookBundleDownload:
       properties:
         expiresAt:
@@ -377,6 +342,74 @@ components:
         required:
         - rejectedAt
         type: object
+    PartialWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: PARTIAL
+            type: string
+        required:
+        - finishedAt
+        - error
+        type: object
+    FailedWebhook:
+      allOf:
+      - $ref: '#/components/schemas/TerminalWebhook'
+      - properties:
+          status:
+            const: FAILED
+            type: string
+        required:
+        - failedAt
+        type: object
+    WebhookError:
+      additionalProperties: true
+      properties:
+        code:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    WebhookDelivery:
+      additionalProperties: true
+      properties:
+        bundle:
+          $ref: '#/components/schemas/WebhookBundle'
+        deliverables:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        expiresAt:
+          format: date-time
+          type: string
+        items:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+        layout:
+          type: string
+        manifests:
+          additionalProperties: true
+          type: object
+        mode:
+          enum:
+          - PULL
+          - NONE
+          - BATCH
+          type: string
+        retentionDays:
+          minimum: 1
+          type: integer
+      required:
+      - mode
+      type: object
     WebhookBundle:
       properties:
         download:
@@ -395,27 +428,6 @@ components:
       - size_bytes
       - download
       type: object
-    PartialWebhook:
-      allOf:
-      - $ref: '#/components/schemas/TerminalWebhook'
-      - properties:
-          status:
-            const: PARTIAL
-            type: string
-        required:
-        - finishedAt
-        - error
-        type: object
-    CompletedWebhook:
-      allOf:
-      - $ref: '#/components/schemas/TerminalWebhook'
-      - properties:
-          status:
-            const: COMPLETED
-            type: string
-        required:
-        - completedAt
-        type: object
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
@@ -427,6 +439,19 @@ components:
       in: header
       name: X-Sandbox-Token
       type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
 externalDocs:
   description: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
+x-refined-from:
+- mediaruntime-api-openapi.yml
+- mediaruntime-openapi.json

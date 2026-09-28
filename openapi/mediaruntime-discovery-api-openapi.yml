@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  description: Asynchronous media processing for video, audio, and images.
-  title: MediaRuntime Discovery API
+  title: Mediaruntime Discovery API
   version: 1.0.0
+  description: 'Operations tagged Discovery across 2 of this provider''s published API definitions: mediaruntime-api-openapi.yml, mediaruntime-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - description: Production
   url: https://mediaruntime.com
@@ -25,8 +25,77 @@ paths:
       summary: Get supported capabilities
       tags:
       - Discovery
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
 components:
   schemas:
+    CapabilitiesResponse:
+      properties:
+        capabilities:
+          additionalProperties:
+            type: string
+          title: Capabilities
+          type: object
+        features:
+          additionalProperties:
+            additionalProperties: true
+            type: object
+          title: Features
+          type: object
+        notes:
+          items:
+            type: string
+          title: Notes
+          type: array
+        output_aliases:
+          additionalProperties:
+            $ref: '#/components/schemas/OutputAliasCapability'
+          title: Output Aliases
+          type: object
+        output_types:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Output Types
+          type: object
+        preset_overrides:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Preset Overrides
+          type: object
+        preset_requirement_replacements:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          title: Preset Requirement Replacements
+          type: object
+        presets:
+          additionalProperties:
+            $ref: '#/components/schemas/PresetCapability'
+          title: Presets
+          type: object
+        public_presets:
+          items:
+            type: string
+          title: Public Presets
+          type: array
+      required:
+      - capabilities
+      - output_types
+      - preset_overrides
+      - preset_requirement_replacements
+      - presets
+      - public_presets
+      - features
+      - output_aliases
+      - notes
+      title: CapabilitiesResponse
+      type: object
     PresetCapability:
       description: One preset entry returned by the public capability catalogue.
       properties:
@@ -106,72 +175,11 @@ components:
       - output
       title: OutputAliasCapability
       type: object
-    CapabilitiesResponse:
-      properties:
-        capabilities:
-          additionalProperties:
-            type: string
-          title: Capabilities
-          type: object
-        features:
-          additionalProperties:
-            additionalProperties: true
-            type: object
-          title: Features
-          type: object
-        notes:
-          items:
-            type: string
-          title: Notes
-          type: array
-        output_aliases:
-          additionalProperties:
-            $ref: '#/components/schemas/OutputAliasCapability'
-          title: Output Aliases
-          type: object
-        output_types:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          title: Output Types
-          type: object
-        preset_overrides:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          title: Preset Overrides
-          type: object
-        preset_requirement_replacements:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          title: Preset Requirement Replacements
-          type: object
-        presets:
-          additionalProperties:
-            $ref: '#/components/schemas/PresetCapability'
-          title: Presets
-          type: object
-        public_presets:
-          items:
-            type: string
-          title: Public Presets
-          type: array
-      required:
-      - capabilities
-      - output_types
-      - preset_overrides
-      - preset_requirement_replacements
-      - presets
-      - public_presets
-      - features
-      - output_aliases
-      - notes
-      title: CapabilitiesResponse
-      type: object
+  headers:
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
@@ -183,6 +191,19 @@ components:
       in: header
       name: X-Sandbox-Token
       type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
 externalDocs:
   description: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
+x-refined-from:
+- mediaruntime-api-openapi.yml
+- mediaruntime-openapi.json

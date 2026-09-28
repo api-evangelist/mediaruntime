@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mediaruntime/main/json-schema/mediaruntime-watermark-logo-confirm-request-schema.json",
+  "title": "WatermarkLogoConfirmRequest",
+  "x-generated": "2026-09-28",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/mediaruntime-watermarks-api-openapi.yml#/components/schemas/WatermarkLogoConfirmRequest",
+  "properties": {
+    "file_uri": {
+      "description": "gs:// URI returned by /account/watermark-logo/upload-url after the client PUTs the file",
+      "title": "File Uri",
+      "type": "string"
+    },
+    "opacity_pct": {
+      "default": 100,
+      "maximum": 100.0,
+      "minimum": 1.0,
+      "title": "Opacity Pct",
+      "type": "integer"
+    },
+    "position": {
+      "default": "bottom_right",
+      "description": "bottom_right|bottom_left|top_right|top_left|center",
+      "title": "Position",
+      "type": "string"
+    },
+    "scale_pct": {
+      "default": 12,
+      "description": "Logo width as a percentage of each output's width",
+      "maximum": 100.0,
+      "minimum": 1.0,
+      "title": "Scale Pct",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "file_uri"
+  ],
+  "type": "object"
+}

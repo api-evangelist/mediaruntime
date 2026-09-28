@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  description: Asynchronous media processing for video, audio, and images.
-  title: MediaRuntime Job Results API
+  title: Mediaruntime Job Results API
   version: 1.0.0
+  description: 'Operations tagged Job Results across 2 of this provider''s published API definitions: mediaruntime-api-openapi.yml, mediaruntime-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - description: Production
   url: https://mediaruntime.com
@@ -59,6 +59,177 @@ paths:
       summary: Download a job output bundle
       tags:
       - Job Results
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
+  /v1/jobs/{job_id}/artifacts:
+    get:
+      description: Lists client-safe standalone files from one owned completed job. Storage locations and worker attempt paths are never exposed.
+      operationId: listJobArtifacts
+      parameters:
+      - description: The completed job whose outputs to list
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The completed job whose outputs to list
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobArtifactsResponse'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '401':
+          description: Authentication is missing or invalid.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '404':
+          description: The job or its retained artifacts were not found.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '409':
+          description: The job has not completed.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '410':
+          description: The job's artifact retention period has elapsed.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '503':
+          description: Artifact storage is temporarily unavailable.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      - WorkspaceBearer: []
+      summary: List individual job artifacts
+      tags:
+      - Job Results
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
+  /v1/jobs/{job_id}/artifacts/{artifact_id}/download:
+    get:
+      description: Reauthorizes the caller and redirects to a short-lived, generation-pinned URL for the selected existing GCS object.
+      operationId: downloadJobArtifact
+      parameters:
+      - description: The completed job that owns the artifact
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The completed job that owns the artifact
+          title: Job Id
+          type: string
+      - description: Opaque artifact id returned by the artifact listing endpoint
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          description: Opaque artifact id returned by the artifact listing endpoint
+          maxLength: 32
+          minLength: 32
+          pattern: ^[0-9a-f]{32}$
+          title: Artifact Id
+          type: string
+      - description: Return a redirect by default; false returns a signed download_url for browser media players.
+        in: query
+        name: redirect
+        required: false
+        schema:
+          default: true
+          description: Return a redirect by default; false returns a signed download_url for browser media players.
+          title: Redirect
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  download_url:
+                    format: uri
+                    type: string
+                required:
+                - download_url
+                type: object
+          description: With redirect=false, a short-lived generation-pinned URL. Do not persist it or forward API credentials to storage.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '307':
+          description: Redirect to a short-lived signed URL for this artifact.
+          headers:
+            Location:
+              description: Generation-pinned signed storage URL.
+              schema:
+                format: uri
+                type: string
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '401':
+          description: Authentication is missing or invalid.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '404':
+          description: The job or artifact was not found.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '409':
+          description: The job has not completed.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '410':
+          description: The job's artifact retention period has elapsed.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '503':
+          description: Artifact storage is temporarily unavailable.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      - WorkspaceBearer: []
+      summary: Download an individual job artifact
+      tags:
+      - Job Results
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
 components:
   schemas:
     ValidationError:
@@ -96,6 +267,65 @@ components:
           type: array
       title: HTTPValidationError
       type: object
+    JobArtifactsResponse:
+      description: Allowlisted individual outputs; storage bucket/object names stay private.
+      properties:
+        artifacts:
+          items:
+            $ref: '#/components/schemas/JobArtifactInfo'
+          title: Artifacts
+          type: array
+        expires_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Job retention boundary after which artifact delivery is refused.
+          title: Expires At
+        job_id:
+          title: Job Id
+          type: string
+      required:
+      - job_id
+      title: JobArtifactsResponse
+      type: object
+    JobArtifactInfo:
+      description: One directly downloadable, client-safe output from a completed job.
+      properties:
+        artifact_id:
+          description: Opaque generation-bound id used by the artifact download endpoint.
+          title: Artifact Id
+          type: string
+        bundle_path:
+          description: Stable path for the same file inside the canonical ZIP bundle.
+          title: Bundle Path
+          type: string
+        content_type:
+          title: Content Type
+          type: string
+        filename:
+          title: Filename
+          type: string
+        kind:
+          title: Kind
+          type: string
+        size_bytes:
+          minimum: 0.0
+          title: Size Bytes
+          type: integer
+      required:
+      - artifact_id
+      - filename
+      - bundle_path
+      - kind
+      - content_type
+      - size_bytes
+      title: JobArtifactInfo
+      type: object
+  headers:
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
@@ -107,6 +337,19 @@ components:
       in: header
       name: X-Sandbox-Token
       type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
 externalDocs:
   description: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
+x-refined-from:
+- mediaruntime-api-openapi.yml
+- mediaruntime-openapi.json

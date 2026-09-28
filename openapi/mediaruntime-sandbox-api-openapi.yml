@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  description: Asynchronous media processing for video, audio, and images.
-  title: MediaRuntime Sandbox API
+  title: Mediaruntime Sandbox API
   version: 1.0.0
+  description: 'Operations tagged Sandbox across 2 of this provider''s published API definitions: mediaruntime-api-openapi.yml, mediaruntime-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - description: Production
   url: https://mediaruntime.com
@@ -25,6 +25,9 @@ paths:
       summary: Create a sandbox session
       tags:
       - Sandbox
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
 components:
   schemas:
     SandboxSessionResponse:
@@ -52,6 +55,53 @@ components:
       - can_run
       title: SandboxSessionResponse
       type: object
+    RateLimitErrorResponse:
+      description: Existing gateway error envelope for HTTP 429; codes distinguish account throttling and sandbox capacity.
+      properties:
+        detail:
+          description: Legacy error detail; clients should prefer error.code and error.message.
+        error:
+          properties:
+            code:
+              type: string
+            details:
+              description: Structured error context, or null.
+            message:
+              type: string
+            request_id:
+              type: string
+            retryable:
+              const: true
+              type: boolean
+            status:
+              const: 429
+              type: integer
+          required:
+          - code
+          - message
+          - status
+          - retryable
+          - request_id
+          - details
+          type: object
+        request_id:
+          type: string
+      required:
+      - error
+      - request_id
+      - detail
+      type: object
+  headers:
+    RetryAfter:
+      description: Seconds to wait before retrying a throttled request. Keep the same Idempotency-Key and request body when retrying a job submission.
+      example: '60'
+      schema:
+        pattern: ^[0-9]+$
+        type: string
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
@@ -63,6 +113,19 @@ components:
       in: header
       name: X-Sandbox-Token
       type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
 externalDocs:
   description: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
+x-refined-from:
+- mediaruntime-api-openapi.yml
+- mediaruntime-openapi.json

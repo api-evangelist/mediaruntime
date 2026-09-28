@@ -1,11 +1,21 @@
 aid: mediaruntime
+
 name: MediaRuntime
-description: MediaRuntime is a media-processing API. The published contract is an OpenAPI 3.1 document
-  of 17 paths, 20 operations and 72 schemas served from mediaruntime.com, with two credential types —
-  a production API key and a separate sandbox token, so callers can exercise the surface without touching
-  production.
+
+image: https://mediaruntime.com/og-image.png
+
+description: 'MediaRuntime provides a comprehensive media-processing platform offering video transcoding, audio extraction, content moderation,
+  and analytics through a unified API. It supports production and sandbox environments, enabling developers to integrate media workflows, manage
+  processing recipes, and receive webhook notifications for job completions. The service is built for scalability and security, catering to enterprises
+  and developers needing reliable media handling.
+
+  of 17 paths, 20 operations and 72 schemas served from mediaruntime.com, with two credential types — a production API key and a separate sandbox
+  token, so callers can exercise the surface without touching production.'
+
 type: Index
+
 url: https://raw.githubusercontent.com/api-evangelist/mediaruntime/refs/heads/main/apis.yml
+
 deliveryModel:
   model: unknown
   open_source: false
@@ -17,19 +27,107 @@ deliveryModel:
   - openapi
   generated: '2026-08-28'
   method: derived
+
 created: '2026-08-26'
+
 modified: '2026-09-16'
+
 specificationVersion: '0.23'
+
 tags:
 - Media Processing
 - Video
 - Audio
 - Runtime
+- Video Encoding
+- Audio Processing
+- Image Processing
+- Content Moderation
+- Media API
+- Asynchronous Processing
+
 tags_raw:
 - media processing
 - video
 - audio
 - runtime
+
+maintainers:
+- FN: MediaRuntime
+  email: support@mediaruntime.com
+  url: https://mediaruntime.com
+
+common:
+- type: Sandbox
+  url: https://mediaruntime.com/sandbox
+- type: AgenticAccess
+  url: agentic-access/mediaruntime-agentic-access.yml
+- type: Spectral
+  url: rules/mediaruntime-rules.yml
+- type: JSONLD
+  url: json-ld/mediaruntime-context.jsonld
+- type: Vocabulary
+  url: vocabulary/mediaruntime-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Webhooks
+  url: asyncapi/mediaruntime-webhooks.yml
+- type: DataModel
+  url: data-model/mediaruntime-data-model.yml
+- type: CLI
+  url: cli/mediaruntime-cli.yml
+- type: Idempotency
+  url: conventions/mediaruntime-conventions.yml
+- type: Conventions
+  url: conventions/mediaruntime-conventions.yml
+- type: ErrorCatalog
+  url: errors/mediaruntime-problem-types.yml
+- type: Conformance
+  url: conformance/mediaruntime-conformance.yml
+- type: LLMsTxt
+  url: llms/mediaruntime-llms.txt
+- type: Hosts
+  url: hosts/mediaruntime-hosts.yml
+- type: Vendors
+  url: vendors/mediaruntime-vendors.yml
+- type: SDKs
+  url: packages/mediaruntime-packages.yml
+- type: Packages
+  url: packages/mediaruntime-packages.yml
+- type: GitHubOrganization
+  url: https://github.com/ericel
+- type: Documentation
+  url: https://mediaruntime.com/en/docs
+- type: APIReference
+  url: https://mediaruntime.com/en/docs/
+- type: Authentication
+  url: authentication/mediaruntime-authentication.yml
+- type: DomainSecurity
+  url: security/mediaruntime-domain-security.yml
+- type: Pricing
+  url: https://mediaruntime.com/en/pricing/
+- type: Plans
+  url: plans/mediaruntime-plans-pricing.yml
+- type: CapabilityMap
+  url: capabilities/mediaruntime-capability-edges.yml
+  name: MediaRuntime Business Capability Map
+- type: Website
+  url: https://mediaruntime.com
+- type: DeveloperPortal
+  url: https://mediaruntime.com/docs
+- type: LLMs
+  url: https://mediaruntime.com/llms.txt
+- type: Docs
+  url: https://mediaruntime.com/docs
+- type: Pricing
+  url: https://mediaruntime.com/en/pricing/
+- type: Blog
+  url: https://mediaruntime.com/blog
+- type: Contact
+  url: https://mediaruntime.com/contact
+- type: Legal
+  url: https://mediaruntime.com/legal
+
 apis:
 - aid: mediaruntime:mediaruntime-discovery-api
   name: MediaRuntime Discovery API
@@ -44,6 +142,8 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-capabilities-response-schema.json
 - aid: mediaruntime:mediaruntime-job-results-api
   name: MediaRuntime Job Results API
   description: Redeem completed job output bundles.
@@ -72,6 +172,14 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-create-job-request-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-job-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-job-response-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-job-list-response-schema.json
 - aid: mediaruntime:mediaruntime-media-analysis-api
   name: MediaRuntime Media Analysis API
   description: Read analysis reports produced by requested presets.
@@ -85,6 +193,8 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-job-report-response-schema.json
 - aid: mediaruntime:mediaruntime-mediaruntime-api-api
   name: MediaRuntime API
   description: The MediaRuntime API API from MediaRuntime — 0 operation(s) for mediaruntime api.
@@ -111,6 +221,8 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-job-moderation-info-schema.json
 - aid: mediaruntime:mediaruntime-recipes-api
   name: MediaRuntime Recipes API
   description: Manage immutable, account-scoped processing recipes.
@@ -124,6 +236,16 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-hosted-recipe-response-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-recipe-version-create-request-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-recipe-create-request-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-archived-recipe-response-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-hosted-recipe-list-response-schema.json
 - aid: mediaruntime:mediaruntime-sandbox-api
   name: MediaRuntime Sandbox API
   description: Create a bounded public-sandbox session.
@@ -137,6 +259,8 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-sandbox-session-response-schema.json
 - aid: mediaruntime:mediaruntime-uploads-api
   name: MediaRuntime Uploads API
   description: Optional upload targets for local media bytes.
@@ -150,6 +274,10 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-upload-url-response-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-upload-url-request-schema.json
 - aid: mediaruntime:mediaruntime-watermarks-api
   name: MediaRuntime Watermarks API
   description: Configure the account watermark logo.
@@ -163,6 +291,14 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
+  - type: JSONSchema
+    url: json-schema/mediaruntime-watermark-logo-confirm-request-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-watermark-logo-response-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-upload-url-response-schema.json
+  - type: JSONSchema
+    url: json-schema/mediaruntime-watermark-logo-upload-url-request-schema.json
 - aid: mediaruntime:mediaruntime-webhooks-api
   name: MediaRuntime Webhooks API
   description: Retry delivery of signed terminal events.
@@ -178,44 +314,59 @@ apis:
     url: https://mediaruntime.com/openapi.json
   - type: Documentation
     url: https://mediaruntime.com/docs
-common:
-- type: Pricing
-  url: https://mediaruntime.com/en/pricing/
-- type: Plans
-  url: plans/mediaruntime-plans-pricing.yml
-- type: CapabilityMap
-  url: capabilities/mediaruntime-capability-edges.yml
-  name: MediaRuntime Business Capability Map
-- type: Website
-  url: https://mediaruntime.com
-- type: DeveloperPortal
-  url: https://mediaruntime.com/docs
-maintainers:
-- FN: MediaRuntime
-  email: support@mediaruntime.com
-  url: https://mediaruntime.com
+  - type: JSONSchema
+    url: json-schema/mediaruntime-webhook-retry-response-schema.json
+- aid: mediaruntime:mediaruntime-marketplace-api
+  name: MediaRuntime Marketplace API
+  description: Browse MediaRuntime character packs and their public previews.
+  humanURL: https://mediaruntime.com/docs
+  tags:
+  - Marketplace
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-marketplace-api-openapi.yml
+- aid: mediaruntime:mediaruntime-sticker-collections-api
+  name: MediaRuntime Sticker Collections API
+  description: Configure which activated character packs each application exposes.
+  humanURL: https://mediaruntime.com/docs
+  tags:
+  - Sticker Collections
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-sticker-collections-api-openapi.yml
+- aid: mediaruntime:mediaruntime-sticker-runtime-api
+  name: MediaRuntime Sticker Runtime API
+  description: Search, inspect, and resolve collection-scoped hosted stickers.
+  humanURL: https://mediaruntime.com/docs
+  tags:
+  - Sticker Runtime
+  properties:
+  - type: OpenAPI
+    url: openapi/mediaruntime-sticker-runtime-api-openapi.yml
 x-provenance:
   added: '2026-08-26'
   method: searched
   source: https://mediaruntime.com/openapi.json
-  note: 'Submitted via apis.io/add on 2026-08-26 and auto-published by the gate at rating 63 (strong).
-    THE GATE SCORED IT 63 ON A CATCH-ALL. The submitted APIs.json at https://mediaruntime.com/apis.json
-    returns HTTP 200, but it is byte-identical to an invented control path — the host answers any unknown
-    URL with the same page. /llms.txt is the same page again. Neither document exists. The listing stands
-    because /openapi.json IS real: distinct from the catch-all, valid JSON, OpenAPI 3.1 with 17 paths,
-    20 operations and 72 schemas, declaring both a ProductionApiKey and a SandboxToken. Only the declared
-    pointers were false, not the API. Same shape as SendHQ on 2026-08-24, and the same lesson: on a soft-200
-    host a 200 proves nothing, so every artifact here was size- and content-checked against the control
-    before being recorded. Nothing is recorded for apis.json or llms.txt, because recording a placeholder
-    page under those types would credit machine-readable artifacts that do not exist.'
+  note: 'Submitted via apis.io/add on 2026-08-26 and auto-published by the gate at rating 63 (strong). THE GATE SCORED IT 63 ON A CATCH-ALL. The
+    submitted APIs.json at https://mediaruntime.com/apis.json returns HTTP 200, but it is byte-identical to an invented control path — the host
+    answers any unknown URL with the same page. /llms.txt is the same page again. Neither document exists. The listing stands because /openapi.json
+    IS real: distinct from the catch-all, valid JSON, OpenAPI 3.1 with 17 paths, 20 operations and 72 schemas, declaring both a ProductionApiKey
+    and a SandboxToken. Only the declared pointers were false, not the API. Same shape as SendHQ on 2026-08-24, and the same lesson: on a soft-200
+    host a 200 proves nothing, so every artifact here was size- and content-checked against the control before being recorded. Nothing is recorded
+    for apis.json or llms.txt, because recording a placeholder page under those types would credit machine-readable artifacts that do not exist.'
+
 x-correction-request:
   requested: '2026-09-28'
   source:
   - https://github.com/api-evangelist/mediaruntime/pull/1
-  request: 'Provider PR #1 (ericel, 2026-09-16), verified live 2026-09-28; not merged (it rewrote url, aids and
-    deleted fields). Re-pull the live contract https://mediaruntime.com/openapi.json (33 paths, 41 operations) --
-    the 11 split files on main hold only 17 paths, one empty -- and re-split it. The provider''s https://mediaruntime.com/apis.json
-    lists two products, MediaRuntime Media and MediaRuntime Stickers, both on https://mediaruntime.com/v1: model
-    both, keeping the mediaruntime: aid prefix. Add llms.txt, docs, pricing, sandbox, signup, blog, contact and
-    legal links, and SDKs: npm @mediaruntime/cli and @mediaruntime/node, PyPI mediaruntime, the GitHub quickstarts
-    repo (links in the PR).'
+  request: 'Provider PR #1 (ericel, 2026-09-16), verified live 2026-09-28; not merged (it rewrote url, aids and deleted fields). Re-pull the live
+    contract https://mediaruntime.com/openapi.json (33 paths, 41 operations) -- the 11 split files on main hold only 17 paths, one empty -- and
+    re-split it. The provider''s https://mediaruntime.com/apis.json lists two products, MediaRuntime Media and MediaRuntime Stickers, both on
+    https://mediaruntime.com/v1: model both, keeping the mediaruntime: aid prefix. Add llms.txt, docs, pricing, sandbox, signup, blog, contact
+    and legal links, and SDKs: npm @mediaruntime/cli and @mediaruntime/node, PyPI mediaruntime, the GitHub quickstarts repo (links in the PR).'
+x-enrichment:
+  date: '2026-09-28'
+  status: enriched
+  artifacts_added: 44
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

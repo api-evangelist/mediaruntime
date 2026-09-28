@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mediaruntime/main/json-schema/mediaruntime-job-report-response-schema.json",
+  "title": "JobReportResponse",
+  "description": "Small report envelope shared by the direct analysis-result endpoints.",
+  "x-generated": "2026-09-28",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/mediaruntime-media-analysis-api-openapi.yml#/components/schemas/JobReportResponse",
+  "properties": {
+    "download_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Download Url"
+    },
+    "job_id": {
+      "title": "Job Id",
+      "type": "string"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Note"
+    },
+    "report": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Report"
+    }
+  },
+  "required": [
+    "job_id"
+  ],
+  "type": "object"
+}

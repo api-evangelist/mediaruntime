@@ -1,0 +1,662 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mediaruntime/main/json-schema/mediaruntime-job-status-response-schema.json",
+  "title": "JobStatusResponse",
+  "x-generated": "2026-09-28",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobStatusResponse",
+  "properties": {
+    "billing": {
+      "$ref": "#/$defs/JobBillingInfo"
+    },
+    "bundle": {
+      "$ref": "#/$defs/JobBundleInfo"
+    },
+    "completed_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Completed At"
+    },
+    "created_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Created At"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Error"
+    },
+    "job_id": {
+      "title": "Job Id",
+      "type": "string"
+    },
+    "media": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/JobMediaInfo"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "What the input was, as probed at submit. Null when no probe was stored."
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "description": "The metadata you submitted",
+      "title": "Metadata",
+      "type": "object"
+    },
+    "recipe": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Exact hosted recipe version materialized for this job, when used.",
+      "title": "Recipe"
+    },
+    "started_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Started At"
+    },
+    "status": {
+      "title": "Status",
+      "type": "string"
+    },
+    "tier": {
+      "$ref": "#/$defs/JobTierInfo"
+    },
+    "updated_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Updated At"
+    },
+    "usage": {
+      "$ref": "#/$defs/JobUsageInfo"
+    }
+  },
+  "required": [
+    "job_id",
+    "status",
+    "tier",
+    "usage",
+    "billing",
+    "bundle"
+  ],
+  "type": "object",
+  "$defs": {
+    "JobBillingInfo": {
+      "properties": {
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Currency"
+        },
+        "estimated_amount_cents": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Estimated Amount Cents"
+        },
+        "estimated_units": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Estimated Units"
+        },
+        "final_amount_cents": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Final Amount Cents"
+        },
+        "final_units": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Final Units"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Status"
+        },
+        "unit_price_cents": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit Price Cents"
+        }
+      },
+      "title": "JobBillingInfo",
+      "type": "object"
+    },
+    "JobBundleInfo": {
+      "properties": {
+        "available": {
+          "default": false,
+          "title": "Available",
+          "type": "boolean"
+        },
+        "download_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Job-scoped, expiring download URL. Returned only to the authenticated owner of the job.",
+          "title": "Download Url"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        },
+        "retention_days": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Retention Days"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sha256"
+        },
+        "size_bytes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Size Bytes"
+        }
+      },
+      "title": "JobBundleInfo",
+      "type": "object"
+    },
+    "JobMediaAudioInfo": {
+      "description": "The primary audio stream.",
+      "properties": {
+        "bit_rate": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Bit Rate"
+        },
+        "channels": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Channels"
+        },
+        "codec": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Codec"
+        },
+        "layout": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Channel layout, e.g. stereo or 5.1",
+          "title": "Layout"
+        },
+        "profile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Profile"
+        },
+        "sample_rate_hz": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sample Rate Hz"
+        }
+      },
+      "title": "JobMediaAudioInfo",
+      "type": "object"
+    },
+    "JobMediaInfo": {
+      "description": "What the input actually was, as probed at submit.\n\nThis is the same probe the submit-time compatibility checks read, so it explains\nrejections: an mp3 refused for an image output has no video stream here, and a still\nrefused for frames has no duration.\n\nEvery field is optional. The probe can be partial or absent — an unusual container, a\njob submitted before this data was stored — and a missing field means \"not reported\",\nnever zero.",
+      "properties": {
+        "audio": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JobMediaAudioInfo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "bit_rate": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Overall container bit rate, bits per second",
+          "title": "Bit Rate"
+        },
+        "duration_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Absent for still images, which have no timeline.",
+          "title": "Duration Sec"
+        },
+        "format": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Container format reported by ffprobe",
+          "title": "Format"
+        },
+        "streams": {
+          "$ref": "#/$defs/JobMediaStreamCounts"
+        },
+        "video": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/JobMediaVideoInfo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "JobMediaInfo",
+      "type": "object"
+    },
+    "JobMediaStreamCounts": {
+      "properties": {
+        "audio": {
+          "default": 0,
+          "title": "Audio",
+          "type": "integer"
+        },
+        "other": {
+          "default": 0,
+          "description": "Subtitle, data and attachment streams",
+          "title": "Other",
+          "type": "integer"
+        },
+        "video": {
+          "default": 0,
+          "title": "Video",
+          "type": "integer"
+        }
+      },
+      "title": "JobMediaStreamCounts",
+      "type": "object"
+    },
+    "JobMediaVideoInfo": {
+      "description": "The primary video stream.\n\nwidth/height are DISPLAY dimensions — rotation already applied. A phone clip shot\nportrait is commonly encoded 1920x1080 with rotation_deg=90, and every consumer that\nreads the encoded dimensions instead gets the orientation wrong. encoded_* is kept\nalongside for the cases that genuinely need the pre-rotation values.",
+      "properties": {
+        "bit_rate": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Bit Rate"
+        },
+        "codec": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Codec"
+        },
+        "display_aspect_ratio": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Display Aspect Ratio"
+        },
+        "encoded_height": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Height as stored, before rotation",
+          "title": "Encoded Height"
+        },
+        "encoded_width": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Width as stored, before rotation",
+          "title": "Encoded Width"
+        },
+        "fps": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Fps"
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Display height, after rotation",
+          "title": "Height"
+        },
+        "is_rotated": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Is Rotated"
+        },
+        "orientation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "landscape, portrait or square",
+          "title": "Orientation"
+        },
+        "profile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Profile"
+        },
+        "rotation_deg": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Rotation Deg"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Display width, after rotation",
+          "title": "Width"
+        }
+      },
+      "title": "JobMediaVideoInfo",
+      "type": "object"
+    },
+    "JobTierInfo": {
+      "properties": {
+        "billed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Tier actually charged",
+          "title": "Billed"
+        },
+        "effective": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Tier the job executed on",
+          "title": "Effective"
+        },
+        "reasons": {
+          "description": "Why premium was required, if it was",
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "requested": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Tier of the API key that submitted the job",
+          "title": "Requested"
+        },
+        "required": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Tier the work actually needs",
+          "title": "Required"
+        }
+      },
+      "title": "JobTierInfo",
+      "type": "object"
+    },
+    "JobUsageInfo": {
+      "properties": {
+        "units_total": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Units Total"
+        }
+      },
+      "title": "JobUsageInfo",
+      "type": "object"
+    }
+  }
+}

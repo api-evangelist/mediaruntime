@@ -1,0 +1,50 @@
+# MediaRuntime
+
+> MediaRuntime is an asynchronous media-processing API and hosted sticker runtime for server-side applications.
+
+MediaRuntime processes video, audio, and images through asynchronous jobs. It also provides collection-scoped sticker discovery, stable sticker metadata, and short-lived approved asset delivery. The production API base URL is https://mediaruntime.com.
+
+## Authoritative resources
+
+- [Media API documentation](https://mediaruntime.com/docs): Quickstart, authentication, jobs, presets, webhooks, billing, errors, and endpoint guidance.
+- [Stickers API documentation](https://mediaruntime.com/docs/stickers): Hosted Packs, collections, typeahead, search, sticker identifiers, and asset resolution.
+- [OpenAPI specification](https://mediaruntime.com/openapi.json): Machine-readable HTTP contract for the production API.
+- [API discovery document](https://mediaruntime.com/apis.json): API, documentation, SDK, CLI, and support links.
+- [Runnable quickstarts](https://github.com/ericel/mediaruntime-quickstarts): Node.js, Python, Go, PHP, webhook, and Postman examples.
+
+- [Operations and safe automation](https://mediaruntime.com/docs/operations.md): Throttling, retries, billing, retention, action reversibility, and the job workflow.
+
+## Official developer tools
+
+- [Node.js SDK](https://www.npmjs.com/package/@mediaruntime/node): Install with `npm install @mediaruntime/node`.
+- [Python SDK](https://pypi.org/project/mediaruntime/): Install with `pip install mediaruntime`.
+- [MediaRuntime CLI](https://www.npmjs.com/package/@mediaruntime/cli): Install with `npm install --global @mediaruntime/cli`.
+
+## Media API integration contract
+
+- Send trusted server-to-server requests to `https://mediaruntime.com/v1` with `X-API-Key: $MEDIARUNTIME_API_KEY`.
+- Create an asynchronous job with `POST /v1/jobs`; persist the returned `job_id`.
+- Use polling only for local development and scripts. Production systems should consume signed terminal webhooks configured at the account level.
+- Treat signed upload and download URLs as short-lived credentials. Do not persist or expose them.
+- Use the OpenAPI specification for complete request and response schemas rather than inferring fields from examples.
+
+## Stickers API integration contract
+
+- Activate a Hosted Pack for the workspace, create an application collection, and enable the pack in that collection before runtime discovery.
+- `GET /v1/stickers/typeahead` returns suggestion text. Pass the selected text to `GET /v1/stickers/search` to receive sticker records.
+- Persist `stickerId`, `packId`, and `packVersion`; do not use `semanticId` as a sticker path identifier.
+- Resolve an approved variant with `GET /v1/stickers/{sticker_id}/assets/{variant}` only when it must be rendered because delivery URLs expire.
+- Keep workspace API keys on trusted servers. Browser and mobile clients should use optional short-lived tokens scoped to one collection and explicit runtime permissions.
+
+## Security and operational rules
+
+- Never place API keys, webhook secrets, signed URLs, or private media in source code, browser bundles, prompts, logs, or support messages.
+- Use environment variables or a secret manager and rotate credentials that may have been exposed.
+- Verify webhook signatures against the raw request body before parsing JSON.
+- Honor documented retry guidance, idempotency behavior, rate limits, and `X-Request-Id` correlation values.
+- Consult the canonical documentation and OpenAPI document when an example conflicts with a schema.
+
+## Support
+
+- [Support form](https://mediaruntime.com/contact)
+- Email: support@mediaruntime.com

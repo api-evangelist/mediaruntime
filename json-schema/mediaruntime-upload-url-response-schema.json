@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mediaruntime/main/json-schema/mediaruntime-upload-url-response-schema.json",
+  "title": "UploadUrlResponse",
+  "x-generated": "2026-09-28",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/mediaruntime-uploads-api-openapi.yml#/components/schemas/UploadUrlResponse",
+  "properties": {
+    "file_uri": {
+      "title": "File Uri",
+      "type": "string"
+    },
+    "upload_headers": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Upload Headers",
+      "type": "object"
+    },
+    "upload_url": {
+      "title": "Upload Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "upload_url",
+    "file_uri"
+  ],
+  "type": "object"
+}

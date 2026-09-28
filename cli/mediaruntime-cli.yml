@@ -1,0 +1,50 @@
+generated: '2026-09-28'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://www.npmjs.com/package/@mediaruntime/node
+sources:
+- https://www.npmjs.com/package/@mediaruntime/node
+- https://www.npmjs.com/package/@mediaruntime/cli
+install:
+- method: npm
+  command: npm install --global @mediaruntime/cli
+commands:
+- group: run
+  commands:
+  - mediaruntime run <source> --output <alias> [--no-webhook] [--wait] [--download <file>]
+  - mediaruntime run <source> --preset <preset-id> [--download <file>]
+  - mediaruntime run <source> --animation-width <num> --animation-fps <num> --animation-duration <num> --animation-loop <num> --animation-quality
+    <num> [--wait] [--download <file>]
+  - mediaruntime run <source> --placeholder-max-dimension <num> --placeholder-time <num> --lqip-quality <num> --lqip-max-bytes <num> [--wait]
+    [--download <file>]
+  - mediaruntime run <source> --contact-columns <num> --contact-rows <num> --contact-tile-width <num> --contact-tile-height <num> --contact-interval
+    <num> --contact-max-sheets <num> --contact-format <fmt> --contact-quality <num> [--wait] [--download <file>]
+  - mediaruntime run <source> --image-width <num> --image-height <num> --image-mode <mode> --image-format <fmt> --image-quality <num> --image-max-bytes
+    <num> --image-min-quality <num> [--wait] [--download <file>]
+  - mediaruntime run <source> --privacy-detector <detector> [--privacy-style <style>] [--privacy-failure-mode <mode>] [--wait] [--download <file>]
+- group: jobs
+  commands:
+  - mediaruntime jobs get <job-id>
+- group: capabilities
+  commands:
+  - mediaruntime capabilities
+- group: presets
+  commands:
+  - mediaruntime presets list
+  - mediaruntime presets list --json
+- group: recipes
+  commands:
+  - mediaruntime recipes list
+  - mediaruntime recipes get <name> --version <num>
+  - mediaruntime recipes create --file <path>
+  - mediaruntime recipes version <name>
+- group: auth
+  commands:
+  - mediaruntime login
+  - mediaruntime auth status
+  - mediaruntime logout
+- group: version
+  commands:
+  - mediaruntime --version
+binary: mediaruntime
+docs: https://www.npmjs.com/package/@mediaruntime/node

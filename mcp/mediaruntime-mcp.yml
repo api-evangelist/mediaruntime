@@ -1,0 +1,10 @@
+generated: '2026-09-28'
+method: derived
+source: openapi/openapi.json
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived

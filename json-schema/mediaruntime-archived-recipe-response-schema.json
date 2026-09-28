@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mediaruntime/main/json-schema/mediaruntime-archived-recipe-response-schema.json",
+  "title": "ArchivedRecipeResponse",
+  "x-generated": "2026-09-28",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/mediaruntime-recipes-api-openapi.yml#/components/schemas/ArchivedRecipeResponse",
+  "properties": {
+    "latest_version": {
+      "title": "Latest Version",
+      "type": "integer"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "status": {
+      "const": "archived",
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "status",
+    "latest_version"
+  ],
+  "type": "object"
+}

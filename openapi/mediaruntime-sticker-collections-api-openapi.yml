@@ -1,0 +1,644 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@mediaruntime.com
+    name: MediaRuntime support
+    url: https://mediaruntime.com/contact
+  description: Production API for asynchronous video, audio, and image processing, plus collection-scoped sticker discovery and approved asset delivery. See https://mediaruntime.com/docs for media workflows and https://mediaruntime.com/docs/stickers for the Stickers API.
+  termsOfService: https://mediaruntime.com/legal#terms
+  title: MediaRuntime Sticker Collections API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Configure which activated character packs each application exposes.
+  name: Sticker Collections
+paths:
+  /v1/sticker-collections:
+    get:
+      description: Lists application collections owned by the authenticated workspace, including packs currently enabled for new use.
+      operationId: listStickerCollections
+      parameters:
+      - in: query
+        name: include_archived
+        required: false
+        schema:
+          default: false
+          title: Include Archived
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollectionListResponse'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: List sticker collections
+      tags:
+      - Sticker Collections
+    post:
+      description: Creates non-billable application configuration. The collection begins empty and does not activate or purchase a pack.
+      operationId: createStickerCollection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StickerCollectionCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollection'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Create a sticker collection
+      tags:
+      - Sticker Collections
+  /v1/sticker-collections/{collection_id}:
+    delete:
+      description: Stops new collection use while preserving binding history required by historical sticker references.
+      operationId: archiveStickerCollection
+      parameters:
+      - in: path
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollection'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Archive a sticker collection
+      tags:
+      - Sticker Collections
+    get:
+      description: Returns one workspace-owned collection and the activated packs enabled for new use.
+      operationId: getStickerCollection
+      parameters:
+      - in: path
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollection'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Get a sticker collection
+      tags:
+      - Sticker Collections
+    patch:
+      description: Renames, describes, archives, or restores a collection without changing hosted-pack billing.
+      operationId: updateStickerCollection
+      parameters:
+      - in: path
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StickerCollectionUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollection'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Update a sticker collection
+      tags:
+      - Sticker Collections
+  /v1/sticker-collections/{collection_id}/packs:
+    get:
+      description: Lists enabled and disabled pack-binding history for one collection.
+      operationId: listStickerCollectionPackBindings
+      parameters:
+      - in: path
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollectionPackBindingListResponse'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: List collection pack bindings
+      tags:
+      - Sticker Collections
+    post:
+      description: Enables an existing workspace pack activation in one collection without another charge.
+      operationId: enableStickerCollectionActivation
+      parameters:
+      - in: path
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StickerCollectionPackRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollectionPackBinding'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Enable an activated pack
+      tags:
+      - Sticker Collections
+  /v1/sticker-collections/{collection_id}/packs/{pack_id}:
+    delete:
+      description: Removes a pack from new collection discovery while preserving exact historical asset resolution.
+      operationId: disableStickerCollectionPack
+      parameters:
+      - in: path
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      - in: path
+        name: pack_id
+        required: true
+        schema:
+          maxLength: 160
+          minLength: 2
+          title: Pack Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollectionPackBinding'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Disable a pack in a collection
+      tags:
+      - Sticker Collections
+    put:
+      description: Enables an already-activated pack for new use in one collection. This configuration action is non-billable.
+      operationId: enableStickerCollectionPack
+      parameters:
+      - in: path
+        name: collection_id
+        required: true
+        schema:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+      - in: path
+        name: pack_id
+        required: true
+        schema:
+          maxLength: 160
+          minLength: 2
+          title: Pack Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StickerCollectionPackBinding'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Enable a pack in a collection
+      tags:
+      - Sticker Collections
+components:
+  schemas:
+    StickerCollectionUpdate:
+      description: Update reversible collection metadata or archive state.
+      properties:
+        description:
+          anyOf:
+          - maxLength: 500
+            type: string
+          - type: 'null'
+          title: Description
+        name:
+          anyOf:
+          - maxLength: 80
+            minLength: 1
+            type: string
+          - type: 'null'
+          title: Name
+        status:
+          anyOf:
+          - enum:
+            - active
+            - archived
+            type: string
+          - type: 'null'
+          title: Status
+      title: StickerCollectionUpdate
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    StickerCollection:
+      description: Expose enabled packs while disabled binding history remains server-owned.
+      properties:
+        archived_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          title: Archived At
+        collection_id:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        description:
+          default: ''
+          title: Description
+          type: string
+        name:
+          title: Name
+          type: string
+        packs:
+          items:
+            $ref: '#/components/schemas/StickerCollectionPackBinding'
+          title: Packs
+          type: array
+        status:
+          enum:
+          - active
+          - archived
+          title: Status
+          type: string
+        updated_at:
+          format: date-time
+          title: Updated At
+          type: string
+        workspace_id:
+          title: Workspace Id
+          type: string
+      required:
+      - collection_id
+      - workspace_id
+      - name
+      - status
+      - packs
+      - created_at
+      - updated_at
+      title: StickerCollection
+      type: object
+    StickerCollectionCreate:
+      description: Create one application-facing collection without changing pack billing.
+      properties:
+        description:
+          anyOf:
+          - maxLength: 500
+            type: string
+          - type: 'null'
+          title: Description
+        name:
+          maxLength: 80
+          minLength: 1
+          title: Name
+          type: string
+      required:
+      - name
+      title: StickerCollectionCreate
+      type: object
+    StickerCollectionPackRequest:
+      description: Bind an already-paid hosted activation without creating another charge.
+      properties:
+        activation_id:
+          pattern: ^rpa_[0-9a-f]{32}$
+          title: Activation Id
+          type: string
+      required:
+      - activation_id
+      title: StickerCollectionPackRequest
+      type: object
+    StickerCollectionPackBindingListResponse:
+      description: Return retained enabled and disabled pack bindings for audit tooling.
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/StickerCollectionPackBinding'
+          title: Items
+          type: array
+        total:
+          minimum: 0.0
+          title: Total
+          type: integer
+      required:
+      - items
+      - total
+      title: StickerCollectionPackBindingListResponse
+      type: object
+    StickerCollectionPackBinding:
+      description: Represent one retained pack binding and its historical-access policy.
+      properties:
+        activation_id:
+          pattern: ^rpa_[0-9a-f]{32}$
+          title: Activation Id
+          type: string
+        binding_id:
+          pattern: ^spb_[0-9a-f]{32}$
+          title: Binding Id
+          type: string
+        collection_id:
+          pattern: ^stc_[0-9a-f]{32}$
+          title: Collection Id
+          type: string
+        disabled_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          title: Disabled At
+        enabled_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          title: Enabled At
+        first_enabled_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          title: First Enabled At
+        historical_access:
+          enum:
+          - preserve
+          - revoke
+          title: Historical Access
+          type: string
+        pack_id:
+          title: Pack Id
+          type: string
+        pack_name:
+          title: Pack Name
+          type: string
+        pack_slug:
+          title: Pack Slug
+          type: string
+        pack_version:
+          title: Pack Version
+          type: string
+        status:
+          enum:
+          - enabled
+          - disabled
+          title: Status
+          type: string
+        updated_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          title: Updated At
+      required:
+      - binding_id
+      - collection_id
+      - activation_id
+      - pack_id
+      - pack_slug
+      - pack_name
+      - pack_version
+      - status
+      - historical_access
+      title: StickerCollectionPackBinding
+      type: object
+    StickerCollectionListResponse:
+      description: Wrap bounded workspace collections for future cursor pagination.
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/StickerCollection'
+          title: Items
+          type: array
+        total:
+          minimum: 0.0
+          title: Total
+          type: integer
+      required:
+      - items
+      - total
+      title: StickerCollectionListResponse
+      type: object
+  headers:
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

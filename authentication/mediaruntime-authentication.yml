@@ -1,0 +1,61 @@
+generated: '2026-09-28'
+method: derived
+source: openapi/mediaruntime-discovery-api-openapi.yml, openapi/mediaruntime-job-results-api-openapi.yml,
+  openapi/mediaruntime-jobs-api-openapi.yml, openapi/mediaruntime-media-analysis-api-openapi.yml,
+  openapi/mediaruntime-mediaruntime-api-api-openapi.yml, openapi/mediaruntime-moderation-api-openapi.yml,
+  openapi/mediaruntime-openapi.json, openapi/mediaruntime-recipes-api-openapi.yml, openapi/mediaruntime-sandbox-api-openapi.yml,
+  openapi/mediaruntime-uploads-api-openapi.yml, openapi/mediaruntime-watermarks-api-openapi.yml,
+  openapi/mediaruntime-webhooks-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: ProductionApiKey
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: MediaRuntime server-side API key. Keep it in a secret manager and never expose
+    it in browser or mobile code.
+  sources:
+  - openapi/mediaruntime-discovery-api-openapi.yml
+  - openapi/mediaruntime-job-results-api-openapi.yml
+  - openapi/mediaruntime-jobs-api-openapi.yml
+  - openapi/mediaruntime-media-analysis-api-openapi.yml
+  - openapi/mediaruntime-mediaruntime-api-api-openapi.yml
+  - openapi/mediaruntime-moderation-api-openapi.yml
+  - openapi/mediaruntime-openapi.json
+  - openapi/mediaruntime-recipes-api-openapi.yml
+  - openapi/mediaruntime-sandbox-api-openapi.yml
+  - openapi/mediaruntime-uploads-api-openapi.yml
+  - openapi/mediaruntime-watermarks-api-openapi.yml
+  - openapi/mediaruntime-webhooks-api-openapi.yml
+- name: SandboxToken
+  type: apiKey
+  in: header
+  parameter: X-Sandbox-Token
+  description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox
+    jobs only.
+  sources:
+  - openapi/mediaruntime-discovery-api-openapi.yml
+  - openapi/mediaruntime-job-results-api-openapi.yml
+  - openapi/mediaruntime-jobs-api-openapi.yml
+  - openapi/mediaruntime-media-analysis-api-openapi.yml
+  - openapi/mediaruntime-mediaruntime-api-api-openapi.yml
+  - openapi/mediaruntime-moderation-api-openapi.yml
+  - openapi/mediaruntime-openapi.json
+  - openapi/mediaruntime-recipes-api-openapi.yml
+  - openapi/mediaruntime-sandbox-api-openapi.yml
+  - openapi/mediaruntime-uploads-api-openapi.yml
+  - openapi/mediaruntime-watermarks-api-openapi.yml
+  - openapi/mediaruntime-webhooks-api-openapi.yml
+- name: StickerClientToken
+  type: http
+  scheme: bearer
+  bearerFormat: mrt_v1
+  description: Short-lived token restricted to one sticker collection and an explicit runtime-operation
+    allowlist.
+  sources:
+  - openapi/mediaruntime-openapi.json

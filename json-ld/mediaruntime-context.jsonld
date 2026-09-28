@@ -1,0 +1,1232 @@
+{
+  "@context": {
+    "@vocab": "https://mediaruntime.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "mediaruntime": "https://mediaruntime.com/schema#",
+    "PresetCapability": "mediaruntime:PresetCapability",
+    "artifacts": {
+      "@id": "mediaruntime:artifacts",
+      "@container": "@list"
+    },
+    "base_tier": {
+      "@id": "mediaruntime:base_tier",
+      "@type": "xsd:string"
+    },
+    "codec": {
+      "@id": "mediaruntime:codec"
+    },
+    "container": {
+      "@id": "mediaruntime:container"
+    },
+    "description": {
+      "@id": "mediaruntime:description",
+      "@type": "xsd:string"
+    },
+    "example": {
+      "@id": "mediaruntime:example"
+    },
+    "output_type": {
+      "@id": "mediaruntime:output_type",
+      "@type": "xsd:string"
+    },
+    "parameterized": {
+      "@id": "mediaruntime:parameterized"
+    },
+    "source_kinds": {
+      "@id": "mediaruntime:source_kinds",
+      "@container": "@list"
+    },
+    "OutputAliasCapability": "mediaruntime:OutputAliasCapability",
+    "output": {
+      "@id": "mediaruntime:output"
+    },
+    "preset": {
+      "@id": "mediaruntime:preset",
+      "@type": "xsd:string"
+    },
+    "tier": {
+      "@id": "mediaruntime:tier",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "mediaruntime:type",
+      "@type": "xsd:string"
+    },
+    "CapabilitiesResponse": "mediaruntime:CapabilitiesResponse",
+    "capabilities": {
+      "@id": "mediaruntime:capabilities"
+    },
+    "features": {
+      "@id": "mediaruntime:features"
+    },
+    "notes": {
+      "@id": "mediaruntime:notes",
+      "@container": "@list"
+    },
+    "output_aliases": {
+      "@id": "mediaruntime:output_aliases"
+    },
+    "output_types": {
+      "@id": "mediaruntime:output_types"
+    },
+    "preset_overrides": {
+      "@id": "mediaruntime:preset_overrides"
+    },
+    "preset_requirement_replacements": {
+      "@id": "mediaruntime:preset_requirement_replacements"
+    },
+    "presets": {
+      "@id": "mediaruntime:presets"
+    },
+    "public_presets": {
+      "@id": "mediaruntime:public_presets",
+      "@container": "@list"
+    },
+    "ValidationError": "mediaruntime:ValidationError",
+    "ctx": {
+      "@id": "mediaruntime:ctx"
+    },
+    "input": {
+      "@id": "mediaruntime:input"
+    },
+    "loc": {
+      "@id": "mediaruntime:loc",
+      "@container": "@list"
+    },
+    "msg": {
+      "@id": "mediaruntime:msg",
+      "@type": "xsd:string"
+    },
+    "HTTPValidationError": "mediaruntime:HTTPValidationError",
+    "detail": {
+      "@id": "mediaruntime:detail",
+      "@container": "@list"
+    },
+    "JobUsageInfo": "mediaruntime:JobUsageInfo",
+    "units_total": {
+      "@id": "mediaruntime:units_total"
+    },
+    "ContactSheetFormat": "mediaruntime:ContactSheetFormat",
+    "TranscodeOutput": "mediaruntime:TranscodeOutput",
+    "animation": {
+      "@id": "mediaruntime:animation"
+    },
+    "audio": {
+      "@id": "mediaruntime:audio"
+    },
+    "audiogram": {
+      "@id": "mediaruntime:audiogram"
+    },
+    "contact_sheet": {
+      "@id": "mediaruntime:contact_sheet"
+    },
+    "gif_preview": {
+      "@id": "mediaruntime:gif_preview"
+    },
+    "images": {
+      "@id": "mediaruntime:images"
+    },
+    "path_suffix": {
+      "@id": "mediaruntime:path_suffix"
+    },
+    "placeholders": {
+      "@id": "mediaruntime:placeholders"
+    },
+    "poster_format": {
+      "@id": "mediaruntime:poster_format",
+      "@type": "@id"
+    },
+    "poster_time_sec": {
+      "@id": "mediaruntime:poster_time_sec",
+      "@type": "xsd:decimal"
+    },
+    "privacy_redaction": {
+      "@id": "mediaruntime:privacy_redaction"
+    },
+    "remove_bg": {
+      "@id": "mediaruntime:remove_bg",
+      "@type": "xsd:boolean"
+    },
+    "smart_crop": {
+      "@id": "mediaruntime:smart_crop",
+      "@type": "xsd:boolean"
+    },
+    "subtitles": {
+      "@id": "mediaruntime:subtitles"
+    },
+    "thumbnails": {
+      "@id": "mediaruntime:thumbnails"
+    },
+    "video": {
+      "@id": "mediaruntime:video"
+    },
+    "ModerationCheck": "mediaruntime:ModerationCheck",
+    "ImageRendition": "mediaruntime:ImageRendition",
+    "format": {
+      "@id": "mediaruntime:format",
+      "@type": "@id"
+    },
+    "height": {
+      "@id": "mediaruntime:height",
+      "@type": "xsd:integer"
+    },
+    "max_bytes": {
+      "@id": "mediaruntime:max_bytes"
+    },
+    "min_quality": {
+      "@id": "mediaruntime:min_quality",
+      "@type": "xsd:integer"
+    },
+    "mode": {
+      "@id": "mediaruntime:mode",
+      "@type": "xsd:string"
+    },
+    "quality": {
+      "@id": "mediaruntime:quality",
+      "@type": "xsd:integer"
+    },
+    "width": {
+      "@id": "mediaruntime:width",
+      "@type": "xsd:integer"
+    },
+    "JobListResponse": "mediaruntime:JobListResponse",
+    "jobs": {
+      "@id": "mediaruntime:jobs",
+      "@container": "@list"
+    },
+    "next_cursor": {
+      "@id": "mediaruntime:next_cursor"
+    },
+    "SourceUrl": "mediaruntime:SourceUrl",
+    "url": {
+      "@id": "mediaruntime:url",
+      "@type": "xsd:string"
+    },
+    "AnimationConfig": "mediaruntime:AnimationConfig",
+    "duration": {
+      "@id": "mediaruntime:duration",
+      "@type": "xsd:decimal"
+    },
+    "fps": {
+      "@id": "mediaruntime:fps",
+      "@type": "xsd:decimal"
+    },
+    "loop": {
+      "@id": "mediaruntime:loop",
+      "@type": "xsd:integer"
+    },
+    "start_time": {
+      "@id": "mediaruntime:start_time",
+      "@type": "xsd:decimal"
+    },
+    "AudiogramCaptionPosition": "mediaruntime:AudiogramCaptionPosition",
+    "ModerationConfig": "mediaruntime:ModerationConfig",
+    "checks": {
+      "@id": "mediaruntime:checks",
+      "@container": "@list"
+    },
+    "enabled": {
+      "@id": "mediaruntime:enabled",
+      "@type": "xsd:boolean"
+    },
+    "ContactSheetConfig": "mediaruntime:ContactSheetConfig",
+    "columns": {
+      "@id": "mediaruntime:columns",
+      "@type": "xsd:integer"
+    },
+    "duration_sec": {
+      "@id": "mediaruntime:duration_sec",
+      "@type": "xsd:decimal"
+    },
+    "interval_sec": {
+      "@id": "mediaruntime:interval_sec",
+      "@type": "xsd:decimal"
+    },
+    "max_sheets": {
+      "@id": "mediaruntime:max_sheets",
+      "@type": "xsd:integer"
+    },
+    "rows": {
+      "@id": "mediaruntime:rows",
+      "@type": "xsd:integer"
+    },
+    "start_time_sec": {
+      "@id": "mediaruntime:start_time_sec",
+      "@type": "xsd:decimal"
+    },
+    "tile_height": {
+      "@id": "mediaruntime:tile_height",
+      "@type": "xsd:integer"
+    },
+    "tile_width": {
+      "@id": "mediaruntime:tile_width",
+      "@type": "xsd:integer"
+    },
+    "OutputType": "mediaruntime:OutputType",
+    "AudiogramConfig": "mediaruntime:AudiogramConfig",
+    "artwork_fit": {
+      "@id": "mediaruntime:artwork_fit",
+      "@type": "@id"
+    },
+    "artwork_source": {
+      "@id": "mediaruntime:artwork_source",
+      "@type": "xsd:string"
+    },
+    "background_color": {
+      "@id": "mediaruntime:background_color",
+      "@type": "xsd:string"
+    },
+    "burn_captions": {
+      "@id": "mediaruntime:burn_captions",
+      "@type": "xsd:boolean"
+    },
+    "caption_font_scale": {
+      "@id": "mediaruntime:caption_font_scale",
+      "@type": "xsd:decimal"
+    },
+    "caption_position": {
+      "@id": "mediaruntime:caption_position",
+      "@type": "@id"
+    },
+    "captions_source": {
+      "@id": "mediaruntime:captions_source"
+    },
+    "layout": {
+      "@id": "mediaruntime:layout",
+      "@type": "@id"
+    },
+    "loudness_target_lufs": {
+      "@id": "mediaruntime:loudness_target_lufs",
+      "@type": "xsd:decimal"
+    },
+    "normalize_audio": {
+      "@id": "mediaruntime:normalize_audio",
+      "@type": "xsd:boolean"
+    },
+    "waveform_color": {
+      "@id": "mediaruntime:waveform_color",
+      "@type": "xsd:string"
+    },
+    "waveform_gain": {
+      "@id": "mediaruntime:waveform_gain",
+      "@type": "xsd:decimal"
+    },
+    "PrivacyFailureMode": "mediaruntime:PrivacyFailureMode",
+    "JobMediaAudioInfo": "mediaruntime:JobMediaAudioInfo",
+    "bit_rate": {
+      "@id": "mediaruntime:bit_rate"
+    },
+    "channels": {
+      "@id": "mediaruntime:channels"
+    },
+    "profile": {
+      "@id": "mediaruntime:profile"
+    },
+    "sample_rate_hz": {
+      "@id": "mediaruntime:sample_rate_hz"
+    },
+    "PrivacyRedactionStyle": "mediaruntime:PrivacyRedactionStyle",
+    "AudioOptions": "mediaruntime:AudioOptions",
+    "bitrate_bps": {
+      "@id": "mediaruntime:bitrate_bps",
+      "@type": "xsd:integer"
+    },
+    "JobMediaStreamCounts": "mediaruntime:JobMediaStreamCounts",
+    "other": {
+      "@id": "mediaruntime:other",
+      "@type": "xsd:integer"
+    },
+    "AudiogramLayout": "mediaruntime:AudiogramLayout",
+    "JobBundleInfo": "mediaruntime:JobBundleInfo",
+    "available": {
+      "@id": "mediaruntime:available",
+      "@type": "xsd:boolean"
+    },
+    "download_url": {
+      "@id": "mediaruntime:download_url"
+    },
+    "expires_at": {
+      "@id": "mediaruntime:expires_at"
+    },
+    "retention_days": {
+      "@id": "mediaruntime:retention_days"
+    },
+    "sha256": {
+      "@id": "mediaruntime:sha256"
+    },
+    "size_bytes": {
+      "@id": "mediaruntime:size_bytes"
+    },
+    "ImageFormat": "mediaruntime:ImageFormat",
+    "JobTierInfo": "mediaruntime:JobTierInfo",
+    "billed": {
+      "@id": "mediaruntime:billed"
+    },
+    "effective": {
+      "@id": "mediaruntime:effective"
+    },
+    "reasons": {
+      "@id": "mediaruntime:reasons",
+      "@container": "@list"
+    },
+    "requested": {
+      "@id": "mediaruntime:requested"
+    },
+    "required": {
+      "@id": "mediaruntime:required"
+    },
+    "PrivacyDetector": "mediaruntime:PrivacyDetector",
+    "ThumbnailConfig": "mediaruntime:ThumbnailConfig",
+    "cols": {
+      "@id": "mediaruntime:cols",
+      "@type": "xsd:integer"
+    },
+    "JobSummary": "mediaruntime:JobSummary",
+    "amount_cents": {
+      "@id": "mediaruntime:amount_cents"
+    },
+    "bundle_available": {
+      "@id": "mediaruntime:bundle_available",
+      "@type": "xsd:boolean"
+    },
+    "created_at": {
+      "@id": "mediaruntime:created_at"
+    },
+    "currency": {
+      "@id": "mediaruntime:currency"
+    },
+    "job_id": {
+      "@id": "mediaruntime:job_id",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "mediaruntime:status",
+      "@type": "xsd:string"
+    },
+    "tier_billed": {
+      "@id": "mediaruntime:tier_billed"
+    },
+    "updated_at": {
+      "@id": "mediaruntime:updated_at"
+    },
+    "PlaceholderConfig": "mediaruntime:PlaceholderConfig",
+    "lqip_max_bytes": {
+      "@id": "mediaruntime:lqip_max_bytes",
+      "@type": "xsd:integer"
+    },
+    "lqip_quality": {
+      "@id": "mediaruntime:lqip_quality",
+      "@type": "xsd:integer"
+    },
+    "max_dimension": {
+      "@id": "mediaruntime:max_dimension",
+      "@type": "xsd:integer"
+    },
+    "source_time_sec": {
+      "@id": "mediaruntime:source_time_sec",
+      "@type": "xsd:decimal"
+    },
+    "JobResponse": "mediaruntime:JobResponse",
+    "outputs": {
+      "@id": "mediaruntime:outputs",
+      "@container": "@list"
+    },
+    "recipe": {
+      "@id": "mediaruntime:recipe"
+    },
+    "required_tier": {
+      "@id": "mediaruntime:required_tier"
+    },
+    "CreateJobRequest": "mediaruntime:CreateJobRequest",
+    "file_url": {
+      "@id": "mediaruntime:file_url"
+    },
+    "inputs": {
+      "@id": "mediaruntime:inputs"
+    },
+    "metadata": {
+      "@id": "mediaruntime:metadata"
+    },
+    "moderation": {
+      "@id": "mediaruntime:moderation"
+    },
+    "source": {
+      "@id": "mediaruntime:source"
+    },
+    "watermark": {
+      "@id": "mediaruntime:watermark"
+    },
+    "JobMediaInfo": "mediaruntime:JobMediaInfo",
+    "streams": {
+      "@id": "mediaruntime:streams",
+      "@type": "@id"
+    },
+    "WatermarkConfig": "mediaruntime:WatermarkConfig",
+    "AudiogramArtworkFit": "mediaruntime:AudiogramArtworkFit",
+    "JobMediaVideoInfo": "mediaruntime:JobMediaVideoInfo",
+    "display_aspect_ratio": {
+      "@id": "mediaruntime:display_aspect_ratio"
+    },
+    "encoded_height": {
+      "@id": "mediaruntime:encoded_height"
+    },
+    "encoded_width": {
+      "@id": "mediaruntime:encoded_width"
+    },
+    "is_rotated": {
+      "@id": "mediaruntime:is_rotated"
+    },
+    "orientation": {
+      "@id": "mediaruntime:orientation"
+    },
+    "rotation_deg": {
+      "@id": "mediaruntime:rotation_deg"
+    },
+    "SubtitleFormat": "mediaruntime:SubtitleFormat",
+    "SubtitleConfig": "mediaruntime:SubtitleConfig",
+    "languages": {
+      "@id": "mediaruntime:languages",
+      "@container": "@list"
+    },
+    "max_audio_minutes": {
+      "@id": "mediaruntime:max_audio_minutes",
+      "@type": "xsd:integer"
+    },
+    "model": {
+      "@id": "mediaruntime:model",
+      "@type": "xsd:string"
+    },
+    "translate_to_english": {
+      "@id": "mediaruntime:translate_to_english",
+      "@type": "xsd:boolean"
+    },
+    "JobInput": "mediaruntime:JobInput",
+    "input_id": {
+      "@id": "mediaruntime:input_id"
+    },
+    "JobBillingInfo": "mediaruntime:JobBillingInfo",
+    "estimated_amount_cents": {
+      "@id": "mediaruntime:estimated_amount_cents"
+    },
+    "estimated_units": {
+      "@id": "mediaruntime:estimated_units"
+    },
+    "final_amount_cents": {
+      "@id": "mediaruntime:final_amount_cents"
+    },
+    "final_units": {
+      "@id": "mediaruntime:final_units"
+    },
+    "unit_price_cents": {
+      "@id": "mediaruntime:unit_price_cents"
+    },
+    "JobStatusResponse": "mediaruntime:JobStatusResponse",
+    "billing": {
+      "@id": "mediaruntime:billing",
+      "@type": "@id"
+    },
+    "bundle": {
+      "@id": "mediaruntime:bundle",
+      "@type": "@id"
+    },
+    "completed_at": {
+      "@id": "mediaruntime:completed_at"
+    },
+    "error": {
+      "@id": "mediaruntime:error"
+    },
+    "media": {
+      "@id": "mediaruntime:media"
+    },
+    "started_at": {
+      "@id": "mediaruntime:started_at"
+    },
+    "usage": {
+      "@id": "mediaruntime:usage",
+      "@type": "@id"
+    },
+    "ModerationMode": "mediaruntime:ModerationMode",
+    "VideoOptions": "mediaruntime:VideoOptions",
+    "two_pass": {
+      "@id": "mediaruntime:two_pass",
+      "@type": "xsd:boolean"
+    },
+    "GifPreviewConfig": "mediaruntime:GifPreviewConfig",
+    "PrivacyRedactionConfig": "mediaruntime:PrivacyRedactionConfig",
+    "box_padding_ratio": {
+      "@id": "mediaruntime:box_padding_ratio",
+      "@type": "xsd:decimal"
+    },
+    "detectors": {
+      "@id": "mediaruntime:detectors",
+      "@container": "@list"
+    },
+    "failure_mode": {
+      "@id": "mediaruntime:failure_mode",
+      "@type": "@id"
+    },
+    "include_debug_observations": {
+      "@id": "mediaruntime:include_debug_observations",
+      "@type": "xsd:boolean"
+    },
+    "max_frames": {
+      "@id": "mediaruntime:max_frames",
+      "@type": "xsd:integer"
+    },
+    "min_confidence": {
+      "@id": "mediaruntime:min_confidence",
+      "@type": "xsd:decimal"
+    },
+    "pixel_block_size": {
+      "@id": "mediaruntime:pixel_block_size",
+      "@type": "xsd:integer"
+    },
+    "privacy_strength": {
+      "@id": "mediaruntime:privacy_strength",
+      "@type": "xsd:string"
+    },
+    "sample_interval_sec": {
+      "@id": "mediaruntime:sample_interval_sec",
+      "@type": "xsd:decimal"
+    },
+    "solid_color": {
+      "@id": "mediaruntime:solid_color",
+      "@type": "xsd:string"
+    },
+    "style": {
+      "@id": "mediaruntime:style",
+      "@type": "@id"
+    },
+    "JobReportResponse": "mediaruntime:JobReportResponse",
+    "note": {
+      "@id": "mediaruntime:note"
+    },
+    "report": {
+      "@id": "mediaruntime:report"
+    },
+    "WebhookDelivery": "mediaruntime:WebhookDelivery",
+    "deliverables": {
+      "@id": "mediaruntime:deliverables",
+      "@container": "@list"
+    },
+    "expiresAt": {
+      "@id": "mediaruntime:expiresAt",
+      "@type": "xsd:dateTime"
+    },
+    "items": {
+      "@id": "mediaruntime:items",
+      "@container": "@list"
+    },
+    "manifests": {
+      "@id": "mediaruntime:manifests"
+    },
+    "retentionDays": {
+      "@id": "mediaruntime:retentionDays",
+      "@type": "xsd:integer"
+    },
+    "TerminalWebhook": "mediaruntime:TerminalWebhook",
+    "account_id": {
+      "@id": "mediaruntime:account_id",
+      "@type": "xsd:string"
+    },
+    "completedAt": {
+      "@id": "mediaruntime:completedAt",
+      "@type": "xsd:dateTime"
+    },
+    "delivery": {
+      "@id": "mediaruntime:delivery",
+      "@type": "@id"
+    },
+    "event_id": {
+      "@id": "mediaruntime:event_id",
+      "@type": "xsd:string"
+    },
+    "failedAt": {
+      "@id": "mediaruntime:failedAt",
+      "@type": "xsd:dateTime"
+    },
+    "finishedAt": {
+      "@id": "mediaruntime:finishedAt",
+      "@type": "xsd:dateTime"
+    },
+    "meta": {
+      "@id": "mediaruntime:meta"
+    },
+    "rejectedAt": {
+      "@id": "mediaruntime:rejectedAt",
+      "@type": "xsd:dateTime"
+    },
+    "WebhookError": "mediaruntime:WebhookError",
+    "code": {
+      "@id": "mediaruntime:code",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "mediaruntime:message",
+      "@type": "xsd:string"
+    },
+    "WebhookBundleDownload": "mediaruntime:WebhookBundleDownload",
+    "WebhookBundle": "mediaruntime:WebhookBundle",
+    "download": {
+      "@id": "mediaruntime:download",
+      "@type": "@id"
+    },
+    "filename": {
+      "@id": "mediaruntime:filename",
+      "@type": "xsd:string"
+    },
+    "JobModerationCheck": "mediaruntime:JobModerationCheck",
+    "check": {
+      "@id": "mediaruntime:check",
+      "@type": "xsd:string"
+    },
+    "confidence": {
+      "@id": "mediaruntime:confidence"
+    },
+    "decision": {
+      "@id": "mediaruntime:decision"
+    },
+    "review_only": {
+      "@id": "mediaruntime:review_only"
+    },
+    "JobModerationJudge": "mediaruntime:JobModerationJudge",
+    "escalated": {
+      "@id": "mediaruntime:escalated"
+    },
+    "escalated_checks": {
+      "@id": "mediaruntime:escalated_checks",
+      "@container": "@list"
+    },
+    "likelihoods": {
+      "@id": "mediaruntime:likelihoods"
+    },
+    "ok": {
+      "@id": "mediaruntime:ok"
+    },
+    "JobModerationInfo": "mediaruntime:JobModerationInfo",
+    "flagged_checks": {
+      "@id": "mediaruntime:flagged_checks",
+      "@container": "@list"
+    },
+    "judge": {
+      "@id": "mediaruntime:judge"
+    },
+    "media_type": {
+      "@id": "mediaruntime:media_type"
+    },
+    "requested_checks": {
+      "@id": "mediaruntime:requested_checks",
+      "@container": "@list"
+    },
+    "review_only_checks": {
+      "@id": "mediaruntime:review_only_checks",
+      "@container": "@list"
+    },
+    "verdict": {
+      "@id": "mediaruntime:verdict"
+    },
+    "ArchivedRecipeResponse": "mediaruntime:ArchivedRecipeResponse",
+    "latest_version": {
+      "@id": "mediaruntime:latest_version",
+      "@type": "xsd:integer"
+    },
+    "name": {
+      "@id": "mediaruntime:name",
+      "@type": "xsd:string"
+    },
+    "ClipAnalysisConfig": "mediaruntime:ClipAnalysisConfig",
+    "keywords": {
+      "@id": "mediaruntime:keywords",
+      "@container": "@list"
+    },
+    "max_candidates": {
+      "@id": "mediaruntime:max_candidates",
+      "@type": "xsd:integer"
+    },
+    "max_duration_sec": {
+      "@id": "mediaruntime:max_duration_sec",
+      "@type": "xsd:decimal"
+    },
+    "min_duration_sec": {
+      "@id": "mediaruntime:min_duration_sec",
+      "@type": "xsd:decimal"
+    },
+    "transcript": {
+      "@id": "mediaruntime:transcript",
+      "@container": "@list"
+    },
+    "ClipCandidate": "mediaruntime:ClipCandidate",
+    "id": {
+      "@id": "mediaruntime:id"
+    },
+    "score": {
+      "@id": "mediaruntime:score",
+      "@type": "xsd:decimal"
+    },
+    "text": {
+      "@id": "mediaruntime:text",
+      "@type": "xsd:string"
+    },
+    "ClipCandidatesResponse": "mediaruntime:ClipCandidatesResponse",
+    "candidates": {
+      "@id": "mediaruntime:candidates",
+      "@container": "@list"
+    },
+    "empty_reason": {
+      "@id": "mediaruntime:empty_reason"
+    },
+    "method": {
+      "@id": "mediaruntime:method",
+      "@type": "xsd:string"
+    },
+    "schema_version": {
+      "@id": "mediaruntime:schema_version",
+      "@type": "xsd:integer"
+    },
+    "source_duration_sec": {
+      "@id": "mediaruntime:source_duration_sec",
+      "@type": "xsd:decimal"
+    },
+    "transcript_source": {
+      "@id": "mediaruntime:transcript_source",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "mediaruntime:version",
+      "@type": "xsd:integer"
+    },
+    "ClipTranscriptSegment": "mediaruntime:ClipTranscriptSegment",
+    "end_time_sec": {
+      "@id": "mediaruntime:end_time_sec",
+      "@type": "xsd:decimal"
+    },
+    "HostedRecipeListResponse": "mediaruntime:HostedRecipeListResponse",
+    "recipes": {
+      "@id": "mediaruntime:recipes",
+      "@container": "@list"
+    },
+    "HostedRecipeResponse": "mediaruntime:HostedRecipeResponse",
+    "built_in": {
+      "@id": "mediaruntime:built_in",
+      "@type": "xsd:boolean"
+    },
+    "reference": {
+      "@id": "mediaruntime:reference",
+      "@type": "xsd:string"
+    },
+    "template": {
+      "@id": "mediaruntime:template"
+    },
+    "HostedRuntimeAllowance": "mediaruntime:HostedRuntimeAllowance",
+    "delivery_overage_per_gb_cents": {
+      "@id": "mediaruntime:delivery_overage_per_gb_cents",
+      "@type": "xsd:integer"
+    },
+    "included_delivery_gb": {
+      "@id": "mediaruntime:included_delivery_gb",
+      "@type": "xsd:integer"
+    },
+    "included_operations": {
+      "@id": "mediaruntime:included_operations",
+      "@type": "xsd:integer"
+    },
+    "operations_overage_per_100k_cents": {
+      "@id": "mediaruntime:operations_overage_per_100k_cents",
+      "@type": "xsd:integer"
+    },
+    "JobArtifactInfo": "mediaruntime:JobArtifactInfo",
+    "artifact_id": {
+      "@id": "mediaruntime:artifact_id",
+      "@type": "xsd:string"
+    },
+    "bundle_path": {
+      "@id": "mediaruntime:bundle_path",
+      "@type": "xsd:string"
+    },
+    "content_type": {
+      "@id": "mediaruntime:content_type",
+      "@type": "xsd:string"
+    },
+    "kind": {
+      "@id": "mediaruntime:kind",
+      "@type": "xsd:string"
+    },
+    "JobArtifactsResponse": "mediaruntime:JobArtifactsResponse",
+    "MarketplaceCharacter": "mediaruntime:MarketplaceCharacter",
+    "MarketplacePackDetail": "mediaruntime:MarketplacePackDetail",
+    "animated": {
+      "@id": "mediaruntime:animated",
+      "@type": "xsd:boolean"
+    },
+    "asset_count": {
+      "@id": "mediaruntime:asset_count",
+      "@type": "xsd:integer"
+    },
+    "badges": {
+      "@id": "mediaruntime:badges",
+      "@container": "@list"
+    },
+    "categories": {
+      "@id": "mediaruntime:categories",
+      "@container": "@list"
+    },
+    "characters": {
+      "@id": "mediaruntime:characters",
+      "@container": "@list"
+    },
+    "formats": {
+      "@id": "mediaruntime:formats",
+      "@container": "@list"
+    },
+    "hero": {
+      "@id": "mediaruntime:hero",
+      "@type": "@id"
+    },
+    "hosted_runtime": {
+      "@id": "mediaruntime:hosted_runtime",
+      "@type": "@id"
+    },
+    "locales": {
+      "@id": "mediaruntime:locales",
+      "@container": "@list"
+    },
+    "pack_id": {
+      "@id": "mediaruntime:pack_id",
+      "@type": "xsd:string"
+    },
+    "platform_listings": {
+      "@id": "mediaruntime:platform_listings",
+      "@container": "@list"
+    },
+    "previews": {
+      "@id": "mediaruntime:previews",
+      "@container": "@list"
+    },
+    "pricing": {
+      "@id": "mediaruntime:pricing",
+      "@type": "@id"
+    },
+    "short_description": {
+      "@id": "mediaruntime:short_description",
+      "@type": "xsd:string"
+    },
+    "slug": {
+      "@id": "mediaruntime:slug",
+      "@type": "xsd:string"
+    },
+    "tags": {
+      "@id": "mediaruntime:tags",
+      "@container": "@list"
+    },
+    "MarketplacePackListResponse": "mediaruntime:MarketplacePackListResponse",
+    "total": {
+      "@id": "mediaruntime:total",
+      "@type": "xsd:integer"
+    },
+    "MarketplacePackSummary": "mediaruntime:MarketplacePackSummary",
+    "MarketplacePlatformListing": "mediaruntime:MarketplacePlatformListing",
+    "platform": {
+      "@id": "mediaruntime:platform",
+      "@type": "xsd:string"
+    },
+    "platform_product_id": {
+      "@id": "mediaruntime:platform_product_id"
+    },
+    "published_at": {
+      "@id": "mediaruntime:published_at"
+    },
+    "publisher": {
+      "@id": "mediaruntime:publisher"
+    },
+    "store_url": {
+      "@id": "mediaruntime:store_url"
+    },
+    "MarketplacePreviewAtlasCrop": "mediaruntime:MarketplacePreviewAtlasCrop",
+    "x": {
+      "@id": "mediaruntime:x",
+      "@type": "xsd:integer"
+    },
+    "y": {
+      "@id": "mediaruntime:y",
+      "@type": "xsd:integer"
+    },
+    "MarketplacePrice": "mediaruntime:MarketplacePrice",
+    "MarketplacePricing": "mediaruntime:MarketplacePricing",
+    "commercial_download": {
+      "@id": "mediaruntime:commercial_download",
+      "@type": "@id"
+    },
+    "hosted_activation": {
+      "@id": "mediaruntime:hosted_activation",
+      "@type": "@id"
+    },
+    "personal_download": {
+      "@id": "mediaruntime:personal_download",
+      "@type": "@id"
+    },
+    "platform_export": {
+      "@id": "mediaruntime:platform_export",
+      "@type": "@id"
+    },
+    "MarketplaceStickerPreview": "mediaruntime:MarketplaceStickerPreview",
+    "atlas": {
+      "@id": "mediaruntime:atlas"
+    },
+    "category": {
+      "@id": "mediaruntime:category",
+      "@type": "xsd:string"
+    },
+    "emoji": {
+      "@id": "mediaruntime:emoji"
+    },
+    "label": {
+      "@id": "mediaruntime:label",
+      "@type": "xsd:string"
+    },
+    "poster_url": {
+      "@id": "mediaruntime:poster_url",
+      "@type": "xsd:string"
+    },
+    "preview_url": {
+      "@id": "mediaruntime:preview_url",
+      "@type": "xsd:string"
+    },
+    "semantic_id": {
+      "@id": "mediaruntime:semantic_id",
+      "@type": "xsd:string"
+    },
+    "sticker_id": {
+      "@id": "mediaruntime:sticker_id",
+      "@type": "xsd:string"
+    },
+    "RateLimitErrorResponse": "mediaruntime:RateLimitErrorResponse",
+    "request_id": {
+      "@id": "mediaruntime:request_id",
+      "@type": "xsd:string"
+    },
+    "RecipeCreateRequest": "mediaruntime:RecipeCreateRequest",
+    "RecipeTemplate": "mediaruntime:RecipeTemplate",
+    "RecipeVersionCreateRequest": "mediaruntime:RecipeVersionCreateRequest",
+    "expected_latest_version": {
+      "@id": "mediaruntime:expected_latest_version",
+      "@type": "xsd:integer"
+    },
+    "RuntimeCharacter": "mediaruntime:RuntimeCharacter",
+    "RuntimeSticker": "mediaruntime:RuntimeSticker",
+    "pack_slug": {
+      "@id": "mediaruntime:pack_slug",
+      "@type": "xsd:string"
+    },
+    "pack_version": {
+      "@id": "mediaruntime:pack_version",
+      "@type": "xsd:string"
+    },
+    "variants": {
+      "@id": "mediaruntime:variants",
+      "@container": "@list"
+    },
+    "RuntimeStickerPack": "mediaruntime:RuntimeStickerPack",
+    "activation_id": {
+      "@id": "mediaruntime:activation_id",
+      "@type": "xsd:string"
+    },
+    "RuntimeStickerPackListResponse": "mediaruntime:RuntimeStickerPackListResponse",
+    "RuntimeStickerResolution": "mediaruntime:RuntimeStickerResolution",
+    "bytes": {
+      "@id": "mediaruntime:bytes",
+      "@type": "xsd:integer"
+    },
+    "expires_in_seconds": {
+      "@id": "mediaruntime:expires_in_seconds",
+      "@type": "xsd:integer"
+    },
+    "variant": {
+      "@id": "mediaruntime:variant",
+      "@type": "xsd:string"
+    },
+    "RuntimeStickerSearchResponse": "mediaruntime:RuntimeStickerSearchResponse",
+    "query": {
+      "@id": "mediaruntime:query",
+      "@type": "xsd:string"
+    },
+    "RuntimeStickerVariant": "mediaruntime:RuntimeStickerVariant",
+    "state": {
+      "@id": "mediaruntime:state",
+      "@type": "xsd:string"
+    },
+    "RuntimeTypeaheadResponse": "mediaruntime:RuntimeTypeaheadResponse",
+    "locale": {
+      "@id": "mediaruntime:locale",
+      "@type": "xsd:string"
+    },
+    "suggestions": {
+      "@id": "mediaruntime:suggestions",
+      "@container": "@list"
+    },
+    "RuntimeTypeaheadSuggestion": "mediaruntime:RuntimeTypeaheadSuggestion",
+    "RuntimeUsageCurrent": "mediaruntime:RuntimeUsageCurrent",
+    "authorized_delivery_bytes": {
+      "@id": "mediaruntime:authorized_delivery_bytes",
+      "@type": "xsd:integer"
+    },
+    "delivery_utilization_percent": {
+      "@id": "mediaruntime:delivery_utilization_percent",
+      "@type": "xsd:decimal"
+    },
+    "included_delivery_bytes": {
+      "@id": "mediaruntime:included_delivery_bytes",
+      "@type": "xsd:integer"
+    },
+    "month": {
+      "@id": "mediaruntime:month",
+      "@type": "xsd:string"
+    },
+    "operations": {
+      "@id": "mediaruntime:operations",
+      "@type": "xsd:integer"
+    },
+    "operations_utilization_percent": {
+      "@id": "mediaruntime:operations_utilization_percent",
+      "@type": "xsd:decimal"
+    },
+    "overage_charged_cents": {
+      "@id": "mediaruntime:overage_charged_cents",
+      "@type": "xsd:integer"
+    },
+    "remaining_delivery_bytes": {
+      "@id": "mediaruntime:remaining_delivery_bytes",
+      "@type": "xsd:integer"
+    },
+    "remaining_operations": {
+      "@id": "mediaruntime:remaining_operations",
+      "@type": "xsd:integer"
+    },
+    "SandboxSessionResponse": "mediaruntime:SandboxSessionResponse",
+    "account_status": {
+      "@id": "mediaruntime:account_status",
+      "@type": "xsd:string"
+    },
+    "can_run": {
+      "@id": "mediaruntime:can_run",
+      "@type": "xsd:boolean"
+    },
+    "expires_in": {
+      "@id": "mediaruntime:expires_in",
+      "@type": "xsd:integer"
+    },
+    "sandbox_token": {
+      "@id": "mediaruntime:sandbox_token",
+      "@type": "xsd:string"
+    },
+    "StickerClientTokenRequest": "mediaruntime:StickerClientTokenRequest",
+    "collection_id": {
+      "@id": "mediaruntime:collection_id",
+      "@type": "xsd:string"
+    },
+    "scopes": {
+      "@id": "mediaruntime:scopes"
+    },
+    "StickerClientTokenResponse": "mediaruntime:StickerClientTokenResponse",
+    "access_token": {
+      "@id": "mediaruntime:access_token",
+      "@type": "xsd:string"
+    },
+    "token_type": {
+      "@id": "mediaruntime:token_type",
+      "@type": "xsd:string"
+    },
+    "StickerCollection": "mediaruntime:StickerCollection",
+    "archived_at": {
+      "@id": "mediaruntime:archived_at"
+    },
+    "packs": {
+      "@id": "mediaruntime:packs",
+      "@container": "@list"
+    },
+    "workspace_id": {
+      "@id": "mediaruntime:workspace_id",
+      "@type": "xsd:string"
+    },
+    "StickerCollectionCreate": "mediaruntime:StickerCollectionCreate",
+    "StickerCollectionListResponse": "mediaruntime:StickerCollectionListResponse",
+    "StickerCollectionPackBinding": "mediaruntime:StickerCollectionPackBinding",
+    "binding_id": {
+      "@id": "mediaruntime:binding_id",
+      "@type": "xsd:string"
+    },
+    "disabled_at": {
+      "@id": "mediaruntime:disabled_at"
+    },
+    "enabled_at": {
+      "@id": "mediaruntime:enabled_at"
+    },
+    "first_enabled_at": {
+      "@id": "mediaruntime:first_enabled_at"
+    },
+    "historical_access": {
+      "@id": "mediaruntime:historical_access",
+      "@type": "xsd:string"
+    },
+    "pack_name": {
+      "@id": "mediaruntime:pack_name",
+      "@type": "xsd:string"
+    },
+    "StickerCollectionPackBindingListResponse": "mediaruntime:StickerCollectionPackBindingListResponse",
+    "StickerCollectionPackRequest": "mediaruntime:StickerCollectionPackRequest",
+    "StickerCollectionUpdate": "mediaruntime:StickerCollectionUpdate",
+    "UploadUrlRequest": "mediaruntime:UploadUrlRequest",
+    "UploadUrlResponse": "mediaruntime:UploadUrlResponse",
+    "file_uri": {
+      "@id": "mediaruntime:file_uri",
+      "@type": "xsd:string"
+    },
+    "upload_headers": {
+      "@id": "mediaruntime:upload_headers"
+    },
+    "upload_url": {
+      "@id": "mediaruntime:upload_url",
+      "@type": "xsd:string"
+    },
+    "VideoClipConfig": "mediaruntime:VideoClipConfig",
+    "WatermarkLogoConfirmRequest": "mediaruntime:WatermarkLogoConfirmRequest",
+    "opacity_pct": {
+      "@id": "mediaruntime:opacity_pct",
+      "@type": "xsd:integer"
+    },
+    "position": {
+      "@id": "mediaruntime:position",
+      "@type": "xsd:string"
+    },
+    "scale_pct": {
+      "@id": "mediaruntime:scale_pct",
+      "@type": "xsd:integer"
+    },
+    "WatermarkLogoResponse": "mediaruntime:WatermarkLogoResponse",
+    "logo_url": {
+      "@id": "mediaruntime:logo_url",
+      "@type": "xsd:string"
+    },
+    "WatermarkLogoUploadUrlRequest": "mediaruntime:WatermarkLogoUploadUrlRequest",
+    "WebhookRetryResponse": "mediaruntime:WebhookRetryResponse",
+    "attempts": {
+      "@id": "mediaruntime:attempts",
+      "@type": "xsd:integer"
+    },
+    "http_status": {
+      "@id": "mediaruntime:http_status"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "MediaRuntime API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects MediaRuntime's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-09-28) from openapi/mediaruntime-discovery-api-openapi.yml, openapi/mediaruntime-job-results-api-openapi.yml, openapi/mediaruntime-jobs-api-openapi.yml.",
+  "dcterms:created": "2026-09-28",
+  "dcterms:source": [
+    "openapi/mediaruntime-discovery-api-openapi.yml",
+    "openapi/mediaruntime-job-results-api-openapi.yml",
+    "openapi/mediaruntime-jobs-api-openapi.yml",
+    "openapi/mediaruntime-media-analysis-api-openapi.yml",
+    "openapi/mediaruntime-mediaruntime-api-api-openapi.yml"
+  ]
+}

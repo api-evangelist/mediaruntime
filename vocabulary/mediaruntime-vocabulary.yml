@@ -1,0 +1,429 @@
+generated: '2026-09-28'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/mediaruntime-discovery-api-openapi.yml
+- openapi/mediaruntime-job-results-api-openapi.yml
+- openapi/mediaruntime-jobs-api-openapi.yml
+- openapi/mediaruntime-media-analysis-api-openapi.yml
+- openapi/mediaruntime-mediaruntime-api-api-openapi.yml
+vocabulary:
+  name: MediaRuntime Domain Vocabulary
+  description: 'Terms declared by MediaRuntime''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-09-28'
+  terms:
+  - term: Discovery
+    definition: Public capability and contract discovery.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-discovery-api-openapi.yml
+  - term: Job Results
+    definition: Redeem completed job output bundles.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-job-results-api-openapi.yml
+  - term: Jobs
+    definition: Create, list, and inspect asynchronous media jobs.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-jobs-api-openapi.yml
+  - term: Media Analysis
+    definition: Read analysis reports produced by requested presets.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-media-analysis-api-openapi.yml
+  - term: Moderation
+    definition: Read a job's requested moderation verdict.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-moderation-api-openapi.yml
+  - term: Marketplace
+    definition: Browse MediaRuntime character packs and their public previews.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: Sticker Collections
+    definition: Configure which activated character packs each application exposes.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: Sticker Runtime
+    definition: Search, inspect, and resolve collection-scoped hosted stickers.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: Uploads
+    definition: Optional upload targets for local media bytes.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: Webhooks
+    definition: Retry delivery of signed terminal events.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: Recipes
+    definition: Manage immutable, account-scoped processing recipes.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: Watermarks
+    definition: Configure the account watermark logo.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: Sandbox
+    definition: Create a bounded public-sandbox session.
+    tags:
+    - Resource Group
+    source: openapi/mediaruntime-openapi.json
+  - term: PresetCapability
+    definition: One preset entry returned by the public capability catalogue.
+    tags:
+    - Object
+    source: openapi/mediaruntime-discovery-api-openapi.yml#/components/schemas/PresetCapability
+  - term: OutputAliasCapability
+    definition: A stable alias and the complete output recipe it materializes.
+    tags:
+    - Object
+    source: openapi/mediaruntime-discovery-api-openapi.yml#/components/schemas/OutputAliasCapability
+  - term: CapabilitiesResponse
+    definition: 'Object declared by the contract with fields: capabilities, features, notes, output_aliases, output_types, preset_overrides, preset_requirement_replacements,
+      presets, public_presets.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-discovery-api-openapi.yml#/components/schemas/CapabilitiesResponse
+  - term: ValidationError
+    definition: 'Object declared by the contract with fields: ctx, input, loc, msg, type.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-job-results-api-openapi.yml#/components/schemas/ValidationError
+  - term: HTTPValidationError
+    definition: 'Object declared by the contract with fields: detail.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-job-results-api-openapi.yml#/components/schemas/HTTPValidationError
+  - term: JobUsageInfo
+    definition: 'Object declared by the contract with fields: units_total.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobUsageInfo
+  - term: ContactSheetFormat
+    definition: 'Enumeration declared by the contract with values: jpg, png, webp.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ContactSheetFormat
+  - term: TranscodeOutput
+    definition: 'Object declared by the contract with fields: animation, audio, audiogram, contact_sheet, gif_preview, images, path_suffix, placeholders,
+      poster_format, poster_time_sec, preset, privacy_redaction. (6 more)'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/TranscodeOutput
+  - term: ModerationCheck
+    definition: 'Enumeration declared by the contract with values: sexual, violence, dangerous.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ModerationCheck
+  - term: ImageRendition
+    definition: 'Object declared by the contract with fields: format, height, max_bytes, min_quality, mode, quality, width.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ImageRendition
+  - term: JobListResponse
+    definition: 'Object declared by the contract with fields: jobs, next_cursor.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobListResponse
+  - term: SourceUrl
+    definition: The first extensible source object; other source kinds remain reserved.
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/SourceUrl
+  - term: AnimationConfig
+    definition: 'Object declared by the contract with fields: duration, fps, loop, quality, start_time, width.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/AnimationConfig
+  - term: AudiogramCaptionPosition
+    definition: 'Enumeration declared by the contract with values: top, bottom.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/AudiogramCaptionPosition
+  - term: ModerationConfig
+    definition: 'Object declared by the contract with fields: checks, enabled, mode.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ModerationConfig
+  - term: ContactSheetConfig
+    definition: 'Object declared by the contract with fields: columns, duration_sec, format, interval_sec, max_sheets, quality, rows, start_time_sec,
+      tile_height, tile_width.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ContactSheetConfig
+  - term: OutputType
+    definition: 'Enumeration declared by the contract with values: mp4, webm, hls, dash, audio, image, social, gif, frames.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/OutputType
+  - term: AudiogramConfig
+    definition: Bounded public controls for composing audio, artwork, and captions.
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/AudiogramConfig
+  - term: PrivacyFailureMode
+    definition: 'Enumeration declared by the contract with values: fail_closed, report_only.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/PrivacyFailureMode
+  - term: JobMediaAudioInfo
+    definition: The primary audio stream.
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobMediaAudioInfo
+  - term: PrivacyRedactionStyle
+    definition: 'Enumeration declared by the contract with values: blur, pixelate, solid.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/PrivacyRedactionStyle
+  - term: AudioOptions
+    definition: 'Object declared by the contract with fields: bitrate_bps, channels, codec.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/AudioOptions
+  - term: JobMediaStreamCounts
+    definition: 'Object declared by the contract with fields: audio, other, video.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobMediaStreamCounts
+  - term: AudiogramLayout
+    definition: 'Enumeration declared by the contract with values: square, portrait, landscape.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/AudiogramLayout
+  - term: JobBundleInfo
+    definition: 'Object declared by the contract with fields: available, download_url, expires_at, retention_days, sha256, size_bytes.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobBundleInfo
+  - term: ImageFormat
+    definition: 'Enumeration declared by the contract with values: jpg, png, webp, avif.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ImageFormat
+  - term: JobTierInfo
+    definition: 'Object declared by the contract with fields: billed, effective, reasons, requested, required.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobTierInfo
+  - term: PrivacyDetector
+    definition: 'Enumeration declared by the contract with values: face, license_plate, text.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/PrivacyDetector
+  - term: ThumbnailConfig
+    definition: 'Object declared by the contract with fields: cols, enabled, format, interval_sec, max_sheets, rows, tile_height, tile_width.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ThumbnailConfig
+  - term: JobSummary
+    definition: 'One row of GET /v1/jobs. Deliberately lighter than JobStatusResponse: no bundle download URL. Those embed a job-scoped token,
+      and handing out a page of them is both bulky and needlessly broad — fetch GET /v1/jobs/{job_id} for the one you actually want to download.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobSummary
+  - term: PlaceholderConfig
+    definition: 'Object declared by the contract with fields: lqip_max_bytes, lqip_quality, max_dimension, source_time_sec.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/PlaceholderConfig
+  - term: JobResponse
+    definition: 'Object declared by the contract with fields: job_id, msg, outputs, recipe, required_tier, status, tier.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobResponse
+  - term: CreateJobRequest
+    definition: 'Create one asynchronous media job. Choose exactly one input form: source, the legacy file_url field, or inputs for a batch. Choose
+      either a hosted recipe or explicit processing options. Terminal events are sent to the account webhook destination configured in MediaRuntime.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/CreateJobRequest
+  - term: JobMediaInfo
+    definition: 'What the input actually was, as probed at submit. This is the same probe the submit-time compatibility checks read, so it explains
+      rejections: an mp3 refused for an image output has no video stream here, and a still refused for frames has no duration. Every field is
+      optional. The probe can be partial or absent — an unusual container, a job submitted before this data was stored — and a missing fiel'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobMediaInfo
+  - term: WatermarkConfig
+    definition: 'Object declared by the contract with fields: enabled.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/WatermarkConfig
+  - term: AudiogramArtworkFit
+    definition: 'Enumeration declared by the contract with values: contain, cover, blurred_background.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/AudiogramArtworkFit
+  - term: JobMediaVideoInfo
+    definition: The primary video stream. width/height are DISPLAY dimensions — rotation already applied. A phone clip shot portrait is commonly
+      encoded 1920x1080 with rotation_deg=90, and every consumer that reads the encoded dimensions instead gets the orientation wrong. encoded_*
+      is kept alongside for the cases that genuinely need the pre-rotation values.
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobMediaVideoInfo
+  - term: SubtitleFormat
+    definition: 'Enumeration declared by the contract with values: srt, vtt, both.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/SubtitleFormat
+  - term: SubtitleConfig
+    definition: 'Object declared by the contract with fields: enabled, format, languages, max_audio_minutes, model, translate_to_english.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/SubtitleConfig
+  - term: JobInput
+    definition: 'Object declared by the contract with fields: file_url, input_id, metadata, source.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobInput
+  - term: JobBillingInfo
+    definition: 'Object declared by the contract with fields: currency, estimated_amount_cents, estimated_units, final_amount_cents, final_units,
+      status, unit_price_cents.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobBillingInfo
+  - term: JobStatusResponse
+    definition: 'Object declared by the contract with fields: billing, bundle, completed_at, created_at, error, job_id, media, metadata, recipe,
+      started_at, status, tier. (2 more)'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobStatusResponse
+  - term: ModerationMode
+    definition: 'Enumeration declared by the contract with values: report, block.'
+    tags:
+    - Enumeration
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/ModerationMode
+  - term: VideoOptions
+    definition: 'Object declared by the contract with fields: bitrate_bps, codec, fps, height, preset, two_pass.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/VideoOptions
+  - term: GifPreviewConfig
+    definition: 'Object declared by the contract with fields: duration, enabled, fps, start_time, width.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/GifPreviewConfig
+  - term: PrivacyRedactionConfig
+    definition: Explicit, bounded controls for automated visual privacy redaction.
+    tags:
+    - Object
+    source: openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/PrivacyRedactionConfig
+  - term: JobReportResponse
+    definition: Small report envelope shared by the direct analysis-result endpoints.
+    tags:
+    - Object
+    source: openapi/mediaruntime-media-analysis-api-openapi.yml#/components/schemas/JobReportResponse
+  - term: WebhookDelivery
+    definition: 'Object declared by the contract with fields: bundle, deliverables, expiresAt, items, layout, manifests, mode, retentionDays.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-mediaruntime-api-api-openapi.yml#/components/schemas/WebhookDelivery
+  - term: TerminalWebhook
+    definition: 'Object declared by the contract with fields: account_id, billing, completedAt, delivery, error, event_id, failedAt, finishedAt,
+      job_id, meta, rejectedAt, status. (1 more)'
+    tags:
+    - Object
+    source: openapi/mediaruntime-mediaruntime-api-api-openapi.yml#/components/schemas/TerminalWebhook
+  - term: WebhookError
+    definition: 'Object declared by the contract with fields: code, message.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-mediaruntime-api-api-openapi.yml#/components/schemas/WebhookError
+  - term: WebhookBundleDownload
+    definition: 'Object declared by the contract with fields: expiresAt, url.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-mediaruntime-api-api-openapi.yml#/components/schemas/WebhookBundleDownload
+  - term: WebhookBundle
+    definition: 'Object declared by the contract with fields: download, filename, size_bytes, type.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-mediaruntime-api-api-openapi.yml#/components/schemas/WebhookBundle
+  - term: JobModerationCheck
+    definition: One requested check and how it came out.
+    tags:
+    - Object
+    source: openapi/mediaruntime-moderation-api-openapi.yml#/components/schemas/JobModerationCheck
+  - term: JobModerationJudge
+    definition: The escalation stage, present only when local scores crossed the escalation floor.
+    tags:
+    - Object
+    source: openapi/mediaruntime-moderation-api-openapi.yml#/components/schemas/JobModerationJudge
+  - term: JobModerationInfo
+    definition: 'Moderation outcome for a job. Deliberately excludes the thresholds that produced the decision, the model names and the escalation
+      vendor. Those are internal: published thresholds tell anyone trying to evade moderation exactly what to aim below.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-moderation-api-openapi.yml#/components/schemas/JobModerationInfo
+  - term: ArchivedRecipeResponse
+    definition: 'Object declared by the contract with fields: latest_version, name, status.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/ArchivedRecipeResponse
+  - term: ClipAnalysisConfig
+    definition: 'Object declared by the contract with fields: keywords, max_candidates, max_duration_sec, min_duration_sec, transcript.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/ClipAnalysisConfig
+  - term: ClipCandidate
+    definition: 'Public allowlist: report internals cannot become API fields by accident.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/ClipCandidate
+  - term: ClipCandidatesResponse
+    definition: 'Object declared by the contract with fields: candidates, empty_reason, method, preset, schema_version, source_duration_sec, transcript,
+      transcript_source, version.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/ClipCandidatesResponse
+  - term: ClipTranscriptSegment
+    definition: 'Object declared by the contract with fields: end_time_sec, start_time_sec, text.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/ClipTranscriptSegment
+  - term: HostedRecipeListResponse
+    definition: 'Object declared by the contract with fields: recipes.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/HostedRecipeListResponse
+  - term: HostedRecipeResponse
+    definition: 'Object declared by the contract with fields: built_in, description, name, reference, sha256, status, template, version.'
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/HostedRecipeResponse
+  - term: HostedRuntimeAllowance
+    definition: Describe the pooled V1 allowance that starts after hosted activation.
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/HostedRuntimeAllowance
+  - term: JobArtifactInfo
+    definition: One directly downloadable, client-safe output from a completed job.
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/JobArtifactInfo
+  - term: JobArtifactsResponse
+    definition: Allowlisted individual outputs; storage bucket/object names stay private.
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/JobArtifactsResponse
+  - term: MarketplaceCharacter
+    definition: Identify the character family used by a marketplace pack.
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/MarketplaceCharacter
+  - term: MarketplacePackDetail
+    definition: Return merchandising, preview, and hosted-runtime details for one pack.
+    tags:
+    - Object
+    source: openapi/mediaruntime-openapi.json#/components/schemas/MarketplacePackDetail

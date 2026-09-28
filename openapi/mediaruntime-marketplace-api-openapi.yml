@@ -1,0 +1,578 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@mediaruntime.com
+    name: MediaRuntime support
+    url: https://mediaruntime.com/contact
+  description: Production API for asynchronous video, audio, and image processing, plus collection-scoped sticker discovery and approved asset delivery. See https://mediaruntime.com/docs for media workflows and https://mediaruntime.com/docs/stickers for the Stickers API.
+  termsOfService: https://mediaruntime.com/legal#terms
+  title: MediaRuntime Marketplace API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://mediaruntime.com
+tags:
+- description: Browse MediaRuntime character packs and their public previews.
+  name: Marketplace
+paths:
+  /v1/marketplace/packs:
+    get:
+      description: Lists published MediaRuntime character packs and their separate download and hosted-runtime prices. No authentication is required.
+      operationId: listMarketplacePacks
+      parameters:
+      - in: query
+        name: q
+        required: false
+        schema:
+          anyOf:
+          - maxLength: 100
+            type: string
+          - type: 'null'
+          title: Q
+      - in: query
+        name: category
+        required: false
+        schema:
+          anyOf:
+          - maxLength: 64
+            type: string
+          - type: 'null'
+          title: Category
+      - in: query
+        name: character
+        required: false
+        schema:
+          anyOf:
+          - maxLength: 64
+            type: string
+          - type: 'null'
+          title: Character
+      - in: query
+        name: animated
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Animated
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketplacePackListResponse'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security: []
+      summary: List character packs
+      tags:
+      - Marketplace
+  /v1/marketplace/packs/{slug}:
+    get:
+      description: Returns public merchandising, preview, format, and hosted-runtime allowance details for one published character pack. No authentication is required.
+      operationId: getMarketplacePack
+      parameters:
+      - in: path
+        name: slug
+        required: true
+        schema:
+          pattern: ^[a-z0-9][a-z0-9-]{1,127}$
+          title: Slug
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketplacePackDetail'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security: []
+      summary: Get a character pack
+      tags:
+      - Marketplace
+components:
+  schemas:
+    MarketplaceCharacter:
+      description: Identify the character family used by a marketplace pack.
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Name
+          type: string
+      required:
+      - id
+      - name
+      title: MarketplaceCharacter
+      type: object
+    MarketplacePackSummary:
+      description: Return the compact projection required by the marketplace grid.
+      properties:
+        animated:
+          title: Animated
+          type: boolean
+        asset_count:
+          minimum: 0.0
+          title: Asset Count
+          type: integer
+        badges:
+          items:
+            type: string
+          title: Badges
+          type: array
+        categories:
+          items:
+            type: string
+          title: Categories
+          type: array
+        characters:
+          items:
+            $ref: '#/components/schemas/MarketplaceCharacter'
+          title: Characters
+          type: array
+        hero:
+          $ref: '#/components/schemas/MarketplaceStickerPreview'
+        locales:
+          items:
+            type: string
+          title: Locales
+          type: array
+        name:
+          title: Name
+          type: string
+        pack_id:
+          title: Pack Id
+          type: string
+        platform_listings:
+          items:
+            $ref: '#/components/schemas/MarketplacePlatformListing'
+          title: Platform Listings
+          type: array
+        pricing:
+          $ref: '#/components/schemas/MarketplacePricing'
+        short_description:
+          title: Short Description
+          type: string
+        slug:
+          title: Slug
+          type: string
+        tags:
+          items:
+            type: string
+          title: Tags
+          type: array
+        version:
+          title: Version
+          type: string
+      required:
+      - pack_id
+      - slug
+      - version
+      - name
+      - short_description
+      - characters
+      - categories
+      - tags
+      - badges
+      - animated
+      - asset_count
+      - locales
+      - pricing
+      - hero
+      - platform_listings
+      title: MarketplacePackSummary
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    MarketplacePreviewAtlasCrop:
+      description: Describe one sticker's rectangle in a platform-generated preview atlas.
+      properties:
+        height:
+          minimum: 1.0
+          title: Height
+          type: integer
+        url:
+          title: Url
+          type: string
+        width:
+          minimum: 1.0
+          title: Width
+          type: integer
+        x:
+          minimum: 0.0
+          title: X
+          type: integer
+        y:
+          minimum: 0.0
+          title: Y
+          type: integer
+      required:
+      - url
+      - x
+      - y
+      - width
+      - height
+      title: MarketplacePreviewAtlasCrop
+      type: object
+    MarketplacePackDetail:
+      description: Return merchandising, preview, and hosted-runtime details for one pack.
+      properties:
+        animated:
+          title: Animated
+          type: boolean
+        asset_count:
+          minimum: 0.0
+          title: Asset Count
+          type: integer
+        badges:
+          items:
+            type: string
+          title: Badges
+          type: array
+        categories:
+          items:
+            type: string
+          title: Categories
+          type: array
+        characters:
+          items:
+            $ref: '#/components/schemas/MarketplaceCharacter'
+          title: Characters
+          type: array
+        description:
+          title: Description
+          type: string
+        formats:
+          items:
+            type: string
+          title: Formats
+          type: array
+        hero:
+          $ref: '#/components/schemas/MarketplaceStickerPreview'
+        hosted_runtime:
+          $ref: '#/components/schemas/HostedRuntimeAllowance'
+        locales:
+          items:
+            type: string
+          title: Locales
+          type: array
+        name:
+          title: Name
+          type: string
+        pack_id:
+          title: Pack Id
+          type: string
+        platform_listings:
+          items:
+            $ref: '#/components/schemas/MarketplacePlatformListing'
+          title: Platform Listings
+          type: array
+        previews:
+          items:
+            $ref: '#/components/schemas/MarketplaceStickerPreview'
+          title: Previews
+          type: array
+        pricing:
+          $ref: '#/components/schemas/MarketplacePricing'
+        short_description:
+          title: Short Description
+          type: string
+        slug:
+          title: Slug
+          type: string
+        tags:
+          items:
+            type: string
+          title: Tags
+          type: array
+        version:
+          title: Version
+          type: string
+      required:
+      - pack_id
+      - slug
+      - version
+      - name
+      - short_description
+      - characters
+      - categories
+      - tags
+      - badges
+      - animated
+      - asset_count
+      - locales
+      - pricing
+      - hero
+      - platform_listings
+      - description
+      - formats
+      - hosted_runtime
+      - previews
+      title: MarketplacePackDetail
+      type: object
+    HostedRuntimeAllowance:
+      description: Describe the pooled V1 allowance that starts after hosted activation.
+      properties:
+        delivery_overage_per_gb_cents:
+          minimum: 0.0
+          title: Delivery Overage Per Gb Cents
+          type: integer
+        included_delivery_gb:
+          minimum: 0.0
+          title: Included Delivery Gb
+          type: integer
+        included_operations:
+          minimum: 0.0
+          title: Included Operations
+          type: integer
+        operations_overage_per_100k_cents:
+          minimum: 0.0
+          title: Operations Overage Per 100K Cents
+          type: integer
+      required:
+      - included_operations
+      - included_delivery_gb
+      - operations_overage_per_100k_cents
+      - delivery_overage_per_gb_cents
+      title: HostedRuntimeAllowance
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    MarketplacePricing:
+      description: Keep downloads and hosted service billing commercially distinct.
+      properties:
+        commercial_download:
+          $ref: '#/components/schemas/MarketplacePrice'
+        hosted_activation:
+          $ref: '#/components/schemas/MarketplacePrice'
+        personal_download:
+          $ref: '#/components/schemas/MarketplacePrice'
+        platform_export:
+          $ref: '#/components/schemas/MarketplacePrice'
+        tier:
+          enum:
+          - mini
+          - standard
+          - signature
+          - custom
+          title: Tier
+          type: string
+      required:
+      - tier
+      - personal_download
+      - commercial_download
+      - hosted_activation
+      - platform_export
+      title: MarketplacePricing
+      type: object
+    MarketplacePlatformListing:
+      description: Describe an official publisher-controlled listing without granting export rights.
+      properties:
+        platform:
+          pattern: ^[a-z][a-z0-9_-]{1,31}$
+          title: Platform
+          type: string
+        platform_product_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Platform Product Id
+        published_at:
+          anyOf:
+          - format: date-time
+            type: string
+          - type: 'null'
+          title: Published At
+        publisher:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Publisher
+        status:
+          enum:
+          - not_planned
+          - preparing
+          - submitted
+          - rejected
+          - live
+          - retired
+          title: Status
+          type: string
+        store_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Url
+      required:
+      - platform
+      - status
+      title: MarketplacePlatformListing
+      type: object
+    MarketplacePackListResponse:
+      description: Wrap catalog results so pagination can be added without changing item shape.
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/MarketplacePackSummary'
+          title: Items
+          type: array
+        total:
+          minimum: 0.0
+          title: Total
+          type: integer
+      required:
+      - items
+      - total
+      title: MarketplacePackListResponse
+      type: object
+    MarketplacePrice:
+      description: Represent a configurable price without floating-point currency math.
+      properties:
+        amount_cents:
+          minimum: 0.0
+          title: Amount Cents
+          type: integer
+        billing:
+          enum:
+          - one_time
+          - monthly
+          - from
+          title: Billing
+          type: string
+        currency:
+          const: USD
+          title: Currency
+          type: string
+      required:
+      - currency
+      - amount_cents
+      - billing
+      title: MarketplacePrice
+      type: object
+    MarketplaceStickerPreview:
+      description: Expose preview-safe sticker metadata without release storage internals.
+      properties:
+        animated:
+          default: true
+          title: Animated
+          type: boolean
+        atlas:
+          anyOf:
+          - $ref: '#/components/schemas/MarketplacePreviewAtlasCrop'
+          - type: 'null'
+        category:
+          title: Category
+          type: string
+        emoji:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Emoji
+        label:
+          title: Label
+          type: string
+        poster_url:
+          title: Poster Url
+          type: string
+        preview_url:
+          title: Preview Url
+          type: string
+        semantic_id:
+          title: Semantic Id
+          type: string
+        sticker_id:
+          title: Sticker Id
+          type: string
+      required:
+      - sticker_id
+      - semantic_id
+      - label
+      - category
+      - preview_url
+      - poster_url
+      title: MarketplaceStickerPreview
+      type: object
+  headers:
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
+  securitySchemes:
+    ProductionApiKey:
+      description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    SandboxToken:
+      description: Ephemeral credential returned by POST /v1/sandbox/session for bounded sandbox jobs only.
+      in: header
+      name: X-Sandbox-Token
+      type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
+externalDocs:
+  description: MediaRuntime developer documentation
+  url: https://mediaruntime.com/docs

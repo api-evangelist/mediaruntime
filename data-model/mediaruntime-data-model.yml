@@ -1,0 +1,534 @@
+generated: '2026-09-28'
+method: derived
+generator: derive-data-model.py
+source:
+- openapi/mediaruntime-discovery-api-openapi.yml
+- openapi/mediaruntime-job-results-api-openapi.yml
+- openapi/mediaruntime-jobs-api-openapi.yml
+- openapi/mediaruntime-media-analysis-api-openapi.yml
+- openapi/mediaruntime-mediaruntime-api-api-openapi.yml
+- openapi/mediaruntime-moderation-api-openapi.yml
+- openapi/mediaruntime-openapi.json
+- openapi/mediaruntime-recipes-api-openapi.yml
+- openapi/mediaruntime-sandbox-api-openapi.yml
+- openapi/mediaruntime-uploads-api-openapi.yml
+- openapi/mediaruntime-watermarks-api-openapi.yml
+- openapi/mediaruntime-webhooks-api-openapi.yml
+notation: has_one = property $ref; has_many = array of $ref; belongs_to = <entity>_id field
+summary:
+  entities: 97
+  entities_in_spec: 97
+  relationships: 67
+entities:
+- name: AnimationConfig
+  fields: 6
+- name: ArchivedRecipeResponse
+  fields: 3
+- name: AudioOptions
+  fields: 3
+- name: AudiogramConfig
+  fields: 15
+  description: Bounded public controls for composing audio, artwork, and captions.
+- name: CapabilitiesResponse
+  fields: 9
+- name: ClipAnalysisConfig
+  fields: 5
+- name: ClipCandidate
+  fields: 6
+  description: 'Public allowlist: report internals cannot become API fields by accident.'
+- name: ClipCandidatesResponse
+  fields: 9
+- name: ClipTranscriptSegment
+  fields: 3
+- name: CompletedWebhook
+  fields: 0
+- name: ContactSheetConfig
+  fields: 10
+- name: CreateJobRequest
+  fields: 8
+  description: 'Create one asynchronous media job. Choose exactly one input form: source, the legacy file_url field,
+    or inputs for a batch. Choose either a hosted recipe or explicit processing options. Terminal event'
+- name: FailedWebhook
+  fields: 0
+- name: GifPreviewConfig
+  fields: 5
+- name: HTTPValidationError
+  fields: 1
+- name: HostedRecipeListResponse
+  fields: 1
+- name: HostedRecipeResponse
+  fields: 8
+- name: HostedRuntimeAllowance
+  fields: 4
+  description: Describe the pooled V1 allowance that starts after hosted activation.
+- name: ImageRendition
+  fields: 7
+- name: JobArtifactInfo
+  fields: 6
+  description: One directly downloadable, client-safe output from a completed job.
+- name: JobArtifactsResponse
+  fields: 3
+  description: Allowlisted individual outputs; storage bucket/object names stay private.
+- name: JobBillingInfo
+  fields: 7
+- name: JobBundleInfo
+  fields: 6
+- name: JobInput
+  fields: 4
+- name: JobListResponse
+  fields: 2
+- name: JobMediaAudioInfo
+  fields: 6
+  description: The primary audio stream.
+- name: JobMediaInfo
+  fields: 6
+  description: What the input actually was, as probed at submit.
+- name: JobMediaStreamCounts
+  fields: 3
+- name: JobMediaVideoInfo
+  fields: 12
+  description: The primary video stream.
+- name: JobModerationCheck
+  fields: 4
+  description: One requested check and how it came out.
+- name: JobModerationInfo
+  fields: 10
+  description: Moderation outcome for a job.
+- name: JobModerationJudge
+  fields: 5
+  description: The escalation stage, present only when local scores crossed the escalation floor.
+- name: JobReportResponse
+  fields: 4
+  description: Small report envelope shared by the direct analysis-result endpoints.
+- name: JobResponse
+  fields: 7
+- name: JobStatusResponse
+  fields: 14
+- name: JobSummary
+  fields: 9
+  description: One row of GET /v1/jobs.
+- name: JobTierInfo
+  fields: 5
+- name: JobUsageInfo
+  fields: 1
+- name: MarketplaceCharacter
+  fields: 2
+  description: Identify the character family used by a marketplace pack.
+- name: MarketplacePackDetail
+  fields: 19
+  description: Return merchandising, preview, and hosted-runtime details for one pack.
+- name: MarketplacePackListResponse
+  fields: 2
+  description: Wrap catalog results so pagination can be added without changing item shape.
+- name: MarketplacePackSummary
+  fields: 15
+  description: Return the compact projection required by the marketplace grid.
+- name: MarketplacePlatformListing
+  fields: 6
+  description: Describe an official publisher-controlled listing without granting export rights.
+- name: MarketplacePreviewAtlasCrop
+  fields: 5
+  description: Describe one sticker's rectangle in a platform-generated preview atlas.
+- name: MarketplacePrice
+  fields: 3
+  description: Represent a configurable price without floating-point currency math.
+- name: MarketplacePricing
+  fields: 5
+  description: Keep downloads and hosted service billing commercially distinct.
+- name: MarketplaceStickerPreview
+  fields: 9
+  description: Expose preview-safe sticker metadata without release storage internals.
+- name: ModerationConfig
+  fields: 3
+- name: OutputAliasCapability
+  fields: 5
+  description: A stable alias and the complete output recipe it materializes.
+- name: PartialWebhook
+  fields: 0
+- name: PlaceholderConfig
+  fields: 4
+- name: PresetCapability
+  fields: 9
+  description: One preset entry returned by the public capability catalogue.
+- name: PrivacyRedactionConfig
+  fields: 11
+  description: Explicit, bounded controls for automated visual privacy redaction.
+- name: RateLimitErrorResponse
+  fields: 3
+  description: Existing gateway error envelope for HTTP 429; codes distinguish account throttling and sandbox capacity.
+- name: RecipeCreateRequest
+  fields: 3
+- name: RecipeTemplate
+  fields: 3
+  description: Processing policy stored in one immutable hosted-recipe version.
+- name: RecipeVersionCreateRequest
+  fields: 3
+- name: RejectedWebhook
+  fields: 0
+- name: RuntimeCharacter
+  fields: 2
+  description: Identify one character family without marketplace merchandising fields.
+- name: RuntimeSticker
+  fields: 12
+  description: Carry stable sticker metadata suitable for persisted chat references.
+- name: RuntimeStickerPack
+  fields: 9
+  description: Expose a published pack enabled for new use in one collection.
+- name: RuntimeStickerPackListResponse
+  fields: 2
+  description: Return only collection-enabled packs for the authenticated workspace.
+- name: RuntimeStickerResolution
+  fields: 10
+  description: Return a short-lived generation-pinned URL for an approved private asset.
+- name: RuntimeStickerSearchResponse
+  fields: 3
+  description: Return deterministic metadata-ranked matches from enabled packs.
+- name: RuntimeStickerVariant
+  fields: 4
+  description: Describe an approved representation without leaking its private object key.
+- name: RuntimeTypeaheadResponse
+  fields: 3
+  description: Return bounded prefix suggestions for one locale and collection.
+- name: RuntimeTypeaheadSuggestion
+  fields: 2
+  description: Represent one catalog-derived prefix and its matching asset count.
+- name: RuntimeUsageCurrent
+  fields: 12
+  description: Expose pooled usage, included capacity, and settled overage for one month.
+- name: SandboxSessionResponse
+  fields: 5
+- name: SourceUrl
+  fields: 1
+  description: The first extensible source object; other source kinds remain reserved.
+- name: StickerClientTokenRequest
+  fields: 3
+  description: Request a bounded credential for exactly one active application collection.
+- name: StickerClientTokenResponse
+  fields: 6
+  description: Return a short-lived bearer credential without exposing its signing claims.
+- name: StickerCollection
+  fields: 9
+  description: Expose enabled packs while disabled binding history remains server-owned.
+- name: StickerCollectionCreate
+  fields: 2
+  description: Create one application-facing collection without changing pack billing.
+- name: StickerCollectionListResponse
+  fields: 2
+  description: Wrap bounded workspace collections for future cursor pagination.
+- name: StickerCollectionPackBinding
+  fields: 13
+  description: Represent one retained pack binding and its historical-access policy.
+- name: StickerCollectionPackBindingListResponse
+  fields: 2
+  description: Return retained enabled and disabled pack bindings for audit tooling.
+- name: StickerCollectionPackRequest
+  fields: 1
+  description: Bind an already-paid hosted activation without creating another charge.
+- name: StickerCollectionUpdate
+  fields: 3
+  description: Update reversible collection metadata or archive state.
+- name: SubtitleConfig
+  fields: 6
+- name: TerminalWebhook
+  fields: 13
+- name: ThumbnailConfig
+  fields: 8
+- name: TranscodeOutput
+  fields: 18
+- name: UploadUrlRequest
+  fields: 2
+- name: UploadUrlResponse
+  fields: 3
+- name: ValidationError
+  fields: 5
+- name: VideoClipConfig
+  fields: 5
+- name: VideoOptions
+  fields: 6
+- name: WatermarkConfig
+  fields: 1
+- name: WatermarkLogoConfirmRequest
+  fields: 4
+- name: WatermarkLogoResponse
+  fields: 4
+- name: WatermarkLogoUploadUrlRequest
+  fields: 1
+- name: WebhookBundle
+  fields: 4
+- name: WebhookBundleDownload
+  fields: 2
+- name: WebhookDelivery
+  fields: 8
+- name: WebhookError
+  fields: 2
+- name: WebhookRetryResponse
+  fields: 4
+relationships:
+- from: HTTPValidationError
+  to: ValidationError
+  type: has_many
+  via: detail
+- from: TranscodeOutput
+  to: AnimationConfig
+  type: has_one
+  via: animation
+- from: TranscodeOutput
+  to: AudioOptions
+  type: has_one
+  via: audio
+- from: TranscodeOutput
+  to: AudiogramConfig
+  type: has_one
+  via: audiogram
+- from: TranscodeOutput
+  to: ContactSheetConfig
+  type: has_one
+  via: contact_sheet
+- from: TranscodeOutput
+  to: GifPreviewConfig
+  type: has_one
+  via: gif_preview
+- from: TranscodeOutput
+  to: PlaceholderConfig
+  type: has_one
+  via: placeholders
+- from: TranscodeOutput
+  to: PrivacyRedactionConfig
+  type: has_one
+  via: privacy_redaction
+- from: TranscodeOutput
+  to: SubtitleConfig
+  type: has_one
+  via: subtitles
+- from: TranscodeOutput
+  to: ThumbnailConfig
+  type: has_one
+  via: thumbnails
+- from: TranscodeOutput
+  to: VideoOptions
+  type: has_one
+  via: video
+- from: JobListResponse
+  to: JobSummary
+  type: has_many
+  via: jobs
+- from: CreateJobRequest
+  to: ModerationConfig
+  type: has_one
+  via: moderation
+- from: CreateJobRequest
+  to: TranscodeOutput
+  type: has_many
+  via: outputs
+- from: CreateJobRequest
+  to: SourceUrl
+  type: has_one
+  via: source
+- from: CreateJobRequest
+  to: WatermarkConfig
+  type: has_one
+  via: watermark
+- from: JobMediaInfo
+  to: JobMediaAudioInfo
+  type: has_one
+  via: audio
+- from: JobMediaInfo
+  to: JobMediaStreamCounts
+  type: has_one
+  via: streams
+- from: JobMediaInfo
+  to: JobMediaVideoInfo
+  type: has_one
+  via: video
+- from: JobInput
+  to: SourceUrl
+  type: has_one
+  via: source
+- from: JobStatusResponse
+  to: JobBillingInfo
+  type: has_one
+  via: billing
+- from: JobStatusResponse
+  to: JobBundleInfo
+  type: has_one
+  via: bundle
+- from: JobStatusResponse
+  to: JobMediaInfo
+  type: has_one
+  via: media
+- from: JobStatusResponse
+  to: JobTierInfo
+  type: has_one
+  via: tier
+- from: JobStatusResponse
+  to: JobUsageInfo
+  type: has_one
+  via: usage
+- from: WebhookDelivery
+  to: WebhookBundle
+  type: has_one
+  via: bundle
+- from: TerminalWebhook
+  to: WebhookDelivery
+  type: has_one
+  via: delivery
+- from: TerminalWebhook
+  to: WebhookError
+  type: has_one
+  via: error
+- from: WebhookBundle
+  to: WebhookBundleDownload
+  type: has_one
+  via: download
+- from: JobModerationInfo
+  to: JobModerationCheck
+  type: has_many
+  via: checks
+- from: JobModerationInfo
+  to: JobModerationJudge
+  type: has_one
+  via: judge
+- from: ClipAnalysisConfig
+  to: ClipTranscriptSegment
+  type: has_many
+  via: transcript
+- from: ClipCandidatesResponse
+  to: ClipCandidate
+  type: has_many
+  via: candidates
+- from: ClipCandidatesResponse
+  to: ClipTranscriptSegment
+  type: has_many
+  via: transcript
+- from: HostedRecipeListResponse
+  to: HostedRecipeResponse
+  type: has_many
+  via: recipes
+- from: HostedRecipeResponse
+  to: RecipeTemplate
+  type: has_one
+  via: template
+- from: JobArtifactsResponse
+  to: JobArtifactInfo
+  type: has_many
+  via: artifacts
+- from: MarketplacePackDetail
+  to: MarketplaceCharacter
+  type: has_many
+  via: characters
+- from: MarketplacePackDetail
+  to: MarketplaceStickerPreview
+  type: has_one
+  via: hero
+- from: MarketplacePackDetail
+  to: HostedRuntimeAllowance
+  type: has_one
+  via: hosted_runtime
+- from: MarketplacePackDetail
+  to: MarketplacePlatformListing
+  type: has_many
+  via: platform_listings
+- from: MarketplacePackDetail
+  to: MarketplaceStickerPreview
+  type: has_many
+  via: previews
+- from: MarketplacePackDetail
+  to: MarketplacePricing
+  type: has_one
+  via: pricing
+- from: MarketplacePackListResponse
+  to: MarketplacePackSummary
+  type: has_many
+  via: items
+- from: MarketplacePackSummary
+  to: MarketplaceCharacter
+  type: has_many
+  via: characters
+- from: MarketplacePackSummary
+  to: MarketplaceStickerPreview
+  type: has_one
+  via: hero
+- from: MarketplacePackSummary
+  to: MarketplacePlatformListing
+  type: has_many
+  via: platform_listings
+- from: MarketplacePackSummary
+  to: MarketplacePricing
+  type: has_one
+  via: pricing
+- from: MarketplacePricing
+  to: MarketplacePrice
+  type: has_one
+  via: commercial_download
+- from: MarketplacePricing
+  to: MarketplacePrice
+  type: has_one
+  via: hosted_activation
+- from: MarketplacePricing
+  to: MarketplacePrice
+  type: has_one
+  via: personal_download
+- from: MarketplacePricing
+  to: MarketplacePrice
+  type: has_one
+  via: platform_export
+- from: MarketplaceStickerPreview
+  to: MarketplacePreviewAtlasCrop
+  type: has_one
+  via: atlas
+- from: RecipeCreateRequest
+  to: RecipeTemplate
+  type: has_one
+  via: template
+- from: RecipeTemplate
+  to: ModerationConfig
+  type: has_one
+  via: moderation
+- from: RecipeTemplate
+  to: TranscodeOutput
+  type: has_many
+  via: outputs
+- from: RecipeTemplate
+  to: WatermarkConfig
+  type: has_one
+  via: watermark
+- from: RecipeVersionCreateRequest
+  to: RecipeTemplate
+  type: has_one
+  via: template
+- from: RuntimeSticker
+  to: RuntimeStickerVariant
+  type: has_many
+  via: variants
+- from: RuntimeStickerPack
+  to: RuntimeCharacter
+  type: has_many
+  via: characters
+- from: RuntimeStickerPackListResponse
+  to: RuntimeStickerPack
+  type: has_many
+  via: items
+- from: RuntimeStickerSearchResponse
+  to: RuntimeSticker
+  type: has_many
+  via: items
+- from: RuntimeTypeaheadResponse
+  to: RuntimeTypeaheadSuggestion
+  type: has_many
+  via: suggestions
+- from: StickerCollection
+  to: StickerCollectionPackBinding
+  type: has_many
+  via: packs
+- from: StickerCollectionListResponse
+  to: StickerCollection
+  type: has_many
+  via: items
+- from: StickerCollectionPackBindingListResponse
+  to: StickerCollectionPackBinding
+  type: has_many
+  via: items
+- from: VideoClipConfig
+  to: ClipTranscriptSegment
+  type: has_many
+  via: transcript

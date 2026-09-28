@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mediaruntime/main/json-schema/mediaruntime-job-moderation-info-schema.json",
+  "title": "JobModerationInfo",
+  "description": "Moderation outcome for a job.\n\nDeliberately excludes the thresholds that produced the decision, the model names and\nthe escalation vendor. Those are internal: published thresholds tell anyone trying to\nevade moderation exactly what to aim below.",
+  "x-generated": "2026-09-28",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/mediaruntime-moderation-api-openapi.yml#/components/schemas/JobModerationInfo",
+  "properties": {
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/JobModerationCheck"
+      },
+      "title": "Checks",
+      "type": "array"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Error"
+    },
+    "flagged_checks": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Flagged Checks",
+      "type": "array"
+    },
+    "judge": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/JobModerationJudge"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "media_type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "image or video",
+      "title": "Media Type"
+    },
+    "mode": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "report or block, as requested",
+      "title": "Mode"
+    },
+    "ok": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Ok"
+    },
+    "requested_checks": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Requested Checks",
+      "type": "array"
+    },
+    "review_only_checks": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Review Only Checks",
+      "type": "array"
+    },
+    "verdict": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "allow, review or block for the job overall",
+      "title": "Verdict"
+    }
+  },
+  "type": "object",
+  "$defs": {
+    "JobModerationCheck": {
+      "description": "One requested check and how it came out.",
+      "properties": {
+        "check": {
+          "description": "sexual, violence or dangerous",
+          "title": "Check",
+          "type": "string"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Probability the check matched, 0-1. Absent when not reported.",
+          "title": "Confidence"
+        },
+        "decision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "allow, review or block",
+          "title": "Decision"
+        },
+        "review_only": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "True when the check is advisory and cannot by itself block a job.",
+          "title": "Review Only"
+        }
+      },
+      "required": [
+        "check"
+      ],
+      "title": "JobModerationCheck",
+      "type": "object"
+    },
+    "JobModerationJudge": {
+      "description": "The escalation stage, present only when local scores crossed the escalation floor.",
+      "properties": {
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Error"
+        },
+        "escalated": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Escalated"
+        },
+        "escalated_checks": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Escalated Checks",
+          "type": "array"
+        },
+        "likelihoods": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Coarse likelihood per category, e.g. {\"adult\": \"VERY_LIKELY\"}.",
+          "title": "Likelihoods",
+          "type": "object"
+        },
+        "ok": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ok"
+        }
+      },
+      "title": "JobModerationJudge",
+      "type": "object"
+    }
+  }
+}

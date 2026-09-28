@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  description: Asynchronous media processing for video, audio, and images.
-  title: MediaRuntime Media Analysis API
+  title: Mediaruntime Media Analysis API
   version: 1.0.0
+  description: 'Operations tagged Media Analysis across 2 of this provider''s published API definitions: mediaruntime-api-openapi.yml, mediaruntime-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - description: Production
   url: https://mediaruntime.com
@@ -41,6 +41,9 @@ paths:
       summary: Get QR and barcode detections
       tags:
       - Media Analysis
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
   /v1/jobs/{job_id}/compatibility-report:
     get:
       description: Returns the versioned browser, device, social-upload, and editing compatibility verdict produced for the job.
@@ -72,6 +75,9 @@ paths:
       summary: Get a compatibility report
       tags:
       - Media Analysis
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
   /v1/jobs/{job_id}/media-report:
     get:
       description: Returns the forensic media report inline when available, or a short-lived download URL when the report is too large to store with the job.
@@ -103,34 +109,66 @@ paths:
       summary: Get a media report
       tags:
       - Media Analysis
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
+  /v1/jobs/{job_id}/clip-candidates:
+    get:
+      description: Returns the versioned transcript and candidate ranges produced by clip_candidates_v1 for an owned completed job. Scores explain transcript heuristics; they do not predict engagement. Reuse source-timed transcript cues with video_clip_v1 to render selected ranges without repeating analysis. The plan follows the job's retention period.
+      operationId: getClipCandidates
+      parameters:
+      - description: The completed analysis job that owns the clip plan
+        in: path
+        name: job_id
+        required: true
+        schema:
+          description: The completed analysis job that owns the clip plan
+          title: Job Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClipCandidatesResponse'
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '404':
+          description: The job or retained clip plan was not found.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '409':
+          description: The job has not completed.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '410':
+          description: The job's artifact retention period has elapsed.
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+      security:
+      - ProductionApiKey: []
+      summary: Get a reviewed-source clip plan
+      tags:
+      - Media Analysis
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
 components:
   schemas:
-    ValidationError:
-      properties:
-        ctx:
-          title: Context
-          type: object
-        input:
-          title: Input
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          title: Location
-          type: array
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-      type: object
     JobReportResponse:
       description: Small report envelope shared by the direct analysis-result endpoints.
       properties:
@@ -157,6 +195,32 @@ components:
       - job_id
       title: JobReportResponse
       type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
     HTTPValidationError:
       properties:
         detail:
@@ -166,6 +230,138 @@ components:
           type: array
       title: HTTPValidationError
       type: object
+    ClipTranscriptSegment:
+      additionalProperties: false
+      properties:
+        end_time_sec:
+          exclusiveMinimum: 0.0
+          maximum: 604800.0
+          title: End Time Sec
+          type: number
+        start_time_sec:
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time Sec
+          type: number
+        text:
+          maxLength: 2000
+          minLength: 1
+          title: Text
+          type: string
+      required:
+      - start_time_sec
+      - end_time_sec
+      - text
+      title: ClipTranscriptSegment
+      type: object
+    ClipCandidatesResponse:
+      properties:
+        candidates:
+          items:
+            $ref: '#/components/schemas/ClipCandidate'
+          maxItems: 20
+          title: Candidates
+          type: array
+        empty_reason:
+          anyOf:
+          - enum:
+            - no_speech
+            - no_keyword_match
+            - no_matching_ranges
+            - source_too_short
+            type: string
+          - type: 'null'
+          title: Empty Reason
+        method:
+          const: transcript_heuristics_v1
+          default: transcript_heuristics_v1
+          title: Method
+          type: string
+        preset:
+          const: clip_candidates_v1
+          default: clip_candidates_v1
+          title: Preset
+          type: string
+        schema_version:
+          const: 1
+          default: 1
+          title: Schema Version
+          type: integer
+        source_duration_sec:
+          exclusiveMinimum: 0.0
+          maximum: 604800.0
+          title: Source Duration Sec
+          type: number
+        transcript:
+          items:
+            $ref: '#/components/schemas/ClipTranscriptSegment'
+          maxItems: 2000
+          title: Transcript
+          type: array
+        transcript_source:
+          enum:
+          - supplied
+          - whisper
+          title: Transcript Source
+          type: string
+        version:
+          const: 1
+          default: 1
+          title: Version
+          type: integer
+      required:
+      - source_duration_sec
+      - transcript_source
+      - transcript
+      - candidates
+      title: ClipCandidatesResponse
+      type: object
+    ClipCandidate:
+      description: 'Public allowlist: report internals cannot become API fields by accident.'
+      properties:
+        duration_sec:
+          exclusiveMinimum: 0.0
+          maximum: 300.0
+          title: Duration Sec
+          type: number
+        id:
+          anyOf:
+          - maxLength: 128
+            type: string
+          - type: 'null'
+          title: Id
+        reasons:
+          items:
+            type: string
+          maxItems: 20
+          title: Reasons
+          type: array
+        score:
+          minimum: 0.0
+          title: Score
+          type: number
+        start_time_sec:
+          maximum: 604800.0
+          minimum: 0.0
+          title: Start Time Sec
+          type: number
+        text:
+          maxLength: 262144
+          title: Text
+          type: string
+      required:
+      - start_time_sec
+      - duration_sec
+      - text
+      - score
+      - reasons
+      title: ClipCandidate
+      type: object
+  headers:
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
@@ -177,6 +373,19 @@ components:
       in: header
       name: X-Sandbox-Token
       type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
 externalDocs:
   description: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
+x-refined-from:
+- mediaruntime-api-openapi.yml
+- mediaruntime-openapi.json

@@ -1,0 +1,74 @@
+generated: '2026-09-28'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/mediaruntime-discovery-api-openapi.yml
+- openapi/mediaruntime-job-results-api-openapi.yml
+- openapi/mediaruntime-jobs-api-openapi.yml
+- openapi/mediaruntime-media-analysis-api-openapi.yml
+- openapi/mediaruntime-mediaruntime-api-api-openapi.yml
+- openapi/mediaruntime-moderation-api-openapi.yml
+- openapi/mediaruntime-openapi.json
+- openapi/mediaruntime-recipes-api-openapi.yml
+- openapi/mediaruntime-sandbox-api-openapi.yml
+- openapi/mediaruntime-uploads-api-openapi.yml
+- openapi/mediaruntime-watermarks-api-openapi.yml
+- openapi/mediaruntime-webhooks-api-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+coverage:
+  operations: 61
+  statuses_declared: 8
+problems:
+- status: 401
+  title: Unauthorized
+  description: The delivery token is missing or invalid.
+  operations: 4
+  media_types: []
+  schema: null
+- status: 403
+  title: Forbidden
+  description: The delivery token does not authorize this job.
+  operations: 2
+  media_types: []
+  schema: null
+- status: 404
+  title: Not Found
+  description: The job or its bundle was not found.
+  operations: 5
+  media_types: []
+  schema: null
+- status: 409
+  title: Conflict
+  description: The job has not completed.
+  operations: 4
+  media_types: []
+  schema: null
+- status: 410
+  title: Gone
+  description: The job's artifact retention period has elapsed.
+  operations: 5
+  media_types: []
+  schema: null
+- status: 422
+  title: Unprocessable Content
+  description: Validation Error
+  operations: 54
+  media_types:
+  - application/json
+  schema: HTTPValidationError
+- status: 429
+  title: Too Many Requests
+  description: Request throttled or sandbox capacity reached. Honor Retry-After before retrying.
+  operations: 2
+  media_types:
+  - application/json
+  schema: RateLimitErrorResponse
+- status: 503
+  title: Service Unavailable
+  description: Artifact storage is temporarily unavailable.
+  operations: 2
+  media_types: []
+  schema: null

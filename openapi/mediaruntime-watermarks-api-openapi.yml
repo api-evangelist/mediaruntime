@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  description: Asynchronous media processing for video, audio, and images.
-  title: MediaRuntime Watermarks API
+  title: Mediaruntime Watermarks API
   version: 1.0.0
+  description: 'Operations tagged Watermarks across 2 of this provider''s published API definitions: mediaruntime-api-openapi.yml, mediaruntime-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - description: Production
   url: https://mediaruntime.com
@@ -38,6 +38,9 @@ paths:
       summary: Confirm a watermark logo
       tags:
       - Watermarks
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
   /v1/account/watermark-logo/upload-url:
     post:
       description: Creates a short-lived PNG upload target for the caller's account watermark logo.
@@ -66,25 +69,18 @@ paths:
       summary: Create a watermark-logo upload target
       tags:
       - Watermarks
+    servers:
+    - description: Production
+      url: https://mediaruntime.com
 components:
   schemas:
-    UploadUrlResponse:
+    WatermarkLogoUploadUrlRequest:
       properties:
-        file_uri:
-          title: File Uri
+        content_type:
+          default: image/png
+          title: Content Type
           type: string
-        upload_headers:
-          additionalProperties:
-            type: string
-          title: Upload Headers
-          type: object
-        upload_url:
-          title: Upload Url
-          type: string
-      required:
-      - upload_url
-      - file_uri
-      title: UploadUrlResponse
+      title: WatermarkLogoUploadUrlRequest
       type: object
     ValidationError:
       properties:
@@ -112,34 +108,14 @@ components:
       - type
       title: ValidationError
       type: object
-    WatermarkLogoUploadUrlRequest:
+    HTTPValidationError:
       properties:
-        content_type:
-          default: image/png
-          title: Content Type
-          type: string
-      title: WatermarkLogoUploadUrlRequest
-      type: object
-    WatermarkLogoResponse:
-      properties:
-        logo_url:
-          title: Logo Url
-          type: string
-        opacity_pct:
-          title: Opacity Pct
-          type: integer
-        position:
-          title: Position
-          type: string
-        scale_pct:
-          title: Scale Pct
-          type: integer
-      required:
-      - logo_url
-      - position
-      - opacity_pct
-      - scale_pct
-      title: WatermarkLogoResponse
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
       type: object
     WatermarkLogoConfirmRequest:
       properties:
@@ -169,15 +145,50 @@ components:
       - file_uri
       title: WatermarkLogoConfirmRequest
       type: object
-    HTTPValidationError:
+    WatermarkLogoResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          title: Detail
-          type: array
-      title: HTTPValidationError
+        logo_url:
+          title: Logo Url
+          type: string
+        opacity_pct:
+          title: Opacity Pct
+          type: integer
+        position:
+          title: Position
+          type: string
+        scale_pct:
+          title: Scale Pct
+          type: integer
+      required:
+      - logo_url
+      - position
+      - opacity_pct
+      - scale_pct
+      title: WatermarkLogoResponse
       type: object
+    UploadUrlResponse:
+      properties:
+        file_uri:
+          title: File Uri
+          type: string
+        upload_headers:
+          additionalProperties:
+            type: string
+          title: Upload Headers
+          type: object
+        upload_url:
+          title: Upload Url
+          type: string
+      required:
+      - upload_url
+      - file_uri
+      title: UploadUrlResponse
+      type: object
+  headers:
+    RequestId:
+      description: Gateway correlation ID. Include this value when contacting support.
+      schema:
+        type: string
   securitySchemes:
     ProductionApiKey:
       description: MediaRuntime server-side API key. Keep it in a secret manager and never expose it in browser or mobile code.
@@ -189,6 +200,19 @@ components:
       in: header
       name: X-Sandbox-Token
       type: apiKey
+    StickerClientToken:
+      bearerFormat: mrt_v1
+      description: Short-lived token restricted to one sticker collection and an explicit runtime-operation allowlist.
+      scheme: bearer
+      type: http
+    WorkspaceBearer:
+      bearerFormat: Firebase ID token
+      description: Firebase ID token for a signed-in first-party workspace client. The gateway resolves and rechecks active account membership.
+      scheme: bearer
+      type: http
 externalDocs:
   description: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
+x-refined-from:
+- mediaruntime-api-openapi.yml
+- mediaruntime-openapi.json

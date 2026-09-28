@@ -1,7 +1,8 @@
 {
   "provider": "mediaruntime",
   "sources": [
-    "_original/mediaruntime-api-openapi.yml"
+    "_original/mediaruntime-api-openapi.yml",
+    "mediaruntime-openapi.json"
   ],
   "outputs": [
     "mediaruntime-discovery-api-openapi.yml",
@@ -14,9 +15,14 @@
     "mediaruntime-sandbox-api-openapi.yml",
     "mediaruntime-uploads-api-openapi.yml",
     "mediaruntime-watermarks-api-openapi.yml",
-    "mediaruntime-webhooks-api-openapi.yml"
+    "mediaruntime-webhooks-api-openapi.yml",
+    "mediaruntime-marketplace-api-openapi.yml",
+    "mediaruntime-sticker-collections-api-openapi.yml",
+    "mediaruntime-sticker-runtime-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "archived openapi/mediaruntime-openapi.json"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -28,7 +34,24 @@
     "mediaruntime-api-openapi.yml: tagged webhooks POST job.partial -> MediaRuntime API",
     "mediaruntime-api-openapi.yml: tagged webhooks POST job.rejected -> MediaRuntime API",
     "mediaruntime-api-openapi.yml: declared missing tag: MediaRuntime API",
-    "apis.yml register: already-registered"
+    "mediaruntime-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "mediaruntime-openapi.json: tagged webhooks POST job.completed -> MediaRuntime API",
+    "mediaruntime-openapi.json: tagged webhooks POST job.failed -> MediaRuntime API",
+    "mediaruntime-openapi.json: tagged webhooks POST job.partial -> MediaRuntime API",
+    "mediaruntime-openapi.json: tagged webhooks POST job.rejected -> MediaRuntime API",
+    "mediaruntime-openapi.json: declared missing tag: MediaRuntime API",
+    "tag 'Discovery' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Job Results' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Jobs' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Media Analysis' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'MediaRuntime API' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Moderation' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Recipes' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Sandbox' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Uploads' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Watermarks' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "tag 'Webhooks' spans 2 source specs (mediaruntime-api-openapi.yml, mediaruntime-openapi.json): per-path servers applied",
+    "apis.yml register: written (+3 apis, 14 total)"
   ],
   "skipped": [
     "_original/mediaruntime-openapi.json: archived document superseded by a larger archived document",

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/mediaruntime/main/json-schema/mediaruntime-job-list-response-schema.json",
+  "title": "JobListResponse",
+  "x-generated": "2026-09-28",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/mediaruntime-jobs-api-openapi.yml#/components/schemas/JobListResponse",
+  "properties": {
+    "jobs": {
+      "items": {
+        "$ref": "#/$defs/JobSummary"
+      },
+      "title": "Jobs",
+      "type": "array"
+    },
+    "next_cursor": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Pass as ?cursor= to fetch the next page. Absent when there are no more.",
+      "title": "Next Cursor"
+    }
+  },
+  "required": [
+    "jobs"
+  ],
+  "type": "object",
+  "$defs": {
+    "JobSummary": {
+      "description": "One row of GET /v1/jobs.\n\nDeliberately lighter than JobStatusResponse: no bundle download URL. Those embed a\njob-scoped token, and handing out a page of them is both bulky and needlessly broad —\nfetch GET /v1/jobs/{job_id} for the one you actually want to download.",
+      "properties": {
+        "amount_cents": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Amount Cents"
+        },
+        "bundle_available": {
+          "default": false,
+          "title": "Bundle Available",
+          "type": "boolean"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Created At"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Currency"
+        },
+        "job_id": {
+          "title": "Job Id",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "tier_billed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tier Billed"
+        },
+        "units_total": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Units Total"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Updated At"
+        }
+      },
+      "required": [
+        "job_id",
+        "status"
+      ],
+      "title": "JobSummary",
+      "type": "object"
+    }
+  }
+}
