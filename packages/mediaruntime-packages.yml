@@ -1,4 +1,4 @@
-generated: '2026-09-28'
+generated: '2026-10-03'
 method: probed
 generator: harvest-packages.py
 source: registry metadata endpoints (registry.npmjs.org, pypi.org, rubygems.org, api.nuget.org, packagist.org, crates.io)
@@ -13,3 +13,31 @@ packages:
   version: 1.5.0
   published: '2026-09-21'
   evidence: metadata names mediaruntime.com
+- name: '@mediaruntime/node'
+  registry: npm
+  url: https://www.npmjs.com/package/@mediaruntime/node
+  language: JavaScript
+  kind: sdk
+  official: true
+  version: 1.5.0
+  published: '2026-09-21'
+  license: MIT
+  repository: https://github.com/ericel/mediaruntime-node-sdk
+  evidence: Linked as the official Node.js SDK from https://mediaruntime.com/apis.json and llms.txt (2026-10-03); registry description "Official
+    Node.js SDK for the MediaRuntime API"; repository in the provider's accepted GitHub account (ericel)
+- name: '@mediaruntime/cli'
+  registry: npm
+  url: https://www.npmjs.com/package/@mediaruntime/cli
+  language: JavaScript
+  kind: cli
+  official: true
+  version: 1.5.0
+  published: '2026-09-21'
+  license: MIT
+  repository: https://github.com/ericel/mediaruntime-cli
+  evidence: Linked as the official CLI from https://mediaruntime.com/apis.json and llms.txt (2026-10-03); registry description "Official command-line
+    client for MediaRuntime"
+code_examples:
+- name: mediaruntime-quickstarts
+  url: https://github.com/ericel/mediaruntime-quickstarts
+  description: Runnable quickstarts (Node.js, Python, Go, PHP, webhook and Postman examples per llms.txt); linked as CodeExamples from apis.json

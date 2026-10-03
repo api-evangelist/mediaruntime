@@ -4,13 +4,13 @@ name: MediaRuntime
 
 image: https://mediaruntime.com/og-image.png
 
-description: 'MediaRuntime provides a comprehensive media-processing platform offering video transcoding, audio extraction, content moderation,
-  and analytics through a unified API. It supports production and sandbox environments, enabling developers to integrate media workflows, manage
-  processing recipes, and receive webhook notifications for job completions. The service is built for scalability and security, catering to enterprises
-  and developers needing reliable media handling.
-
-  of 17 paths, 20 operations and 72 schemas served from mediaruntime.com, with two credential types — a production API key and a separate sandbox
-  token, so callers can exercise the surface without touching production.'
+description: 'MediaRuntime is an asynchronous media-processing API and hosted sticker runtime for server-side applications, served at
+  https://mediaruntime.com/v1. It publishes two products in its apis.json. The Media API takes video, audio and image jobs (POST /v1/jobs) and
+  returns canonical ZIP bundles through polling or signed terminal webhooks, with presets and account-scoped recipes, moderation verdicts, analysis
+  reports, upload targets and watermarks. The Stickers API configures sticker collections, discovers enabled Hosted Packs, searches stable sticker
+  metadata and resolves short-lived approved asset URLs. The OpenAPI 3.1 contract at https://mediaruntime.com/openapi.json describes 33 paths and
+  41 operations. Server requests authenticate with an X-API-Key workspace key, and a public sandbox session is available. Official tools are the
+  @mediaruntime/node SDK and @mediaruntime/cli on npm, the mediaruntime Python SDK on PyPI, and a GitHub quickstarts repository.'
 
 type: Index
 
@@ -115,8 +115,28 @@ common:
   url: https://mediaruntime.com
 - type: DeveloperPortal
   url: https://mediaruntime.com/docs
-- type: LLMs
+- type: LLMsTxt
   url: https://mediaruntime.com/llms.txt
+- type: APIsJSON
+  url: https://mediaruntime.com/apis.json
+- type: OpenAPI
+  url: https://mediaruntime.com/openapi.json
+- type: SignUp
+  url: https://mediaruntime.com/account?signup=1
+- type: GettingStarted
+  url: https://mediaruntime.com/docs#quickstart
+- type: Documentation
+  url: https://mediaruntime.com/docs/operations.md
+- type: RateLimits
+  url: https://mediaruntime.com/docs/operations.md#rate-limits-and-retries
+- type: SDKs
+  url: https://www.npmjs.com/package/@mediaruntime/node
+- type: SDKs
+  url: https://pypi.org/project/mediaruntime/
+- type: CLI
+  url: https://www.npmjs.com/package/@mediaruntime/cli
+- type: CodeExamples
+  url: https://github.com/ericel/mediaruntime-quickstarts
 - type: Docs
   url: https://mediaruntime.com/docs
 - type: Pricing
@@ -125,14 +145,62 @@ common:
   url: https://mediaruntime.com/blog
 - type: Contact
   url: https://mediaruntime.com/contact
+- type: Support
+  url: https://mediaruntime.com/contact
 - type: Legal
   url: https://mediaruntime.com/legal
+- type: TermsOfService
+  url: https://mediaruntime.com/legal#terms
+- type: PrivacyPolicy
+  url: https://mediaruntime.com/legal#privacy
 
 apis:
+- aid: mediaruntime:media-api
+  name: MediaRuntime Media API
+  description: Submit asynchronous video, audio, and image jobs and receive canonical ZIP bundles through polling or signed terminal webhooks.
+    One of the two products in the provider's apis.json; its operations are split by area into the Jobs, Job Results, Uploads, Recipes, Moderation,
+    Media Analysis, Watermarks, Webhooks, Sandbox and Discovery APIs below.
+  humanURL: https://mediaruntime.com/docs
+  baseURL: https://mediaruntime.com/v1
+  version: v1
+  tags:
+  - Video
+  - Audio
+  - Image Processing
+  - Media Processing
+  - Content Moderation
+  properties:
+  - type: OpenAPI
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs
+  - type: GettingStarted
+    url: https://mediaruntime.com/docs#quickstart
+  - type: Webhooks
+    url: https://mediaruntime.com/docs#webhooks
+- aid: mediaruntime:stickers-api
+  name: MediaRuntime Stickers API
+  description: Configure sticker collections, discover enabled Hosted Packs, search stable sticker metadata, and resolve approved short-lived
+    asset delivery URLs. One of the two products in the provider's apis.json; its operations are split into the Marketplace, Sticker Collections
+    and Sticker Runtime APIs below.
+  humanURL: https://mediaruntime.com/docs/stickers
+  baseURL: https://mediaruntime.com/v1
+  version: v1
+  tags:
+  - Stickers
+  - Search
+  properties:
+  - type: OpenAPI
+    url: https://mediaruntime.com/openapi.json
+  - type: Documentation
+    url: https://mediaruntime.com/docs/stickers
+  - type: GettingStarted
+    url: https://mediaruntime.com/docs/stickers#setup
 - aid: mediaruntime:mediaruntime-discovery-api
   name: MediaRuntime Discovery API
   description: Public capability and contract discovery.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Discovery
   properties:
@@ -148,6 +216,7 @@ apis:
   name: MediaRuntime Job Results API
   description: Redeem completed job output bundles.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Job Results
   properties:
@@ -161,6 +230,7 @@ apis:
   name: MediaRuntime Jobs API
   description: Create, list, and inspect asynchronous media jobs.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Job
   tags_raw:
@@ -184,6 +254,7 @@ apis:
   name: MediaRuntime Media Analysis API
   description: Read analysis reports produced by requested presets.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Media Analysis
   properties:
@@ -197,8 +268,10 @@ apis:
     url: json-schema/mediaruntime-job-report-response-schema.json
 - aid: mediaruntime:mediaruntime-mediaruntime-api-api
   name: MediaRuntime API
-  description: The MediaRuntime API API from MediaRuntime — 0 operation(s) for mediaruntime api.
+  description: The four signed terminal webhook events MediaRuntime posts to an account's endpoint (job.completed, job.failed, job.partial,
+    job.rejected); this document has no paths.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - MediaRuntime API
   properties:
@@ -212,6 +285,7 @@ apis:
   name: MediaRuntime Moderation API
   description: Read a job's requested moderation verdict.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Moderation
   properties:
@@ -227,6 +301,7 @@ apis:
   name: MediaRuntime Recipes API
   description: Manage immutable, account-scoped processing recipes.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Recipes
   properties:
@@ -250,6 +325,7 @@ apis:
   name: MediaRuntime Sandbox API
   description: Create a bounded public-sandbox session.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Sandbox
   properties:
@@ -265,6 +341,7 @@ apis:
   name: MediaRuntime Uploads API
   description: Optional upload targets for local media bytes.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Uploads
   properties:
@@ -282,6 +359,7 @@ apis:
   name: MediaRuntime Watermarks API
   description: Configure the account watermark logo.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Watermarks
   properties:
@@ -303,6 +381,7 @@ apis:
   name: MediaRuntime Webhooks API
   description: Retry delivery of signed terminal events.
   humanURL: https://mediaruntime.com/docs
+  x-product: MediaRuntime Media API
   tags:
   - Webhook
   tags_raw:
@@ -319,7 +398,8 @@ apis:
 - aid: mediaruntime:mediaruntime-marketplace-api
   name: MediaRuntime Marketplace API
   description: Browse MediaRuntime character packs and their public previews.
-  humanURL: https://mediaruntime.com/docs
+  humanURL: https://mediaruntime.com/docs/stickers
+  x-product: MediaRuntime Stickers API
   tags:
   - Marketplace
   properties:
@@ -328,7 +408,8 @@ apis:
 - aid: mediaruntime:mediaruntime-sticker-collections-api
   name: MediaRuntime Sticker Collections API
   description: Configure which activated character packs each application exposes.
-  humanURL: https://mediaruntime.com/docs
+  humanURL: https://mediaruntime.com/docs/stickers
+  x-product: MediaRuntime Stickers API
   tags:
   - Sticker Collections
   properties:
@@ -337,7 +418,8 @@ apis:
 - aid: mediaruntime:mediaruntime-sticker-runtime-api
   name: MediaRuntime Sticker Runtime API
   description: Search, inspect, and resolve collection-scoped hosted stickers.
-  humanURL: https://mediaruntime.com/docs
+  humanURL: https://mediaruntime.com/docs/stickers
+  x-product: MediaRuntime Stickers API
   tags:
   - Sticker Runtime
   properties:
@@ -364,6 +446,8 @@ x-correction-request:
     re-split it. The provider''s https://mediaruntime.com/apis.json lists two products, MediaRuntime Media and MediaRuntime Stickers, both on
     https://mediaruntime.com/v1: model both, keeping the mediaruntime: aid prefix. Add llms.txt, docs, pricing, sandbox, signup, blog, contact
     and legal links, and SDKs: npm @mediaruntime/cli and @mediaruntime/node, PyPI mediaruntime, the GitHub quickstarts repo (links in the PR).'
+  applied: '2026-10-03'
+  applied_note: 'Hand-applied after the local re-profile ignored this block; re-verified live 2026-10-03. Applied: description rewritten from the live llms.txt, apis.json and OpenAPI (replaces the garbled ''of 17 paths, 20 operations'' text); the two apis.json products added as MediaRuntime Media API (mediaruntime:media-api) and MediaRuntime Stickers API (mediaruntime:stickers-api) on https://mediaruntime.com/v1, with every per-area API tagged x-product; SDKs @mediaruntime/node and @mediaruntime/cli (npm 1.5.0) and mediaruntime (PyPI 1.5.0) plus the ericel/mediaruntime-quickstarts repo in apis.yml and packages/; llms.txt, apis.json, OpenAPI, sign-up (/account?signup=1, the URL apis.json gives; /signup 404s), getting started, operations/rate-limit doc, support, terms and privacy pointers. Contract: live https://mediaruntime.com/openapi.json has 33 paths and 41 operations and equals openapi/_original/mediaruntime-openapi_2.json; the committed 14-file split already covers exactly those 33 paths, so no re-pull or re-split. The split file with no paths holds the four webhook events and is now described as such.'
 x-enrichment:
   date: '2026-09-28'
   status: enriched
