@@ -1,0 +1,12 @@
+{
+ "url": "https://mediaruntime.com/openapi.json",
+ "requested_url": "https://mediaruntime.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 232996,
+ "sha256": "3127da9009b9d1879fbf5ca695bcaa75f42f1181131eb151a10fad41fb9b296d",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
