@@ -875,3 +875,9 @@ components:
 externalDocs:
   description: MediaRuntime developer documentation
   url: https://mediaruntime.com/docs
+x-provenance:
+  method: harvested
+  publisher: MediaRuntime
+  source: https://mediaruntime.com/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
